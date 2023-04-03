@@ -1,8 +1,8 @@
 import 'package:client_ao/src/core/services/api_request.service.dart';
-import 'package:client_ao/src/modules/home/widgets/response_preview_tabs.widget.dart';
-import 'package:client_ao/src/modules/home/widgets/request_status.widget.dart';
-import 'package:client_ao/src/modules/home/widgets/response_headers.widget.dart';
-import 'package:client_ao/src/modules/home/widgets/response_pretty.widget.dart';
+import 'package:client_ao/src/modules/home/widgets/sections/response/request_status.widget.dart';
+import 'package:client_ao/src/modules/home/widgets/sections/response/response_headers.widget.dart';
+import 'package:client_ao/src/modules/home/widgets/sections/response/response_pretty.widget.dart';
+import 'package:client_ao/src/modules/home/widgets/sections/response/response_preview_tabs.widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
