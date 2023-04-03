@@ -11,7 +11,7 @@ class ResponseHeaders extends ConsumerWidget {
 
     return Container(
       padding: const EdgeInsets.all(16),
-      child: requestResponse.when(
+      child: requestResponse?.when(
         data: (response) {
           final headers = response?.headers ?? {};
 

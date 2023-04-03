@@ -18,7 +18,7 @@ class ResponseSection extends HookConsumerWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        Container(
+        SizedBox(
           width: MediaQuery.of(context).size.width,
           height: MediaQuery.of(context).size.height,
           child: Column(
@@ -32,7 +32,7 @@ class ResponseSection extends HookConsumerWidget {
                   children: [
                     Container(
                       padding: const EdgeInsets.all(16),
-                      child: requestResponse.when(
+                      child: requestResponse?.when(
                         data: (response) {
                           return ResponsePretty(response: response);
                         },
