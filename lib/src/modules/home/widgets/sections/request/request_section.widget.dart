@@ -1,3 +1,5 @@
+import 'package:client_ao/src/modules/home/widgets/sections/request/auth_tab/auth_layout_by_auth_method.widget.dart';
+import 'package:client_ao/src/modules/home/widgets/sections/request/auth_tab/auth_tab.widget.dart';
 import 'package:client_ao/src/modules/home/widgets/sections/request/request_headers.widget.dart';
 import 'package:client_ao/src/modules/home/widgets/sections/request/request_url_params.widget.dart';
 import 'package:client_ao/src/modules/home/widgets/sections/request/url_card.widget.dart';
@@ -32,7 +34,7 @@ class RequestSection extends HookConsumerWidget {
             controller: tabController,
             tabs: const [
               Tab(text: 'Headers'),
-              Tab(text: 'Auth'),
+              AuthTab(),
               Tab(text: 'Query'),
               Tab(text: 'Body'),
             ],
@@ -42,9 +44,7 @@ class RequestSection extends HookConsumerWidget {
               controller: tabController,
               children: [
                 const RequestHeaders(),
-                Container(
-                  color: Colors.red,
-                ),
+                const AuthLayoutBasedOnMethod(),
                 const RequestUrlParams(),
                 Container(
                   color: Colors.blue,

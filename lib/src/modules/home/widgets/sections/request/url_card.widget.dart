@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:client_ao/src/core/constants/enums.dart';
 import 'package:client_ao/src/core/models/request_model.model.dart';
 import 'package:client_ao/src/core/services/api_request.service.dart';
@@ -22,7 +24,7 @@ class UrlCard extends HookConsumerWidget {
       final uri = ref.read(urlStateProvider);
       final method = ref.read(selectedMethodProvider);
       final headers = ref.read(requestHeadersStateProvider);
-      print(headers.entries.map((e) => e.value.value));
+      log(headers.entries.map((e) => '${e.value.key} - ${e.value.value}').toString());
       if (uri != null) {
         final requestModel = RequestModel(
           uri: uri,
@@ -46,7 +48,7 @@ class UrlCard extends HookConsumerWidget {
               controller: urlController,
               decoration: const InputDecoration(
                 filled: true,
-                hintText: "Enter API endpoint like api.foss42.com/country/codes",
+                hintText: "Enter API endpoint like clientao.ao/download/country",
                 fillColor: Colors.white,
               ),
               onChanged: (value) {

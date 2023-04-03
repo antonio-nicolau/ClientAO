@@ -22,8 +22,9 @@ class RequestHeaderField extends HookConsumerWidget {
   final UniqueKey widgetKey;
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final headerEditingController = useTextEditingController();
-    final valueEditingController = useTextEditingController();
+    final fieldsHeader = ref.watch(requestHeadersStateProvider)[widgetKey];
+    final headerEditingController = useTextEditingController(text: fieldsHeader?.key);
+    final valueEditingController = useTextEditingController(text: fieldsHeader?.value);
 
     return Container(
       height: 50,
