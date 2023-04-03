@@ -5,7 +5,19 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class RequestHeaderField extends HookConsumerWidget {
-  const RequestHeaderField(this.widgetKey, {super.key});
+  const RequestHeaderField(
+    this.widgetKey, {
+    super.key,
+    this.keyFieldHintText,
+    this.valueFieldHintText,
+    this.onKeyFieldChanged,
+    this.onValueFieldChanged,
+  });
+
+  final String? keyFieldHintText;
+  final String? valueFieldHintText;
+  final Function(String value)? onKeyFieldChanged;
+  final Function(String value)? onValueFieldChanged;
 
   final UniqueKey widgetKey;
   @override
@@ -21,9 +33,13 @@ class RequestHeaderField extends HookConsumerWidget {
           Expanded(
             child: TextField(
               controller: headerEditingController,
-              decoration: const InputDecoration(hintText: 'Header'),
+              decoration: InputDecoration(hintText: keyFieldHintText ?? 'Header'),
               onChanged: (key) {
-                HttpHeader? header = ref.watch(requestHeadersStateProvider)[widgetKey];
+                if (onKeyFieldChanged != null) {
+                  onKeyFieldChanged?.call(key);
+                  return;
+                }
+                HttpHeader? header = ref.read(requestHeadersStateProvider)[widgetKey];
                 header ??= HttpHeader();
                 ref.read(requestHeadersStateProvider.notifier).state[widgetKey] = header.copyWith(key: key);
               },
@@ -33,9 +49,14 @@ class RequestHeaderField extends HookConsumerWidget {
           Expanded(
             child: TextField(
               controller: valueEditingController,
-              decoration: const InputDecoration(hintText: 'Value'),
+              decoration: InputDecoration(hintText: valueFieldHintText ?? 'Value'),
               onChanged: (value) {
-                HttpHeader? header = ref.watch(requestHeadersStateProvider)[widgetKey];
+                if (onValueFieldChanged != null) {
+                  onValueFieldChanged?.call(value);
+                  return;
+                }
+
+                HttpHeader? header = ref.read(requestHeadersStateProvider)[widgetKey];
                 header ??= HttpHeader();
                 ref.read(requestHeadersStateProvider.notifier).state[widgetKey] = header.copyWith(value: value);
               },

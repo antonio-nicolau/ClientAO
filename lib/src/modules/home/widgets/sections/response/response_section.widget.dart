@@ -37,7 +37,7 @@ class ResponseSection extends HookConsumerWidget {
                           return ResponsePretty(response: response);
                         },
                         error: (error, _) {
-                          return const Text('Error');
+                          return Text('Error: $error');
                         },
                         loading: () => const Center(
                           child: CircularProgressIndicator(),

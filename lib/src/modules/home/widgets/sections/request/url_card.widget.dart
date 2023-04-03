@@ -1,8 +1,8 @@
-
 import 'package:client_ao/src/core/constants/enums.dart';
 import 'package:client_ao/src/core/models/request_model.model.dart';
 import 'package:client_ao/src/core/services/api_request.service.dart';
 import 'package:client_ao/src/modules/home/states/request_headers.state.dart';
+import 'package:client_ao/src/modules/home/states/request_url_params.state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -16,23 +16,23 @@ class UrlCard extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final urlController = useTextEditingController(text: 'https://jsonplaceholder.typicode.com/todos/1');
+    final urlController = useTextEditingController(text: 'https://jsonplaceholder.typicode.com/comments?postId=1');
 
     void request() {
-      final url = urlController.text.trim();
+      final uri = ref.read(urlStateProvider);
       final method = ref.read(selectedMethodProvider);
       final headers = ref.read(requestHeadersStateProvider);
+      print(headers.entries.map((e) => e.value.value));
+      if (uri != null) {
+        final requestModel = RequestModel(
+          uri: uri,
+          body: 'body',
+          method: method,
+          headers: headers.entries.map((e) => e.value).toList(),
+        );
 
-      final requestModel = RequestModel(
-        url: url,
-        body: 'body',
-        method: method,
-        headers: headers.entries.map((e) => e.value).toList(),
-      );
-
-      // print(requestModel.headers?.map((e) => e.key));
-
-      ref.read(apiRequestNotifierProvider.notifier).request(requestModel);
+        ref.read(apiRequestNotifierProvider.notifier).request(requestModel);
+      }
     }
 
     return Container(
@@ -49,6 +49,23 @@ class UrlCard extends HookConsumerWidget {
                 hintText: "Enter API endpoint like api.foss42.com/country/codes",
                 fillColor: Colors.white,
               ),
+              onChanged: (value) {
+                if (ref.read(urlStateProvider) != null) {
+                  final uri = Uri.tryParse(value);
+                  final queryParameters = ref.read(urlStateProvider)?.queryParameters;
+
+                  final newUri = Uri(
+                    scheme: uri?.scheme,
+                    path: uri?.path,
+                    host: uri?.host,
+                    queryParameters: queryParameters,
+                  );
+
+                  ref.read(urlStateProvider.notifier).state = newUri;
+                  return;
+                }
+                ref.read(urlStateProvider.notifier).state = Uri.tryParse(value);
+              },
             ),
           ),
           const SizedBox(width: 8),

@@ -1,4 +1,5 @@
 import 'package:client_ao/src/modules/home/widgets/sections/request/request_headers.widget.dart';
+import 'package:client_ao/src/modules/home/widgets/sections/request/request_url_params.widget.dart';
 import 'package:client_ao/src/modules/home/widgets/sections/request/url_card.widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
@@ -9,7 +10,11 @@ class RequestSection extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final tabController = useTabController(initialLength: 4);
+    final tabController = useTabController(
+      initialLength: 4,
+      initialIndex: 2,
+    );
+
     return Container(
       width: MediaQuery.of(context).size.width * 0.4,
       padding: const EdgeInsets.symmetric(vertical: 16),
@@ -40,9 +45,7 @@ class RequestSection extends HookConsumerWidget {
                 Container(
                   color: Colors.red,
                 ),
-                Container(
-                  color: Colors.green,
-                ),
+                const RequestUrlParams(),
                 Container(
                   color: Colors.blue,
                 ),

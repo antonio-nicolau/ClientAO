@@ -24,22 +24,25 @@ class ApiRequest implements IApiRequest {
   @override
   Future<http.Response> request(RequestModel requestModel) async {
     Response? response;
+    final headers = Map.fromEntries(
+      requestModel.headers!.map((e) => MapEntry<String, String>(e.key ?? '', e.value ?? '')),
+    );
 
     switch (requestModel.method) {
       case RequestMethod.get:
-        response = await _httpClient.get(Uri.parse(requestModel.url));
+        response = await _httpClient.get(requestModel.uri, headers: headers);
         break;
       case RequestMethod.post:
-        response = await _httpClient.post(Uri.parse(requestModel.url));
+        response = await _httpClient.post(requestModel.uri, headers: headers);
         break;
       case RequestMethod.put:
-        response = await _httpClient.put(Uri.parse(requestModel.url));
+        response = await _httpClient.put(requestModel.uri, headers: headers);
         break;
       case RequestMethod.patch:
-        response = await _httpClient.patch(Uri.parse(requestModel.url));
+        response = await _httpClient.patch(requestModel.uri, headers: headers);
         break;
       case RequestMethod.delete:
-        response = await _httpClient.delete(Uri.parse(requestModel.url));
+        response = await _httpClient.delete(requestModel.uri, headers: headers);
         break;
     }
 
