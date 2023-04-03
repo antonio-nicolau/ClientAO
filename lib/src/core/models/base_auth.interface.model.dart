@@ -1,3 +1,4 @@
 abstract class BaseAuth {
-  String toTokenScheme();
+  Map<String, String> toKeyValue();
+  bool isEnabled();
 }

@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:client_ao/src/core/models/base_auth.interface.model.dart';
 
 class BearerAuthentication implements BaseAuth {
@@ -7,8 +9,8 @@ class BearerAuthentication implements BaseAuth {
   const BearerAuthentication({this.token, this.enabled = false});
 
   @override
-  String toTokenScheme() {
-    return 'Bearer $token';
+  Map<String, String> toKeyValue() {
+    return {HttpHeaders.authorizationHeader: 'Bearer $token'};
   }
 
   BearerAuthentication copyWith({String? token, bool? enabled}) {
@@ -17,4 +19,7 @@ class BearerAuthentication implements BaseAuth {
       enabled: enabled ?? this.enabled,
     );
   }
+
+  @override
+  bool isEnabled() => enabled;
 }

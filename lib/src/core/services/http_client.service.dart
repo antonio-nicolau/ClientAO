@@ -1,6 +1,10 @@
-import 'dart:io';
+import 'dart:developer';
 
-import 'package:client_ao/src/modules/home/widgets/sections/request/auth_tab/bearer_token.widget.dart';
+import 'package:client_ao/src/core/constants/enums.dart';
+import 'package:client_ao/src/core/models/base_auth.interface.model.dart';
+import 'package:client_ao/src/modules/home/widgets/sections/request/auth_tab/auth_with_api_key.widget.dart';
+import 'package:client_ao/src/modules/home/widgets/sections/request/auth_tab/authentication_options.widget.dart';
+import 'package:client_ao/src/modules/home/widgets/sections/request/auth_tab/auth_with_bearer_token.widget.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:http/http.dart' as http;
 
@@ -16,12 +20,35 @@ class HttpClient extends http.BaseClient {
 
   @override
   Future<http.StreamedResponse> send(http.BaseRequest request) {
-    final authorization = _ref.read(bearerAuthenticationProvider);
+    final response = getAuthorizationMethod();
 
-    if (authorization.enabled) {
-      request.headers[HttpHeaders.authorizationHeader] = authorization.toTokenScheme();
+    if (response != null && response.isEnabled()) {
+      request.headers.addAll(response.toKeyValue());
     }
 
     return _inner.send(request);
+  }
+
+  BaseAuth? getAuthorizationMethod() {
+    final authMethod = _ref.read(selectedAuthOptionProvider);
+
+    switch (authMethod.method) {
+      case AuthMethod.apiKeyAuth:
+        final keyValue = _ref.read(authWithApiKeyProvider);
+        log('enabled: ${keyValue.toKeyValue()}');
+        return keyValue;
+      case AuthMethod.bearerToken:
+        final keyValue = _ref.read(authWithBearerTokenProvider);
+        return keyValue;
+      case AuthMethod.basic:
+        // TODO: Handle this case.
+        log('To be implemented');
+        break;
+      case AuthMethod.noAuthentication:
+        // TODO: Handle this case.
+        log('To be implemented');
+        break;
+    }
+    return null;
   }
 }

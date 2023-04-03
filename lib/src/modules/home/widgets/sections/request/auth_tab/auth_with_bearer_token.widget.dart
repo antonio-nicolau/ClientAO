@@ -3,16 +3,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-final bearerAuthenticationProvider = StateProvider<BearerAuthentication>((ref) {
+final authWithBearerTokenProvider = StateProvider<BearerAuthentication>((ref) {
   return const BearerAuthentication();
 });
 
-class BearerToken extends HookConsumerWidget {
-  const BearerToken({super.key});
+class AuthWithBearerToken extends HookConsumerWidget {
+  const AuthWithBearerToken({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final bearerAuth = ref.watch(bearerAuthenticationProvider);
+    final bearerAuth = ref.watch(authWithBearerTokenProvider);
     final bearerTokenController = useTextEditingController(text: bearerAuth.token);
 
     return Container(
@@ -29,7 +29,7 @@ class BearerToken extends HookConsumerWidget {
               Checkbox(
                 value: bearerAuth.enabled,
                 onChanged: (value) {
-                  ref.read(bearerAuthenticationProvider.notifier).state = bearerAuth.copyWith(
+                  ref.read(authWithBearerTokenProvider.notifier).state = bearerAuth.copyWith(
                     enabled: !bearerAuth.enabled,
                   );
                 },
@@ -45,7 +45,7 @@ class BearerToken extends HookConsumerWidget {
                 child: TextField(
                   controller: bearerTokenController,
                   onChanged: (value) {
-                    ref.read(bearerAuthenticationProvider.notifier).state = bearerAuth.copyWith(
+                    ref.read(authWithBearerTokenProvider.notifier).state = bearerAuth.copyWith(
                       token: value,
                     );
                   },

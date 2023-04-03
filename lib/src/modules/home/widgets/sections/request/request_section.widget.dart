@@ -33,9 +33,9 @@ class RequestSection extends HookConsumerWidget {
           TabBar(
             controller: tabController,
             tabs: const [
-              Tab(text: 'Headers'),
+              Tab(text: 'Params'),
               AuthTab(),
-              Tab(text: 'Query'),
+              Tab(text: 'Headers'),
               Tab(text: 'Body'),
             ],
           ),
