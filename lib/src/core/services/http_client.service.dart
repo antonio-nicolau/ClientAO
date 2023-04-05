@@ -35,7 +35,6 @@ class HttpClient extends http.BaseClient {
     switch (authMethod.method) {
       case AuthMethod.apiKeyAuth:
         final keyValue = _ref.read(authWithApiKeyProvider);
-        log('enabled: ${keyValue.toKeyValue()}');
         return keyValue;
       case AuthMethod.bearerToken:
         final keyValue = _ref.read(authWithBearerTokenProvider);
@@ -43,12 +42,9 @@ class HttpClient extends http.BaseClient {
       case AuthMethod.basic:
         // TODO: Handle this case.
         log('To be implemented');
-        break;
+        return null;
       case AuthMethod.noAuthentication:
-        // TODO: Handle this case.
-        log('To be implemented');
-        break;
+        return null;
     }
-    return null;
   }
 }

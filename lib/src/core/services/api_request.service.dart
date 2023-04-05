@@ -12,10 +12,10 @@ final apiRequestProvider = Provider<IApiRequest>((ref) {
   return ApiRequest(httpClient);
 });
 
-final apiRequestNotifierProvider = StateNotifierProvider<ApiRequestNotifier, AsyncValue<Response?>?>((ref) {
-  final apiRequest = ref.read(apiRequestProvider);
-  return ApiRequestNotifier(apiRequest);
-});
+// final apiRequestNotifierProvider = StateNotifierProvider<ApiRequestNotifier, AsyncValue<Response?>?>((ref) {
+//   final apiRequest = ref.read(apiRequestProvider);
+//   return ApiRequestNotifier(apiRequest);
+// });
 
 class ApiRequest implements IApiRequest {
   final HttpClient _httpClient;
@@ -76,16 +76,16 @@ class ApiRequest implements IApiRequest {
   }
 }
 
-class ApiRequestNotifier extends StateNotifier<AsyncValue<http.Response?>?> {
-  ApiRequestNotifier(this._apiRequest) : super(null);
+// class ApiRequestNotifier extends StateNotifier<AsyncValue<http.Response?>?> {
+//   ApiRequestNotifier(this._apiRequest) : super(null);
 
-  final IApiRequest _apiRequest;
+//   final IApiRequest _apiRequest;
 
-  void request(RequestModel requestModel) async {
-    state = const AsyncValue.loading();
+//   void request(RequestModel requestModel) async {
+//     state = const AsyncValue.loading();
 
-    state = await AsyncValue.guard(() async {
-      return _apiRequest.request(requestModel);
-    });
-  }
-}
+//     state = await AsyncValue.guard(() async {
+//       return _apiRequest.request(requestModel);
+//     });
+//   }
+// }

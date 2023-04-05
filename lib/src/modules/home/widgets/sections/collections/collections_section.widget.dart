@@ -1,5 +1,5 @@
 import 'package:client_ao/src/core/models/collection.model.dart';
-import 'package:client_ao/src/modules/home/widgets/sections/collections/collections.state.dart';
+import 'package:client_ao/src/modules/home/states/collections.state.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 

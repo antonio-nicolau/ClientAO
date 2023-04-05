@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:client_ao/src/core/services/api_request.service.dart';
+import 'package:client_ao/src/modules/home/states/collections.state.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -9,7 +10,8 @@ class RequestStatus extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final requestResponse = ref.watch(apiRequestNotifierProvider);
+    final activeId = ref.watch(activeIdProvider);
+    final requestResponse = ref.watch(requestResponseStateProvider(activeId));
 
     return requestResponse?.when(
           data: (response) {

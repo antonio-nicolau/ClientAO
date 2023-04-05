@@ -1,4 +1,4 @@
-import 'package:client_ao/src/modules/home/widgets/sections/collections/collections.state.dart';
+import 'package:client_ao/src/modules/home/states/collections.state.dart';
 import 'package:client_ao/src/modules/home/widgets/sections/request/auth_tab/auth_layout_by_auth_method.widget.dart';
 import 'package:client_ao/src/modules/home/widgets/sections/request/auth_tab/auth_tab.widget.dart';
 import 'package:client_ao/src/modules/home/widgets/sections/request/request_headers.widget.dart';

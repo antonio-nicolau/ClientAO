@@ -3,7 +3,7 @@ import 'dart:developer';
 import 'package:client_ao/src/core/constants/enums.dart';
 import 'package:client_ao/src/core/models/request_model.model.dart';
 import 'package:client_ao/src/core/services/api_request.service.dart';
-import 'package:client_ao/src/modules/home/widgets/sections/collections/collections.state.dart';
+import 'package:client_ao/src/modules/home/states/collections.state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -30,7 +30,7 @@ class UrlCard extends HookConsumerWidget {
       final requestModel = collection.requestModel;
 
       if (requestModel != null) {
-        ref.read(apiRequestNotifierProvider.notifier).request(requestModel);
+        ref.read(collectionsNotifierProvider.notifier).sendRequest(activeId);
       }
     }
 

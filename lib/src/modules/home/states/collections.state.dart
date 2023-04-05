@@ -1,17 +1,25 @@
+
 import 'dart:developer';
 
 import 'package:client_ao/src/core/models/collection.model.dart';
 import 'package:client_ao/src/core/models/http_header.model.dart';
 import 'package:client_ao/src/core/models/request_model.model.dart';
+import 'package:client_ao/src/core/services/api_request.service.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:http/http.dart';
 import 'package:uuid/uuid.dart';
 
 const uuid = Uuid();
+
 final activeIdProvider = StateProvider<String?>((ref) => null);
 
 final collectionsNotifierProvider = StateNotifierProvider<CollectionsNotifier, List<CollectionModel>>((ref) {
   return CollectionsNotifier(ref);
+});
+
+final requestResponseStateProvider = StateProvider.family<AsyncValue<Response?>?, String?>((ref, activeId) {
+  return ref.watch(collectionsNotifierProvider).firstWhere((e) => e.id == activeId, orElse: () => CollectionModel(id: uuid.v1())).response;
 });
 
 class CollectionsNotifier extends StateNotifier<List<CollectionModel>> {
@@ -33,6 +41,25 @@ class CollectionsNotifier extends StateNotifier<List<CollectionModel>> {
     state = [newCollection, ...state];
 
     return newCollection.id;
+  }
+
+  Future<Response?> sendRequest(String? activeId) async {
+    final index = indexOfId(activeId);
+    final requestModel = state[index].requestModel;
+
+    _updateRequestState(activeId, const AsyncLoading());
+
+    if (requestModel != null) {
+      final response = await _ref.read(apiRequestProvider).request(requestModel);
+      state[index] = state[index].copyWith(response: AsyncData(response));
+      _updateRequestState(activeId, AsyncData(response));
+      return response;
+    }
+    return null;
+  }
+
+  void _updateRequestState(String? activeId, AsyncValue<Response> newState) {
+    _ref.read(requestResponseStateProvider(activeId).notifier).update((state) => newState);
   }
 
   void addHeader({String? name}) {
@@ -74,7 +101,7 @@ class CollectionsNotifier extends StateNotifier<List<CollectionModel>> {
     final newCollection = state[index].copyWith(
       requestModel: state[index].requestModel?.copyWith(url: url),
     );
-    log('URL: ${newCollection.requestModel!.url}');
+
     _addToCollection(index, newCollection);
   }
 

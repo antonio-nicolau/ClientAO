@@ -1,4 +1,5 @@
 import 'package:client_ao/src/core/services/api_request.service.dart';
+import 'package:client_ao/src/modules/home/states/collections.state.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -7,7 +8,10 @@ class ResponseHeaders extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final requestResponse = ref.watch(apiRequestNotifierProvider);
+    final activeId = ref.watch(activeIdProvider);
+    final collections = ref.watch(collectionsNotifierProvider);
+    final collectionIndex = ref.watch(collectionsNotifierProvider.notifier).indexOfId(activeId);
+    final requestResponse = collections[collectionIndex].response;
 
     return Container(
       padding: const EdgeInsets.all(16),
