@@ -7,47 +7,35 @@ import 'package:flutter/scheduler.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:uuid/uuid.dart';
 
-final activeIdProvider = StateProvider<String?>((ref) {
-  return null;
-});
+const uuid = Uuid();
+final activeIdProvider = StateProvider<String?>((ref) => null);
 
 final collectionsNotifierProvider = StateNotifierProvider<CollectionsNotifier, List<CollectionModel>>((ref) {
   return CollectionsNotifier(ref);
 });
 
 class CollectionsNotifier extends StateNotifier<List<CollectionModel>> {
-  CollectionsNotifier(
-    this._ref,
-  ) : super([]) {
-    state = [
-      CollectionModel(
-        id: const Uuid().v1(),
-        requestModel: RequestModel(
-          headers: [HttpHeader()],
-        ),
-      )
-    ];
+  CollectionsNotifier(this._ref) : super([]) {
+    final newId = add();
     SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
-      _ref.read(activeIdProvider.notifier).state = state.first.id;
+      _ref.read(activeIdProvider.notifier).update((state) => newId);
     });
   }
 
   final Ref _ref;
 
-  void add({String? name}) {
-    const uuid = Uuid();
-    state = [
-      ...state,
-      CollectionModel(
-        id: uuid.v1(),
-        name: name,
-        requestModel: RequestModel(),
-      ),
-    ];
+  String add({String? name = 'New Request'}) {
+    final newCollection = CollectionModel(
+      id: uuid.v1(),
+      name: name,
+      requestModel: RequestModel(headers: [HttpHeader()]),
+    );
+    state = [newCollection, ...state];
+
+    return newCollection.id;
   }
 
   void addHeader({String? name}) {
-    const uuid = Uuid();
     state = [
       ...state,
       CollectionModel(
