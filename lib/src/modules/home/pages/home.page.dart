@@ -1,3 +1,4 @@
+import 'package:client_ao/src/modules/home/widgets/sections/collections/collections_section.widget.dart';
 import 'package:client_ao/src/modules/home/widgets/sections/request/request_section.widget.dart';
 import 'package:client_ao/src/modules/home/widgets/sections/response/response_section.widget.dart';
 import 'package:flutter/material.dart';
@@ -13,16 +14,10 @@ class HomePage extends HookConsumerWidget {
         children: [
           SizedBox(
             width: MediaQuery.of(context).size.width * 0.25,
+            child: const CollectionsSection(),
           ),
           const RequestSection(),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: const [
-                ResponseSection(),
-              ],
-            ),
-          ),
+          const Expanded(child: ResponseSection()),
         ],
       ),
     );

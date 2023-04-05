@@ -3,8 +3,7 @@ import 'dart:developer';
 import 'package:client_ao/src/core/constants/enums.dart';
 import 'package:client_ao/src/core/models/request_model.model.dart';
 import 'package:client_ao/src/core/services/api_request.service.dart';
-import 'package:client_ao/src/modules/home/states/request_headers.state.dart';
-import 'package:client_ao/src/modules/home/states/request_url_params.state.dart';
+import 'package:client_ao/src/modules/home/widgets/sections/collections/collections.state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -13,26 +12,24 @@ final selectedMethodProvider = StateProvider<RequestMethod>((ref) {
   return RequestMethod.get;
 });
 
+final requestModelProvider = StateProvider.family<RequestModel, String>((ref, uid) {
+  return RequestModel();
+});
+
 class UrlCard extends HookConsumerWidget {
   const UrlCard({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final activeId = ref.watch(activeIdProvider);
+    final collectionIndex = ref.watch(collectionsNotifierProvider.notifier).indexOfId(activeId);
+    final collection = ref.watch(collectionsNotifierProvider)[collectionIndex];
     final urlController = useTextEditingController(text: 'https://jsonplaceholder.typicode.com/comments?postId=1');
 
     void request() {
-      final uri = ref.read(urlStateProvider);
-      final method = ref.read(selectedMethodProvider);
-      final headers = ref.read(requestHeadersStateProvider);
-      log(headers.entries.map((e) => '${e.value.key} - ${e.value.value}').toString());
-      if (uri != null) {
-        final requestModel = RequestModel(
-          uri: uri,
-          body: 'body',
-          method: method,
-          headers: headers.entries.map((e) => e.value).toList(),
-        );
+      final requestModel = collection.requestModel;
 
+      if (requestModel != null) {
         ref.read(apiRequestNotifierProvider.notifier).request(requestModel);
       }
     }
@@ -52,21 +49,10 @@ class UrlCard extends HookConsumerWidget {
                 fillColor: Colors.white,
               ),
               onChanged: (value) {
-                if (ref.read(urlStateProvider) != null) {
-                  final uri = Uri.tryParse(value);
-                  final queryParameters = ref.read(urlStateProvider)?.queryParameters;
-
-                  final newUri = Uri(
-                    scheme: uri?.scheme,
-                    path: uri?.path,
-                    host: uri?.host,
-                    queryParameters: queryParameters,
-                  );
-
-                  ref.read(urlStateProvider.notifier).state = newUri;
-                  return;
-                }
-                ref.read(urlStateProvider.notifier).state = Uri.tryParse(value);
+                ref.read(collectionsNotifierProvider.notifier).updateUrl(
+                      collection.id,
+                      value,
+                    );
               },
             ),
           ),
@@ -86,21 +72,24 @@ class DropdownButtonRequestMethod extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final surfaceColor = Theme.of(context).colorScheme.surface;
-    // final activeId = ref.watch(activeIdStateProvider);
-    // final collection = ref.read(collectionStateNotifierProvider)!;
-    // final idIdx = collection.indexWhere((m) => m.id == activeId);
-    final method = ref.watch(selectedMethodProvider);
+    final activeId = ref.watch(activeIdProvider);
+    final collectionIndex = ref.watch(collectionsNotifierProvider.notifier).indexOfId(activeId);
+    final collection = ref.watch(collectionsNotifierProvider)[collectionIndex];
+
     return DropdownButton<RequestMethod>(
-      focusColor: surfaceColor,
-      value: method,
+      focusColor: Theme.of(context).colorScheme.surface,
+      value: collection.requestModel?.method,
       icon: const Icon(Icons.unfold_more_rounded),
       elevation: 4,
       underline: Container(
         height: 0,
       ),
       onChanged: (RequestMethod? value) {
-        ref.read(selectedMethodProvider.notifier).state = value ?? RequestMethod.get;
+        final requestMethod = collection.requestModel;
+        ref.read(collectionsNotifierProvider.notifier).update(
+              activeId,
+              requestModel: requestMethod?.copyWith(method: value ?? RequestMethod.get),
+            );
       },
       items: RequestMethod.values.map<DropdownMenuItem<RequestMethod>>((RequestMethod value) {
         return DropdownMenuItem<RequestMethod>(

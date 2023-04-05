@@ -1,4 +1,6 @@
-class HttpHeader {
+import 'package:equatable/equatable.dart';
+
+class HttpHeader extends Equatable {
   final String? key;
   final String? value;
 
@@ -7,4 +9,7 @@ class HttpHeader {
   HttpHeader copyWith({String? key, String? value}) {
     return HttpHeader(key: key ?? this.key, value: value ?? this.value);
   }
+
+  @override
+  List<Object?> get props => [key, value];
 }

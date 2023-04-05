@@ -1,16 +1,44 @@
 import 'package:client_ao/src/core/constants/enums.dart';
 import 'package:client_ao/src/core/models/http_header.model.dart';
+import 'package:equatable/equatable.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-class RequestModel {
-  final Uri uri;
-  final String body;
+class RequestModel extends Equatable {
+  final String? url;
+  final String? body;
   final RequestMethod method;
   final List<HttpHeader>? headers;
+  final List<HttpHeader>? urlParams;
 
   RequestModel({
-    required this.uri,
-    required this.body,
+    this.url,
+    this.body,
     this.method = RequestMethod.get,
     this.headers,
+    this.urlParams,
   });
+
+  RequestModel copyWith({
+    Uri? uri,
+    String? url,
+    String? body,
+    RequestMethod? method,
+    List<HttpHeader>? headers,
+    List<HttpHeader>? urlParams,
+  }) {
+    return RequestModel(
+      url: url ?? this.url,
+      body: body ?? this.body,
+      method: method ?? this.method,
+      headers: headers ?? this.headers,
+      urlParams: urlParams ?? this.urlParams,
+    );
+  }
+
+  @override
+  List<Object?> get props => [url, method, headers, urlParams];
 }
+
+final requestModelProvider = StateProvider<RequestModel?>((ref) {
+  return RequestModel();
+});

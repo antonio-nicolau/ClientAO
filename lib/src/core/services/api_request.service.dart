@@ -1,4 +1,5 @@
 import 'package:client_ao/src/core/constants/enums.dart';
+import 'package:client_ao/src/core/models/http_header.model.dart';
 import 'package:client_ao/src/core/models/request_model.model.dart';
 import 'package:client_ao/src/core/services/client.service.interface.dart';
 import 'package:client_ao/src/core/services/http_client.service.dart';
@@ -28,25 +29,50 @@ class ApiRequest implements IApiRequest {
       requestModel.headers!.map((e) => MapEntry<String, String>(e.key ?? '', e.value ?? '')),
     );
 
+    final uri = getUriWithQueryParams(requestModel);
+
     switch (requestModel.method) {
       case RequestMethod.get:
-        response = await _httpClient.get(requestModel.uri, headers: headers);
+        response = await _httpClient.get(uri!, headers: headers);
         break;
       case RequestMethod.post:
-        response = await _httpClient.post(requestModel.uri, headers: headers);
+        response = await _httpClient.post(uri!, headers: headers);
         break;
       case RequestMethod.put:
-        response = await _httpClient.put(requestModel.uri, headers: headers);
+        response = await _httpClient.put(uri!, headers: headers);
         break;
       case RequestMethod.patch:
-        response = await _httpClient.patch(requestModel.uri, headers: headers);
+        response = await _httpClient.patch(uri!, headers: headers);
         break;
       case RequestMethod.delete:
-        response = await _httpClient.delete(requestModel.uri, headers: headers);
+        response = await _httpClient.delete(uri!, headers: headers);
         break;
     }
 
     return response;
+  }
+
+  Uri? getUriWithQueryParams(RequestModel requestModel) {
+    final urlParamsList = requestModel.urlParams;
+    final uri = Uri.tryParse(requestModel.url ?? '');
+
+    final queryParams = <String, String>{};
+
+    if (uri != null) {
+      final currentQueryParams = uri.queryParameters;
+      if (currentQueryParams.isNotEmpty) {
+        queryParams.addAll(currentQueryParams);
+      }
+
+      for (final e in urlParamsList ?? <HttpHeader>[]) {
+        if (e.key != null) {
+          queryParams[e.key.toString()] = e.value ?? '';
+        }
+      }
+
+      return uri.replace(queryParameters: queryParams);
+    }
+    return null;
   }
 }
 

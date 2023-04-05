@@ -1,5 +1,5 @@
 import 'package:client_ao/src/core/models/http_header.model.dart';
-import 'package:client_ao/src/modules/home/states/request_headers.state.dart';
+import 'package:client_ao/src/modules/home/widgets/sections/collections/collections.state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -8,6 +8,8 @@ class RequestHeaderField extends HookConsumerWidget {
   const RequestHeaderField(
     this.widgetKey, {
     super.key,
+    required this.index,
+    required this.row,
     this.keyFieldHintText,
     this.valueFieldHintText,
     this.onKeyFieldChanged,
@@ -18,13 +20,17 @@ class RequestHeaderField extends HookConsumerWidget {
   final String? valueFieldHintText;
   final Function(String value)? onKeyFieldChanged;
   final Function(String value)? onValueFieldChanged;
+  final HttpHeader row;
+  final int index;
 
   final UniqueKey widgetKey;
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final fieldsHeader = ref.watch(requestHeadersStateProvider)[widgetKey];
-    final headerEditingController = useTextEditingController(text: fieldsHeader?.key);
-    final valueEditingController = useTextEditingController(text: fieldsHeader?.value);
+    final activeId = ref.watch(activeIdProvider);
+    final collectionIndex = ref.watch(collectionsNotifierProvider.notifier).indexOfId(activeId);
+    final headerRows = ref.watch(collectionsNotifierProvider)[collectionIndex].requestModel?.headers;
+    final headerController = useTextEditingController(text: row.key);
+    final valueController = useTextEditingController(text: row.value);
 
     return Container(
       height: 50,
@@ -33,23 +39,23 @@ class RequestHeaderField extends HookConsumerWidget {
         children: [
           Expanded(
             child: TextField(
-              controller: headerEditingController,
+              controller: headerController,
               decoration: InputDecoration(hintText: keyFieldHintText ?? 'Header'),
               onChanged: (key) {
                 if (onKeyFieldChanged != null) {
                   onKeyFieldChanged?.call(key);
                   return;
                 }
-                HttpHeader? header = ref.read(requestHeadersStateProvider)[widgetKey];
-                header ??= HttpHeader();
-                ref.read(requestHeadersStateProvider.notifier).state[widgetKey] = header.copyWith(key: key);
+
+                headerRows?[index] = row.copyWith(key: key);
+                ref.read(collectionsNotifierProvider.notifier).updateHeaders(activeId, headers: headerRows);
               },
             ),
           ),
           const SizedBox(width: 16),
           Expanded(
             child: TextField(
-              controller: valueEditingController,
+              controller: valueController,
               decoration: InputDecoration(hintText: valueFieldHintText ?? 'Value'),
               onChanged: (value) {
                 if (onValueFieldChanged != null) {
@@ -57,16 +63,18 @@ class RequestHeaderField extends HookConsumerWidget {
                   return;
                 }
 
-                HttpHeader? header = ref.read(requestHeadersStateProvider)[widgetKey];
-                header ??= HttpHeader();
-                ref.read(requestHeadersStateProvider.notifier).state[widgetKey] = header.copyWith(value: value);
+                headerRows?[index] = row.copyWith(value: value);
+                ref.read(collectionsNotifierProvider.notifier).updateHeaders(
+                      activeId,
+                      headers: headerRows,
+                    );
               },
             ),
           ),
           const SizedBox(width: 8),
           IconButton(
             onPressed: () {
-              ref.read(requestHeaderNotifierProvider.notifier).removeAt(widgetKey);
+              // ref.read(requestHeaderNotifierProvider.notifier).removeAt(widgetKey);
             },
             icon: const Icon(Icons.remove_circle),
             color: Colors.red,

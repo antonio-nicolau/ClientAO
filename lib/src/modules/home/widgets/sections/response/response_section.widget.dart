@@ -1,4 +1,5 @@
 import 'package:client_ao/src/core/services/api_request.service.dart';
+import 'package:client_ao/src/modules/home/widgets/sections/collections/collections.state.dart';
 import 'package:client_ao/src/modules/home/widgets/sections/response/request_status.widget.dart';
 import 'package:client_ao/src/modules/home/widgets/sections/response/response_headers.widget.dart';
 import 'package:client_ao/src/modules/home/widgets/sections/response/response_pretty.widget.dart';
@@ -12,10 +13,12 @@ class ResponseSection extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final activeId = ref.watch(activeIdProvider);
     final tabController = useTabController(initialLength: 2);
     final requestResponse = ref.watch(apiRequestNotifierProvider);
 
     return Column(
+      key: Key(activeId.toString()),
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         SizedBox(

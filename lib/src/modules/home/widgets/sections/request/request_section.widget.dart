@@ -1,7 +1,8 @@
+import 'package:client_ao/src/modules/home/widgets/sections/collections/collections.state.dart';
 import 'package:client_ao/src/modules/home/widgets/sections/request/auth_tab/auth_layout_by_auth_method.widget.dart';
 import 'package:client_ao/src/modules/home/widgets/sections/request/auth_tab/auth_tab.widget.dart';
 import 'package:client_ao/src/modules/home/widgets/sections/request/request_headers.widget.dart';
-import 'package:client_ao/src/modules/home/widgets/sections/request/request_url_params.widget.dart';
+import 'package:client_ao/src/modules/home/widgets/sections/request/url_params_tab/request_url_params.widget.dart';
 import 'package:client_ao/src/modules/home/widgets/sections/request/url_card.widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
@@ -12,12 +13,14 @@ class RequestSection extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final activeId = ref.watch(activeIdProvider);
     final tabController = useTabController(
       initialLength: 4,
       initialIndex: 2,
     );
 
     return Container(
+      key: Key(activeId.toString()),
       width: MediaQuery.of(context).size.width * 0.4,
       padding: const EdgeInsets.symmetric(vertical: 16),
       decoration: const BoxDecoration(
@@ -43,9 +46,9 @@ class RequestSection extends HookConsumerWidget {
             child: TabBarView(
               controller: tabController,
               children: [
-                const RequestHeaders(),
-                const AuthLayoutBasedOnMethod(),
                 const RequestUrlParams(),
+                const AuthLayoutBasedOnMethod(),
+                const RequestHeaders(),
                 Container(
                   color: Colors.blue,
                 ),
