@@ -1,6 +1,4 @@
 import 'dart:io';
-
-import 'package:client_ao/src/core/services/api_request.service.dart';
 import 'package:client_ao/src/modules/home/states/collections.state.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';

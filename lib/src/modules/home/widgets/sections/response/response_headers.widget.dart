@@ -1,4 +1,3 @@
-import 'package:client_ao/src/core/services/api_request.service.dart';
 import 'package:client_ao/src/modules/home/states/collections.state.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -25,14 +24,17 @@ class ResponseHeaders extends ConsumerWidget {
                 final header = headers.entries.elementAt(index);
 
                 return Container(
-                  padding: const EdgeInsets.symmetric(vertical: 8),
+                  padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 8),
                   margin: const EdgeInsets.only(bottom: 16),
-                  color: Colors.grey[300],
+                  color: Colors.grey[200],
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Expanded(
-                        child: Text(header.key),
+                        child: Text(
+                          header.key,
+                          style: Theme.of(context).textTheme.labelLarge,
+                        ),
                       ),
                       Expanded(
                         child: Text(header.value),

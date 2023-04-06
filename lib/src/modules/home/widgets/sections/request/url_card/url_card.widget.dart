@@ -1,21 +1,9 @@
-
-import 'dart:developer';
-
 import 'package:client_ao/src/core/constants/enums.dart';
-import 'package:client_ao/src/core/models/request_model.model.dart';
-import 'package:client_ao/src/core/services/api_request.service.dart';
+import 'package:client_ao/src/core/utils/layout.utils.dart';
 import 'package:client_ao/src/modules/home/states/collections.state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-
-final selectedMethodProvider = StateProvider<RequestMethod>((ref) {
-  return RequestMethod.get;
-});
-
-final requestModelProvider = StateProvider.family<RequestModel, String>((ref, uid) {
-  return RequestModel();
-});
 
 class UrlCard extends HookConsumerWidget {
   const UrlCard({super.key});
@@ -25,7 +13,8 @@ class UrlCard extends HookConsumerWidget {
     final activeId = ref.watch(activeIdProvider);
     final collectionIndex = ref.watch(collectionsNotifierProvider.notifier).indexOfId(activeId);
     final collection = ref.watch(collectionsNotifierProvider)[collectionIndex];
-    final urlController = useTextEditingController(text: 'https://jsonplaceholder.typicode.com/comments?postId=1');
+    final urlController = useTextEditingController(text: collection.requestModel?.url);
+    final focusNode = useFocusNode();
 
     void request() {
       final requestModel = collection.requestModel;
@@ -33,6 +22,7 @@ class UrlCard extends HookConsumerWidget {
       if (requestModel != null) {
         ref.read(collectionsNotifierProvider.notifier).sendRequest(activeId);
       }
+      focusNode.requestFocus();
     }
 
     return Container(
@@ -44,6 +34,7 @@ class UrlCard extends HookConsumerWidget {
           Expanded(
             child: TextField(
               controller: urlController,
+              focusNode: focusNode,
               decoration: const InputDecoration(
                 hintText: "Enter API endpoint",
               ),
@@ -53,6 +44,7 @@ class UrlCard extends HookConsumerWidget {
                       value,
                     );
               },
+              onSubmitted: (value) => request.call(),
             ),
           ),
           const SizedBox(width: 8),
@@ -99,6 +91,7 @@ class DropdownButtonRequestMethod extends HookConsumerWidget {
               value.name.toUpperCase(),
               style: Theme.of(context).textTheme.labelMedium?.copyWith(
                     fontWeight: FontWeight.bold,
+                    color: getRequestMethodColor(value),
                   ),
             ),
           ),

@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:client_ao/src/core/models/collection.model.dart';
 import 'package:client_ao/src/core/models/http_header.model.dart';
 import 'package:client_ao/src/core/models/request_model.model.dart';
@@ -67,7 +65,7 @@ class CollectionsNotifier extends StateNotifier<List<CollectionModel>> {
       CollectionModel(
         id: uuid.v1(),
         name: name,
-        requestModel: RequestModel(),
+        requestModel: const RequestModel(),
       ),
     ];
   }

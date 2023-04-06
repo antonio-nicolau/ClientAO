@@ -44,6 +44,8 @@ dependencies:
   hive: ^2.2.3
   uuid: ^3.0.7
   davi: ^3.2.0
+  multi_split_view: ^2.4.0
+  flutter_spinkit: ^5.1.0
 
 dev_dependencies:
   flutter_test:

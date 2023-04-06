@@ -14,21 +14,12 @@ class RequestSection extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final activeId = ref.watch(activeIdProvider);
-    final tabController = useTabController(
-      initialLength: 4,
-      initialIndex: 2,
-    );
+    final tabController = useTabController(initialLength: 4);
 
     return Container(
       key: Key(activeId.toString()),
       width: MediaQuery.of(context).size.width * 0.4,
       padding: const EdgeInsets.symmetric(vertical: 16),
-      decoration: const BoxDecoration(
-        border: Border(
-          left: BorderSide(width: 1),
-          right: BorderSide(width: 1),
-        ),
-      ),
       child: Column(
         children: [
           const UrlCard(),

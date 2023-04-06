@@ -1,4 +1,5 @@
 import 'package:client_ao/src/core/models/collection.model.dart';
+import 'package:client_ao/src/core/utils/layout.utils.dart';
 import 'package:client_ao/src/modules/home/states/collections.state.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -57,20 +58,25 @@ class _CollectionListItem extends ConsumerWidget {
     final activeId = ref.watch(activeIdProvider);
 
     return Container(
-      color: activeId == collection.id ? Colors.black54 : Colors.grey[300],
+      color: activeId == collection.id ? Colors.grey[350] : Colors.grey[100],
       margin: const EdgeInsets.only(bottom: 16),
       padding: const EdgeInsets.all(8),
       child: Row(
         children: [
           Text(
             (collection.requestModel?.method.name)?.toUpperCase() ?? '',
-            style: const TextStyle(color: Colors.amber, fontWeight: FontWeight.bold),
+            style: TextStyle(
+              color: getRequestMethodColor(collection.requestModel?.method),
+              fontWeight: FontWeight.bold,
+            ),
           ),
           const SizedBox(width: 16),
-          Text(
-            collection.name ?? '',
-            overflow: TextOverflow.ellipsis,
-            maxLines: 1,
+          Expanded(
+            child: Text(
+              collection.name ?? '',
+              overflow: TextOverflow.ellipsis,
+              maxLines: 1,
+            ),
           ),
         ],
       ),

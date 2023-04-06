@@ -23,7 +23,19 @@ class AuthLayoutBasedOnMethod extends ConsumerWidget {
       case AuthMethod.basic:
         return Container(color: Colors.red);
       case AuthMethod.noAuthentication:
-        return Container(color: Colors.green);
+        return Padding(
+          padding: const EdgeInsets.only(top: 40),
+          child: Column(
+            children: [
+              const Icon(Icons.lock, size: 100),
+              const SizedBox(height: 16),
+              Text(
+                'Select an auth type from above 🙂',
+                style: Theme.of(context).textTheme.labelLarge,
+              )
+            ],
+          ),
+        );
     }
   }
 }
