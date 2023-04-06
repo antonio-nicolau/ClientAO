@@ -1,3 +1,4 @@
+
 import 'dart:developer';
 
 import 'package:client_ao/src/core/constants/enums.dart';
@@ -44,9 +45,7 @@ class UrlCard extends HookConsumerWidget {
             child: TextField(
               controller: urlController,
               decoration: const InputDecoration(
-                filled: true,
-                hintText: "Enter API endpoint like clientao.ao/download/country",
-                fillColor: Colors.white,
+                hintText: "Enter API endpoint",
               ),
               onChanged: (value) {
                 ref.read(collectionsNotifierProvider.notifier).updateUrl(

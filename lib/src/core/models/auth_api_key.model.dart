@@ -2,7 +2,7 @@ import 'package:client_ao/src/core/models/base_auth.interface.model.dart';
 import 'package:client_ao/src/core/models/http_header.model.dart';
 
 class AuthApiKeyModel implements BaseAuth {
-  final HttpHeader? keyValue;
+  final KeyValueRow? keyValue;
   final bool enabled;
 
   const AuthApiKeyModel({this.keyValue, this.enabled = false});
@@ -12,7 +12,7 @@ class AuthApiKeyModel implements BaseAuth {
     return {'${keyValue?.key}': '${keyValue?.value}'};
   }
 
-  AuthApiKeyModel copyWith({HttpHeader? keyValue, bool? enabled}) {
+  AuthApiKeyModel copyWith({KeyValueRow? keyValue, bool? enabled}) {
     return AuthApiKeyModel(
       keyValue: keyValue ?? this.keyValue,
       enabled: enabled ?? this.enabled,

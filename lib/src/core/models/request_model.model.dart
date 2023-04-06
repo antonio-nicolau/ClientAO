@@ -7,8 +7,8 @@ class RequestModel extends Equatable {
   final String? url;
   final String? body;
   final RequestMethod method;
-  final List<HttpHeader>? headers;
-  final List<HttpHeader>? urlParams;
+  final List<KeyValueRow>? headers;
+  final List<KeyValueRow>? urlParams;
 
   RequestModel({
     this.url,
@@ -23,8 +23,8 @@ class RequestModel extends Equatable {
     String? url,
     String? body,
     RequestMethod? method,
-    List<HttpHeader>? headers,
-    List<HttpHeader>? urlParams,
+    List<KeyValueRow>? headers,
+    List<KeyValueRow>? urlParams,
   }) {
     return RequestModel(
       url: url ?? this.url,

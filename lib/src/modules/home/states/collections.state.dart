@@ -1,4 +1,3 @@
-
 import 'dart:developer';
 
 import 'package:client_ao/src/core/models/collection.model.dart';
@@ -36,7 +35,7 @@ class CollectionsNotifier extends StateNotifier<List<CollectionModel>> {
     final newCollection = CollectionModel(
       id: uuid.v1(),
       name: name,
-      requestModel: RequestModel(headers: [HttpHeader()]),
+      requestModel: RequestModel(headers: [KeyValueRow()]),
     );
     state = [newCollection, ...state];
 
@@ -105,7 +104,7 @@ class CollectionsNotifier extends StateNotifier<List<CollectionModel>> {
     _addToCollection(index, newCollection);
   }
 
-  void updateHeaders(String? id, {List<HttpHeader>? headers}) {
+  void updateHeaders(String? id, {List<KeyValueRow>? headers}) {
     final collection = getCollectionModel(id);
     final index = indexOfId(id);
 
@@ -116,7 +115,7 @@ class CollectionsNotifier extends StateNotifier<List<CollectionModel>> {
     _addToCollection(index, newCollection);
   }
 
-  void updateUrlParams(String? id, {List<HttpHeader>? urlParams}) {
+  void updateUrlParams(String? id, {List<KeyValueRow>? urlParams}) {
     final collection = getCollectionModel(id);
     final index = indexOfId(id);
 
@@ -139,7 +138,7 @@ class CollectionsNotifier extends StateNotifier<List<CollectionModel>> {
     state = [
       for (final e in state)
         e.copyWith(
-          requestModel: e.requestModel?.copyWith(headers: [HttpHeader()]),
+          requestModel: e.requestModel?.copyWith(headers: [KeyValueRow()]),
         )
     ];
   }
@@ -148,7 +147,7 @@ class CollectionsNotifier extends StateNotifier<List<CollectionModel>> {
     state = [
       for (final e in state)
         e.copyWith(
-          requestModel: e.requestModel?.copyWith(urlParams: [HttpHeader()]),
+          requestModel: e.requestModel?.copyWith(urlParams: [KeyValueRow()]),
         )
     ];
   }

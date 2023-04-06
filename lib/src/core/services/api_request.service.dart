@@ -64,7 +64,7 @@ class ApiRequest implements IApiRequest {
         queryParams.addAll(currentQueryParams);
       }
 
-      for (final e in urlParamsList ?? <HttpHeader>[]) {
+      for (final e in urlParamsList ?? <KeyValueRow>[]) {
         if (e.key != null) {
           queryParams[e.key.toString()] = e.value ?? '';
         }

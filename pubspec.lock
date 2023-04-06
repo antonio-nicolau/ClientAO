@@ -9,6 +9,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.10.0"
+  axis_layout:
+    dependency: transitive
+    description:
+      name: axis_layout
+      sha256: "645f76e306a48e1075f8f142bd8ef12c6ceb25cb8d8fdc53aa9d5b4e08a7994a"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.0"
   boolean_selector:
     dependency: transitive
     description:
@@ -81,6 +89,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.5"
+  davi:
+    dependency: "direct main"
+    description:
+      name: davi
+      sha256: c47ff1da5bb0930a8c725030af2b14528e470ff2e28a863c4f3d710133bdbe7e
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.2.0"
   equatable:
     dependency: "direct main"
     description:

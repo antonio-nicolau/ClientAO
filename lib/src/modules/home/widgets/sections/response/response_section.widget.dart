@@ -17,44 +17,37 @@ class ResponseSection extends HookConsumerWidget {
     final tabController = useTabController(initialLength: 2);
     final requestResponse = ref.watch(requestResponseStateProvider(activeId));
 
-    return Column(
-      key: Key(activeId.toString()),
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [
-        SizedBox(
-          width: MediaQuery.of(context).size.width,
-          height: MediaQuery.of(context).size.height,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              const RequestStatus(),
-              ResponsePreviewTabs(tabController: tabController),
-              Expanded(
-                child: TabBarView(
-                  controller: tabController,
-                  children: [
-                    Container(
-                      padding: const EdgeInsets.all(16),
-                      child: requestResponse?.when(
-                        data: (response) {
-                          return ResponsePretty(response: response);
-                        },
-                        error: (error, _) {
-                          return Text('Error: $error');
-                        },
-                        loading: () => const Center(
-                          child: CircularProgressIndicator(),
-                        ),
-                      ),
+    return SizedBox(
+      width: MediaQuery.of(context).size.width,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          const RequestStatus(),
+          ResponsePreviewTabs(tabController: tabController),
+          Expanded(
+            child: TabBarView(
+              controller: tabController,
+              children: [
+                Container(
+                  padding: const EdgeInsets.all(16),
+                  child: requestResponse?.when(
+                    data: (response) {
+                      return ResponsePretty(response: response);
+                    },
+                    error: (error, _) {
+                      return Text('Error: $error');
+                    },
+                    loading: () => const Center(
+                      child: CircularProgressIndicator(),
                     ),
-                    const ResponseHeaders(),
-                  ],
+                  ),
                 ),
-              )
-            ],
-          ),
-        ),
-      ],
+                const ResponseHeaders(),
+              ],
+            ),
+          )
+        ],
+      ),
     );
   }
 }

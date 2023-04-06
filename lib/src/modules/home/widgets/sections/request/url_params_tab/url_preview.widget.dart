@@ -28,7 +28,7 @@ class UrlPreview extends HookConsumerWidget {
             queryParams.addAll(currentQueryParams);
           }
 
-          for (final e in urlParamsList ?? <HttpHeader>[]) {
+          for (final e in urlParamsList ?? <KeyValueRow>[]) {
             if (e.key != null) {
               queryParams[e.key.toString()] = e.value ?? '';
             }
@@ -47,7 +47,7 @@ class UrlPreview extends HookConsumerWidget {
 
     return Container(
       width: MediaQuery.of(context).size.width,
-      margin: const EdgeInsets.symmetric(horizontal: 8),
+      margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
       decoration: BoxDecoration(
         color: Colors.grey[300],
         borderRadius: BorderRadius.circular(8),

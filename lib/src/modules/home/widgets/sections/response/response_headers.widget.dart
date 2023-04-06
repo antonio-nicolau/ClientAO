@@ -9,9 +9,7 @@ class ResponseHeaders extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final activeId = ref.watch(activeIdProvider);
-    final collections = ref.watch(collectionsNotifierProvider);
-    final collectionIndex = ref.watch(collectionsNotifierProvider.notifier).indexOfId(activeId);
-    final requestResponse = collections[collectionIndex].response;
+    final requestResponse = ref.watch(requestResponseStateProvider(activeId));
 
     return Container(
       padding: const EdgeInsets.all(16),
