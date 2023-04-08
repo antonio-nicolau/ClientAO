@@ -30,7 +30,7 @@ class CollectionsNotifier extends StateNotifier<List<CollectionModel>> {
 
   final Ref _ref;
 
-  String add({String? name = 'New Request'}) {
+  String add({String? name}) {
     final newCollection = CollectionModel(
       id: uuid.v1(),
       name: name,

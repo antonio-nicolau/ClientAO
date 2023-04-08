@@ -11,7 +11,7 @@ class CollectionModel extends Equatable {
 
   const CollectionModel({
     required this.id,
-    this.name = 'New Request',
+    this.name,
     this.requestModel,
     this.response,
   });

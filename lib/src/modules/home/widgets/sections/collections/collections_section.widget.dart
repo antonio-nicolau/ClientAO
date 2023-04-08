@@ -73,7 +73,7 @@ class _CollectionListItem extends ConsumerWidget {
           const SizedBox(width: 16),
           Expanded(
             child: Text(
-              collection.name ?? '',
+              collection.name ?? getRequestTitleFromUrl(collection.requestModel?.url),
               overflow: TextOverflow.ellipsis,
               maxLines: 1,
             ),
