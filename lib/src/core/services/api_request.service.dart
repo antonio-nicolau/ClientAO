@@ -31,6 +31,8 @@ class ApiRequest implements IApiRequest {
 
     final uri = getUriWithQueryParams(requestModel);
 
+    final stopWatch = Stopwatch()..start();
+
     switch (requestModel.method) {
       case RequestMethod.get:
         response = await _httpClient.get(uri!, headers: headers);
@@ -48,6 +50,10 @@ class ApiRequest implements IApiRequest {
         response = await _httpClient.delete(uri!, headers: headers);
         break;
     }
+
+    stopWatch.stop();
+
+    print(stopWatch.elapsed);
 
     return response;
   }

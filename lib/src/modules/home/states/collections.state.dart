@@ -1,6 +1,7 @@
 import 'package:client_ao/src/core/models/collection.model.dart';
 import 'package:client_ao/src/core/models/http_header.model.dart';
 import 'package:client_ao/src/core/models/request_model.model.dart';
+import 'package:client_ao/src/core/models/response.model.dart';
 import 'package:client_ao/src/core/services/api_request.service.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -15,7 +16,7 @@ final collectionsNotifierProvider = StateNotifierProvider<CollectionsNotifier, L
   return CollectionsNotifier(ref);
 });
 
-final requestResponseStateProvider = StateProvider.family<AsyncValue<Response?>?, String?>((ref, activeId) {
+final requestResponseStateProvider = StateProvider.family<AsyncValue<ResponseModel?>?, String?>((ref, activeId) {
   return ref.watch(collectionsNotifierProvider).firstWhere((e) => e.id == activeId, orElse: () => CollectionModel(id: uuid.v1())).response;
 });
 
@@ -48,14 +49,14 @@ class CollectionsNotifier extends StateNotifier<List<CollectionModel>> {
 
     if (requestModel != null) {
       final response = await _ref.read(apiRequestProvider).request(requestModel);
-      state[index] = state[index].copyWith(response: AsyncData(response));
-      _updateRequestState(activeId, AsyncData(response));
+      state[index] = state[index].copyWith(response: AsyncData(ResponseModel.fromResponse(response: response)));
+      _updateRequestState(activeId, AsyncData(ResponseModel.fromResponse(response: response)));
       return response;
     }
     return null;
   }
 
-  void _updateRequestState(String? activeId, AsyncValue<Response> newState) {
+  void _updateRequestState(String? activeId, AsyncValue<ResponseModel> newState) {
     _ref.read(requestResponseStateProvider(activeId).notifier).update((state) => newState);
   }
 

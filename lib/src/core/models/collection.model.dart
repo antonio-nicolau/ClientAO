@@ -1,13 +1,13 @@
 import 'package:client_ao/src/core/models/request_model.model.dart';
+import 'package:client_ao/src/core/models/response.model.dart';
 import 'package:equatable/equatable.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:http/http.dart';
 
 class CollectionModel extends Equatable {
   final String id;
   final String? name;
   final RequestModel? requestModel;
-  final AsyncValue<Response?>? response;
+  final AsyncValue<ResponseModel?>? response;
 
   const CollectionModel({
     required this.id,
@@ -22,7 +22,7 @@ class CollectionModel extends Equatable {
   CollectionModel copyWith({
     String? name,
     RequestModel? requestModel,
-    AsyncValue<Response?>? response,
+    AsyncValue<ResponseModel?>? response,
   }) {
     return CollectionModel(
       id: id,

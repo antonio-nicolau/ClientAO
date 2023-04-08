@@ -1,20 +1,42 @@
+import 'dart:developer';
+import 'dart:io';
+import 'package:flutter_highlighter/flutter_highlighter.dart';
+import 'package:flutter_highlighter/themes/github.dart';
+import 'package:http_parser/http_parser.dart';
+import 'package:client_ao/src/core/models/response.model.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:http/http.dart';
-import 'package:highlighter/highlighter.dart' show highlight;
 
 class ResponsePretty extends ConsumerWidget {
   const ResponsePretty({super.key, this.response});
 
-  final Response? response;
+  final ResponseModel? response;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final url = response!.requestUri?.toString();
+    final contentType = response?.headers?[HttpHeaders.contentTypeHeader];
+    final mediaType = MediaType.parse(contentType!);
+
     return SingleChildScrollView(
-      child: Container(
-        padding: const EdgeInsets.all(16),
-        child: Text(highlight.parse(response?.body ?? '', language: 'html').toHtml()), // Text(response?.body ?? 'No data'),
-      ),
+      child: getWidgetByContentType(mediaType, url),
     );
+  }
+
+  Widget getWidgetByContentType(MediaType mediaType, String? url) {
+    switch (mediaType.type) {
+      case 'image':
+        return Image.network(url ?? '');
+      case 'video':
+        log('Handling video content');
+        break;
+      default:
+        return HighlightView(
+          response?.formattedBody ?? '',
+          theme: githubTheme,
+          language: mediaType.subtype,
+        );
+    }
+    return const Text('Content not supported');
   }
 }
