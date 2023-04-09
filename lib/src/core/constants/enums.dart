@@ -1,5 +1,7 @@
 import 'package:equatable/equatable.dart';
 
+enum CollectionPopUpItem { edit, addRequest, addFolder }
+
 enum RequestMethod {
   get,
   post,

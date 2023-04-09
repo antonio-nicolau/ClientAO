@@ -16,7 +16,7 @@ final collectionsNotifierProvider = StateNotifierProvider<CollectionsNotifier, L
 });
 
 final requestResponseStateProvider = StateProvider.family<AsyncValue<ResponseModel?>?, ActiveId?>((ref, activeId) {
-  final collectionIndex = ref.read(collectionsNotifierProvider.notifier).indexOfId();
+  final collectionIndex = ref.watch(collectionsNotifierProvider.notifier).indexOfId();
 
   return ref.watch(collectionsNotifierProvider)[collectionIndex].response?[activeId?.requestId ?? 0];
   // .firstWhere((e) => e.id == requestId.toString(), orElse: () => CollectionModel(id: uuid.v1()))
@@ -25,10 +25,7 @@ final requestResponseStateProvider = StateProvider.family<AsyncValue<ResponseMod
 
 class CollectionsNotifier extends StateNotifier<List<CollectionModel>> {
   CollectionsNotifier(this._ref) : super([]) {
-    state = [newCollection()];
-    final id = state.first.id;
-
-    addRequest();
+    final id = newCollection();
 
     Future.microtask(() {
       _ref.read(activeIdProvider.notifier).update(
@@ -39,24 +36,10 @@ class CollectionsNotifier extends StateNotifier<List<CollectionModel>> {
 
   final Ref _ref;
 
-  String addRequest() {
-    final old = getCollection();
+  String addRequest(String? id) {
+    final old = state.firstWhere((e) => e.id == id);
     old.requestModel?.add(RequestModel(headers: [KeyValueRow()]));
     old.response?.add(const AsyncValue.data(null));
-
-    // final newCollection = old.copyWith(requestModel: old.requestModel);
-
-    // final newCollection = CollectionModel(
-    //   id: uuid.v1(),
-    //   requestModel: RequestModel(headers: [KeyValueRow()]),
-    // );
-    // state = [newCollection, ...state];
-
-    // state = [
-    //   ...state.sublist(0, index),
-    //   old,
-    //   ...state.sublist(index + 1),
-    // ];
 
     state = [
       for (final e in state)
@@ -65,17 +48,6 @@ class CollectionsNotifier extends StateNotifier<List<CollectionModel>> {
 
     return old.id;
   }
-
-  // String add({String? name}) {
-  //   final newCollection = CollectionModel(
-  //     id: uuid.v1(),
-  //     name: name,
-  //     requestModel: RequestModel(headers: [KeyValueRow()]),
-  //   );
-  //   state = [newCollection, ...state];
-
-  //   return newCollection.id;
-  // }
 
   Future<Response?> sendRequest() async {
     final activeId = _ref.read(activeIdProvider);
@@ -101,42 +73,22 @@ class CollectionsNotifier extends StateNotifier<List<CollectionModel>> {
     _ref.read(requestResponseStateProvider(activeId).notifier).update((state) => newState);
   }
 
-  // void addHeader({String? name}) {
-  //   final activeId = _ref.read(activeIdProvider);
-  //   final requestId = activeId?.requestId ?? 0;
-
-  //   final requests = getCollectionModel(activeId?.collection).requestModel;
-
-  //   requests?[requestId] = requests[requestId].copyWith()
-
-  //   state = [
-  //     ...state,
-  //     CollectionModel(
-  //       id: uuid.v1(),
-  //       name: name,
-  //       requestModel: const RequestModel(),
-  //     ),
-  //   ];
-  // }
-
   CollectionModel getCollection() {
     final idx = indexOfId();
     return state[idx];
   }
 
-  CollectionModel newCollection() {
-    return CollectionModel(
+  String newCollection() {
+    final newCollection = CollectionModel(
       id: uuid.v1(),
-      requestModel: <RequestModel>[
-        // RequestModel(
-        //   headers: [KeyValueRow()],
-        //   urlParams: [KeyValueRow()],
-        // )
-      ],
-      response: [
-        AsyncData(null),
-      ],
+      requestModel: <RequestModel>[],
+      response: [AsyncData(null)],
     );
+    state = [newCollection, ...state];
+
+    addRequest(newCollection.id);
+
+    return newCollection.id;
   }
 
   int indexOfId() {
@@ -171,8 +123,6 @@ class CollectionsNotifier extends StateNotifier<List<CollectionModel>> {
     final requests = collection.requestModel;
 
     requests?[requestId] = requests[requestId]?.copyWith(url: url);
-
-    print(requests?.map((e) => e?.url));
 
     final newCollection = collection.copyWith(requestModel: requests);
 
