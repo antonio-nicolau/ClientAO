@@ -22,7 +22,7 @@ class KeyTextField extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final activeId = ref.watch(activeIdProvider);
     final collectionIndex = ref.watch(collectionsNotifierProvider.notifier).indexOfId();
-    final rows = ref.watch(collectionsNotifierProvider)[collectionIndex].requestModel?[activeId?.requestId ?? 0]?.headers;
+    final rows = ref.watch(collectionsNotifierProvider)[collectionIndex].requests?[activeId?.requestId ?? 0]?.headers;
     final headerController = useTextEditingController(text: row.key);
 
     return TextField(

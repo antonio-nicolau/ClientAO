@@ -12,7 +12,7 @@ class UrlCard extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final activeId = ref.watch(activeIdProvider);
     final collection = ref.watch(collectionsNotifierProvider.notifier).getCollection();
-    final url = collection.requestModel?[activeId?.requestId ?? 0]?.url;
+    final url = collection.requests?[activeId?.requestId ?? 0]?.url;
     final urlController = useTextEditingController(text: url);
     final focusNode = useFocusNode();
 
@@ -25,7 +25,7 @@ class UrlCard extends HookConsumerWidget {
     );
 
     void request() {
-      final requestModel = collection.requestModel;
+      final requestModel = collection.requests;
 
       if (requestModel != null) {
         ref.read(collectionsNotifierProvider.notifier).sendRequest();
@@ -74,14 +74,14 @@ class DropdownButtonRequestMethod extends HookConsumerWidget {
 
     return DropdownButton<RequestMethod>(
       focusColor: Theme.of(context).colorScheme.surface,
-      value: collection.requestModel?[activeId?.requestId ?? 0]?.method,
+      value: collection.requests?[activeId?.requestId ?? 0]?.method,
       icon: const Icon(Icons.unfold_more_rounded),
       elevation: 4,
       underline: Container(
         height: 0,
       ),
       onChanged: (RequestMethod? value) {
-        final requestMethod = collection.requestModel;
+        final requestMethod = collection.requests;
         ref.read(collectionsNotifierProvider.notifier).update(
               requestModel: requestMethod?[activeId?.requestId ?? 0]?.copyWith(method: value ?? RequestMethod.get),
             );

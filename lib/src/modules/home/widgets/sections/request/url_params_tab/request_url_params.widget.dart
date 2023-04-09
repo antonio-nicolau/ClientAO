@@ -29,7 +29,7 @@ class _UrlParamsRowsList extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final activeId = ref.watch(activeIdProvider);
     final index = ref.watch(collectionsNotifierProvider.notifier).indexOfId();
-    final urlParamsRows = ref.watch(collectionsNotifierProvider)[index].requestModel?[activeId?.requestId ?? 0]?.headers;
+    final urlParamsRows = ref.watch(collectionsNotifierProvider)[index].requests?[activeId?.requestId ?? 0]?.headers;
 
     List<_HeadersButtons>? buttons;
 

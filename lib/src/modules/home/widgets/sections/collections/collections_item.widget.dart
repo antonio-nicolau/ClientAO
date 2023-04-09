@@ -55,9 +55,9 @@ class CollectionListItem extends HookConsumerWidget {
             ListView.builder(
                 shrinkWrap: true,
                 physics: const BouncingScrollPhysics(),
-                itemCount: collection.requestModel?.length,
+                itemCount: collection.requests?.length,
                 itemBuilder: (context, index) {
-                  final request = collection.requestModel?[index];
+                  final request = collection.requests?[index];
                   return Container(
                     color: activeId?.requestId == index && activeId?.collection == collectionId ? Colors.grey[350] : Colors.grey[100],
                     margin: const EdgeInsets.only(bottom: 16),
