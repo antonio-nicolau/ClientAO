@@ -11,16 +11,24 @@ class UrlCard extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final activeId = ref.watch(activeIdProvider);
-    final collectionIndex = ref.watch(collectionsNotifierProvider.notifier).indexOfId(activeId);
-    final collection = ref.watch(collectionsNotifierProvider)[collectionIndex];
-    final urlController = useTextEditingController(text: collection.requestModel?.url);
+    final collection = ref.watch(collectionsNotifierProvider.notifier).getCollection();
+    final url = collection.requestModel?[activeId?.requestId ?? 0]?.url;
+    final urlController = useTextEditingController(text: url);
     final focusNode = useFocusNode();
+
+    useEffect(
+      () {
+        urlController.text = url ?? '';
+        return;
+      },
+      [activeId],
+    );
 
     void request() {
       final requestModel = collection.requestModel;
 
       if (requestModel != null) {
-        ref.read(collectionsNotifierProvider.notifier).sendRequest(activeId);
+        ref.read(collectionsNotifierProvider.notifier).sendRequest();
       }
       focusNode.requestFocus();
     }
@@ -39,10 +47,7 @@ class UrlCard extends HookConsumerWidget {
                 hintText: "Enter API endpoint",
               ),
               onChanged: (value) {
-                ref.read(collectionsNotifierProvider.notifier).updateUrl(
-                      collection.id,
-                      value,
-                    );
+                ref.read(collectionsNotifierProvider.notifier).updateUrl(value);
               },
               onSubmitted: (value) => request.call(),
             ),
@@ -64,12 +69,12 @@ class DropdownButtonRequestMethod extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final activeId = ref.watch(activeIdProvider);
-    final collectionIndex = ref.watch(collectionsNotifierProvider.notifier).indexOfId(activeId);
+    final collectionIndex = ref.watch(collectionsNotifierProvider.notifier).indexOfId();
     final collection = ref.watch(collectionsNotifierProvider)[collectionIndex];
 
     return DropdownButton<RequestMethod>(
       focusColor: Theme.of(context).colorScheme.surface,
-      value: collection.requestModel?.method,
+      value: collection.requestModel?[activeId?.requestId ?? 0]?.method,
       icon: const Icon(Icons.unfold_more_rounded),
       elevation: 4,
       underline: Container(
@@ -78,8 +83,7 @@ class DropdownButtonRequestMethod extends HookConsumerWidget {
       onChanged: (RequestMethod? value) {
         final requestMethod = collection.requestModel;
         ref.read(collectionsNotifierProvider.notifier).update(
-              activeId,
-              requestModel: requestMethod?.copyWith(method: value ?? RequestMethod.get),
+              requestModel: requestMethod?[activeId?.requestId ?? 0]?.copyWith(method: value ?? RequestMethod.get),
             );
       },
       items: RequestMethod.values.map<DropdownMenuItem<RequestMethod>>((RequestMethod value) {

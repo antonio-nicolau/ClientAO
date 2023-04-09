@@ -12,8 +12,8 @@ class RequestHeaders extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final activeId = ref.watch(activeIdProvider);
-    final index = ref.watch(collectionsNotifierProvider.notifier).indexOfId(activeId);
-    final headerRows = ref.watch(collectionsNotifierProvider)[index].requestModel?.headers;
+    final index = ref.watch(collectionsNotifierProvider.notifier).indexOfId();
+    final rows = ref.watch(collectionsNotifierProvider)[index].requestModel?[activeId?.requestId ?? 0]?.headers;
     List<_HeadersButtons>? buttons;
 
     useEffect(
@@ -22,11 +22,8 @@ class RequestHeaders extends HookConsumerWidget {
           _HeadersButtons(
             label: 'Add',
             onTap: () {
-              headerRows?.add(KeyValueRow());
-              ref.read(collectionsNotifierProvider.notifier).updateHeaders(
-                    activeId,
-                    headers: headerRows,
-                  );
+              rows?.add(KeyValueRow());
+              ref.read(collectionsNotifierProvider.notifier).updateHeaders(rows);
             },
           ),
           _HeadersButtons(
@@ -41,7 +38,7 @@ class RequestHeaders extends HookConsumerWidget {
     );
 
     final daviModel = createDaviTable(
-      rows: headerRows,
+      rows: rows,
       keyColumnName: 'Headers',
       valueColumnName: 'Values',
       onRemoveTaped: () {},

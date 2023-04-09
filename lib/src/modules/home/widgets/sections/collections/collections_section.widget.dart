@@ -8,6 +8,7 @@ class CollectionsSection extends HookConsumerWidget {
   const CollectionsSection({super.key});
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final activeId = ref.watch(activeIdProvider);
     final collections = ref.watch(collectionsNotifierProvider);
 
     return Container(
@@ -18,8 +19,8 @@ class CollectionsSection extends HookConsumerWidget {
             alignment: Alignment.topRight,
             child: ElevatedButton(
                 onPressed: () {
-                  final newId = ref.read(collectionsNotifierProvider.notifier).add();
-                  ref.read(activeIdProvider.notifier).update((state) => newId);
+                  final newId = ref.read(collectionsNotifierProvider.notifier).addRequest();
+                  ref.read(activeIdProvider.notifier).update((state) => state?.copyWith(collection: newId));
                 },
                 child: const Text('New collection')),
           ),
@@ -27,17 +28,27 @@ class CollectionsSection extends HookConsumerWidget {
           Expanded(
             child: ListView.builder(
               itemCount: collections.length,
+              shrinkWrap: true,
               itemBuilder: (context, index) {
                 if (collections.isEmpty == true) {
                   return const SizedBox.shrink();
                 }
 
                 final collection = collections[index];
+
                 return GestureDetector(
                   onTap: () {
-                    ref.read(activeIdProvider.notifier).update((state) => collection.id);
+                    ref.read(activeIdProvider.notifier).update(
+                          (state) => state?.copyWith(
+                            collection: collection.id,
+                            requestId: index,
+                          ),
+                        );
                   },
-                  child: _CollectionListItem(collection: collection),
+                  child: _CollectionListItem(
+                    collectionId: collection.id,
+                    collection: collection,
+                  ),
                 );
               },
             ),
@@ -49,37 +60,64 @@ class CollectionsSection extends HookConsumerWidget {
 }
 
 class _CollectionListItem extends ConsumerWidget {
-  const _CollectionListItem({super.key, required this.collection});
+  const _CollectionListItem({
+    super.key,
+    required this.collectionId,
+    required this.collection,
+  });
 
   final CollectionModel collection;
+  final String collectionId;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final activeId = ref.watch(activeIdProvider);
 
-    return Container(
-      color: activeId == collection.id ? Colors.grey[350] : Colors.grey[100],
-      margin: const EdgeInsets.only(bottom: 16),
-      padding: const EdgeInsets.all(8),
-      child: Row(
-        children: [
-          Text(
-            (collection.requestModel?.method.name)?.toUpperCase() ?? '',
-            style: TextStyle(
-              color: getRequestMethodColor(collection.requestModel?.method),
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          const SizedBox(width: 16),
-          Expanded(
-            child: Text(
-              collection.name ?? getRequestTitleFromUrl(collection.requestModel?.url),
-              overflow: TextOverflow.ellipsis,
-              maxLines: 1,
-            ),
-          ),
-        ],
-      ),
+    return ExpansionTile(
+      key: Key(activeId?.requestId.toString() ?? ''),
+      title: Text('${collection.name}'),
+      initiallyExpanded: activeId?.collection == collectionId,
+      children: [
+        ListView.builder(
+            shrinkWrap: true,
+            physics: const BouncingScrollPhysics(),
+            itemCount: collection.requestModel?.length,
+            itemBuilder: (context, index) {
+              final request = collection.requestModel?[index];
+              return GestureDetector(
+                onTap: () {
+                  print("calic:$index");
+                  ref.read(activeIdProvider.notifier).update(
+                        (state) => state?.copyWith(requestId: index),
+                      );
+                },
+                child: Container(
+                  color: activeId?.requestId == index ? Colors.grey[350] : Colors.grey[100],
+                  margin: const EdgeInsets.only(bottom: 16),
+                  padding: const EdgeInsets.all(8),
+                  child: Row(
+                    children: [
+                      Text(
+                        (request?.method.name)?.toUpperCase() ?? '',
+                        style: TextStyle(
+                          color: getRequestMethodColor(request?.method),
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      const SizedBox(width: 16),
+                      Expanded(
+                        child: Text(
+                          collection.name ?? getRequestTitleFromUrl(request?.url),
+                          overflow: TextOverflow.ellipsis,
+                          maxLines: 1,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              );
+            }),
+      ],
     );
   }
 }

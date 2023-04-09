@@ -14,9 +14,15 @@ class ResponsePretty extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final url = response!.requestUri?.toString();
+    final url = response?.requestUri?.toString();
     final contentType = response?.headers?[HttpHeaders.contentTypeHeader];
-    final mediaType = MediaType.parse(contentType!);
+    final mediaType = contentType?.isNotEmpty == true ? MediaType.parse(contentType ?? '') : MediaType('text', 'json');
+
+    if (response == null) {
+      return const Center(
+        child: Text('Enter the URL and click Send to get a response'),
+      );
+    }
 
     return SingleChildScrollView(
       child: getWidgetByContentType(mediaType, url),

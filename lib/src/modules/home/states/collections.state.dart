@@ -3,129 +3,209 @@ import 'package:client_ao/src/core/models/http_header.model.dart';
 import 'package:client_ao/src/core/models/request_model.model.dart';
 import 'package:client_ao/src/core/models/response.model.dart';
 import 'package:client_ao/src/core/services/api_request.service.dart';
-import 'package:flutter/scheduler.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:http/http.dart';
 import 'package:uuid/uuid.dart';
 
 const uuid = Uuid();
 
-final activeIdProvider = StateProvider<String?>((ref) => null);
+final activeIdProvider = StateProvider<ActiveId?>((ref) => ActiveId());
 
 final collectionsNotifierProvider = StateNotifierProvider<CollectionsNotifier, List<CollectionModel>>((ref) {
   return CollectionsNotifier(ref);
 });
 
-final requestResponseStateProvider = StateProvider.family<AsyncValue<ResponseModel?>?, String?>((ref, activeId) {
-  return ref.watch(collectionsNotifierProvider).firstWhere((e) => e.id == activeId, orElse: () => CollectionModel(id: uuid.v1())).response;
+final requestResponseStateProvider = StateProvider.family<AsyncValue<ResponseModel?>?, ActiveId?>((ref, activeId) {
+  final collectionIndex = ref.read(collectionsNotifierProvider.notifier).indexOfId();
+
+  return ref.watch(collectionsNotifierProvider)[collectionIndex].response?[activeId?.requestId ?? 0];
+  // .firstWhere((e) => e.id == requestId.toString(), orElse: () => CollectionModel(id: uuid.v1()))
+  // .response?[requestId ?? 0];
 });
 
 class CollectionsNotifier extends StateNotifier<List<CollectionModel>> {
   CollectionsNotifier(this._ref) : super([]) {
-    final newId = add();
-    SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
-      _ref.read(activeIdProvider.notifier).update((state) => newId);
+    state = [newCollection()];
+    final id = state.first.id;
+
+    addRequest();
+
+    Future.microtask(() {
+      _ref.read(activeIdProvider.notifier).update(
+            (state) => state?.copyWith(collection: id, requestId: 0),
+          );
     });
   }
 
   final Ref _ref;
 
-  String add({String? name}) {
-    final newCollection = CollectionModel(
-      id: uuid.v1(),
-      name: name,
-      requestModel: RequestModel(headers: [KeyValueRow()]),
-    );
-    state = [newCollection, ...state];
+  String addRequest() {
+    final old = getCollection();
+    old.requestModel?.add(RequestModel(headers: [KeyValueRow()]));
+    old.response?.add(const AsyncValue.data(null));
 
-    return newCollection.id;
+    // final newCollection = old.copyWith(requestModel: old.requestModel);
+
+    // final newCollection = CollectionModel(
+    //   id: uuid.v1(),
+    //   requestModel: RequestModel(headers: [KeyValueRow()]),
+    // );
+    // state = [newCollection, ...state];
+
+    // state = [
+    //   ...state.sublist(0, index),
+    //   old,
+    //   ...state.sublist(index + 1),
+    // ];
+
+    state = [
+      for (final e in state)
+        if (e.id == old.id) old else e
+    ];
+
+    return old.id;
   }
 
-  Future<Response?> sendRequest(String? activeId) async {
-    final index = indexOfId(activeId);
-    final requestModel = state[index].requestModel;
+  // String add({String? name}) {
+  //   final newCollection = CollectionModel(
+  //     id: uuid.v1(),
+  //     name: name,
+  //     requestModel: RequestModel(headers: [KeyValueRow()]),
+  //   );
+  //   state = [newCollection, ...state];
 
-    _updateRequestState(activeId, const AsyncLoading());
+  //   return newCollection.id;
+  // }
 
-    if (requestModel != null) {
-      final response = await _ref.read(apiRequestProvider).request(requestModel);
-      state[index] = state[index].copyWith(response: AsyncData(ResponseModel.fromResponse(response: response)));
-      _updateRequestState(activeId, AsyncData(ResponseModel.fromResponse(response: response)));
+  Future<Response?> sendRequest() async {
+    final activeId = _ref.read(activeIdProvider);
+    final requestId = activeId?.requestId ?? 0;
+    final index = indexOfId();
+    final collection = getCollection();
+    final request = collection.requestModel?[requestId];
+    final requestResponse = collection.response;
+
+    _updateRequestResponseState(activeId, const AsyncLoading());
+
+    if (request != null) {
+      final response = await _ref.read(apiRequestProvider).request(request);
+      requestResponse?[activeId?.requestId ?? 0] = AsyncData(ResponseModel.fromResponse(response: response));
+      state[index] = state[index].copyWith(response: requestResponse);
+      _updateRequestResponseState(activeId, AsyncData(ResponseModel.fromResponse(response: response)));
       return response;
     }
     return null;
   }
 
-  void _updateRequestState(String? activeId, AsyncValue<ResponseModel> newState) {
+  void _updateRequestResponseState(ActiveId? activeId, AsyncValue<ResponseModel> newState) {
     _ref.read(requestResponseStateProvider(activeId).notifier).update((state) => newState);
   }
 
-  void addHeader({String? name}) {
-    state = [
-      ...state,
-      CollectionModel(
-        id: uuid.v1(),
-        name: name,
-        requestModel: const RequestModel(),
-      ),
-    ];
-  }
+  // void addHeader({String? name}) {
+  //   final activeId = _ref.read(activeIdProvider);
+  //   final requestId = activeId?.requestId ?? 0;
 
-  CollectionModel getCollectionModel(String? id) {
-    final idx = indexOfId(id);
+  //   final requests = getCollectionModel(activeId?.collection).requestModel;
+
+  //   requests?[requestId] = requests[requestId].copyWith()
+
+  //   state = [
+  //     ...state,
+  //     CollectionModel(
+  //       id: uuid.v1(),
+  //       name: name,
+  //       requestModel: const RequestModel(),
+  //     ),
+  //   ];
+  // }
+
+  CollectionModel getCollection() {
+    final idx = indexOfId();
     return state[idx];
   }
 
-  int indexOfId(String? id) {
-    final index = state.indexWhere((e) => e.id == id);
+  CollectionModel newCollection() {
+    return CollectionModel(
+      id: uuid.v1(),
+      requestModel: <RequestModel>[
+        // RequestModel(
+        //   headers: [KeyValueRow()],
+        //   urlParams: [KeyValueRow()],
+        // )
+      ],
+      response: [
+        AsyncData(null),
+      ],
+    );
+  }
+
+  int indexOfId() {
+    final activeId = _ref.read(activeIdProvider);
+    final index = state.indexWhere((e) => e.id == activeId?.collection);
 
     if (index != -1) return index;
     return 0;
   }
 
-  void update(String? id, {String? name, RequestModel? requestModel}) {
-    final index = indexOfId(id);
-    final newCollection = state[index].copyWith(
+  void update({String? name, RequestModel? requestModel}) {
+    final activeId = _ref.read(activeIdProvider);
+    final requestId = activeId?.requestId ?? 0;
+    final collection = getCollection();
+    final requests = collection.requestModel;
+
+    requests?[requestId] = requestModel;
+
+    final newCollection = collection.copyWith(
       name: name,
-      requestModel: requestModel,
+      requestModel: requests,
     );
 
-    _addToCollection(index, newCollection);
+    _addToCollection(newCollection);
   }
 
-  void updateUrl(String? id, String? url) {
-    final index = indexOfId(id);
+  void updateUrl(String? url) {
+    final requestId = _ref.read(activeIdProvider)?.requestId ?? 0;
 
-    final newCollection = state[index].copyWith(
-      requestModel: state[index].requestModel?.copyWith(url: url),
-    );
+    final collection = getCollection();
 
-    _addToCollection(index, newCollection);
+    final requests = collection.requestModel;
+
+    requests?[requestId] = requests[requestId]?.copyWith(url: url);
+
+    print(requests?.map((e) => e?.url));
+
+    final newCollection = collection.copyWith(requestModel: requests);
+
+    _addToCollection(newCollection);
   }
 
-  void updateHeaders(String? id, {List<KeyValueRow>? headers}) {
-    final collection = getCollectionModel(id);
-    final index = indexOfId(id);
+  void updateHeaders(List<KeyValueRow>? headers) {
+    final requestId = _ref.read(activeIdProvider)?.requestId ?? 0;
+    final collection = getCollection();
+    final requests = collection.requestModel;
 
-    final newCollection = state[index].copyWith(
-      requestModel: collection.requestModel?.copyWith(headers: headers),
-    );
+    requests?[requestId] = requests[requestId]?.copyWith(headers: headers);
 
-    _addToCollection(index, newCollection);
+    final newCollection = collection.copyWith(requestModel: requests);
+
+    _addToCollection(newCollection);
   }
 
-  void updateUrlParams(String? id, {List<KeyValueRow>? urlParams}) {
-    final collection = getCollectionModel(id);
-    final index = indexOfId(id);
+  void updateUrlParams(urlParams) {
+    final requestId = _ref.read(activeIdProvider)?.requestId ?? 0;
+    final collection = getCollection();
+    final requests = collection.requestModel;
 
-    final newCollection = state[index].copyWith(
-      requestModel: collection.requestModel?.copyWith(urlParams: urlParams),
-    );
+    requests?[requestId] = requests[requestId]?.copyWith(urlParams: urlParams);
 
-    _addToCollection(index, newCollection);
+    final newCollection = collection.copyWith(requestModel: requests);
+
+    _addToCollection(newCollection);
   }
 
-  List<CollectionModel> _addToCollection(int index, CollectionModel newCollection) {
+  List<CollectionModel> _addToCollection(CollectionModel newCollection) {
+    final index = indexOfId();
+
     return state = [
       ...state.sublist(0, index),
       newCollection,
@@ -134,20 +214,27 @@ class CollectionsNotifier extends StateNotifier<List<CollectionModel>> {
   }
 
   void removeAllHeaders() {
-    state = [
-      for (final e in state)
-        e.copyWith(
-          requestModel: e.requestModel?.copyWith(headers: [KeyValueRow()]),
-        )
-    ];
+    final activeId = _ref.read(activeIdProvider);
+    final requestId = _ref.read(activeIdProvider)?.requestId ?? 0;
+    final index = activeId?.collection;
+    final requests = getCollection().requestModel;
+
+    requests?[requestId] = requests[requestId]?.copyWith(headers: [KeyValueRow()]);
+
+    // state = [
+    //   for (final e in state)
+    //     e.copyWith(
+    //       requestModel: e.requestModel?.copyWith(headers: [KeyValueRow()]),
+    //     )
+    // ];
   }
 
   void removeAllUrlParams() {
-    state = [
-      for (final e in state)
-        e.copyWith(
-          requestModel: e.requestModel?.copyWith(urlParams: [KeyValueRow()]),
-        )
-    ];
+    // state = [
+    //   for (final e in state)
+    //     e.copyWith(
+    //       requestModel: e.requestModel?.copyWith(urlParams: [KeyValueRow()]),
+    //     )
+    // ];
   }
 }

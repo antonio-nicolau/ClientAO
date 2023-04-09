@@ -11,14 +11,14 @@ class UrlPreview extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final activeId = ref.watch(activeIdProvider);
-    final collectionIndex = ref.watch(collectionsNotifierProvider.notifier).indexOfId(activeId);
+    final collectionIndex = ref.watch(collectionsNotifierProvider.notifier).indexOfId();
     final collection = ref.watch(collectionsNotifierProvider)[collectionIndex];
     final urlToPreview = useState<String?>('');
 
     useEffect(
       () {
-        final urlParamsList = collection.requestModel?.urlParams;
-        final url = Uri.tryParse(collection.requestModel?.url ?? '');
+        final urlParamsList = collection.requestModel?[activeId?.requestId ?? 0]?.urlParams;
+        final url = Uri.tryParse(collection.requestModel?[activeId?.requestId ?? 0]?.url ?? '');
 
         if (url != null) {
           final queryParams = <String, String>{};
@@ -41,7 +41,8 @@ class UrlPreview extends HookConsumerWidget {
       },
     );
 
-    if (collection.requestModel?.url == null || collection.requestModel?.url?.isEmpty == true) {
+    if (collection.requestModel?[activeId?.requestId ?? 0]?.url == null ||
+        collection.requestModel?[activeId?.requestId ?? 0]?.url?.isEmpty == true) {
       return const SizedBox.shrink();
     }
 
@@ -57,7 +58,7 @@ class UrlPreview extends HookConsumerWidget {
         Expanded(child: Text('${urlToPreview.value}')),
         IconButton(
           onPressed: () {
-            Clipboard.setData(ClipboardData(text: collection.requestModel?.url)).then(
+            Clipboard.setData(ClipboardData(text: collection.requestModel?[activeId?.requestId ?? 0]?.url)).then(
               (value) {
                 ScaffoldMessenger.of(context).showSnackBar(
                   const SnackBar(content: Text('URL Copied to clipboard')),

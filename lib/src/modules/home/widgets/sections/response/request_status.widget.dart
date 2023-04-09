@@ -13,15 +13,17 @@ class RequestStatus extends HookConsumerWidget {
 
     return requestResponse?.when(
           data: (response) {
+            if (response == null || response.statusCode == null) return const SizedBox.shrink();
+
             return Container(
               color: Colors.amber,
               child: Row(
                 children: [
                   Container(
                     padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 20),
-                    color: response?.statusCode == HttpStatus.ok ? Colors.green : Colors.red,
+                    color: response.statusCode == HttpStatus.ok ? Colors.green : Colors.red,
                     child: Text(
-                      response?.statusCode.toString() ?? '',
+                      response.statusCode.toString(),
                       style: Theme.of(context).textTheme.labelLarge?.copyWith(fontWeight: FontWeight.bold),
                     ),
                   ),

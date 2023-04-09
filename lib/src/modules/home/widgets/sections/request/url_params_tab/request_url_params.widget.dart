@@ -28,8 +28,8 @@ class _UrlParamsRowsList extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final activeId = ref.watch(activeIdProvider);
-    final index = ref.watch(collectionsNotifierProvider.notifier).indexOfId(activeId);
-    final urlParamsRows = ref.watch(collectionsNotifierProvider)[index].requestModel?.headers;
+    final index = ref.watch(collectionsNotifierProvider.notifier).indexOfId();
+    final urlParamsRows = ref.watch(collectionsNotifierProvider)[index].requestModel?[activeId?.requestId ?? 0]?.headers;
 
     List<_HeadersButtons>? buttons;
 
@@ -40,10 +40,7 @@ class _UrlParamsRowsList extends HookConsumerWidget {
             label: 'Add',
             onTap: () {
               urlParamsRows?.add(KeyValueRow());
-              ref.read(collectionsNotifierProvider.notifier).updateUrlParams(
-                    activeId,
-                    urlParams: urlParamsRows,
-                  );
+              ref.read(collectionsNotifierProvider.notifier).updateUrlParams(urlParamsRows);
             },
           ),
           _HeadersButtons(
@@ -62,10 +59,7 @@ class _UrlParamsRowsList extends HookConsumerWidget {
       keyColumnName: 'Keys',
       valueColumnName: 'Values',
       onFieldsChange: (rows) {
-        ref.read(collectionsNotifierProvider.notifier).updateUrlParams(
-              activeId,
-              urlParams: rows,
-            );
+        ref.read(collectionsNotifierProvider.notifier).updateUrlParams(rows);
       },
       onRemoveTaped: () {},
     );

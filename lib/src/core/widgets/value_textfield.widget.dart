@@ -21,8 +21,8 @@ class ValueTextField extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final activeId = ref.watch(activeIdProvider);
-    final collectionIndex = ref.watch(collectionsNotifierProvider.notifier).indexOfId(activeId);
-    final rows = ref.watch(collectionsNotifierProvider)[collectionIndex].requestModel?.headers;
+    final collectionIndex = ref.watch(collectionsNotifierProvider.notifier).indexOfId();
+    final rows = ref.watch(collectionsNotifierProvider)[collectionIndex].requestModel?[activeId?.requestId ?? 0]?.headers;
     final headerController = useTextEditingController(text: row.value);
 
     return TextField(
@@ -36,7 +36,7 @@ class ValueTextField extends HookConsumerWidget {
           return;
         }
 
-        ref.read(collectionsNotifierProvider.notifier).updateHeaders(activeId, headers: rows);
+        ref.read(collectionsNotifierProvider.notifier).updateHeaders(rows);
       },
     );
   }

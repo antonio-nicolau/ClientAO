@@ -21,22 +21,22 @@ class KeyTextField extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final activeId = ref.watch(activeIdProvider);
-    final collectionIndex = ref.watch(collectionsNotifierProvider.notifier).indexOfId(activeId);
-    final headerRows = ref.watch(collectionsNotifierProvider)[collectionIndex].requestModel?.headers;
+    final collectionIndex = ref.watch(collectionsNotifierProvider.notifier).indexOfId();
+    final rows = ref.watch(collectionsNotifierProvider)[collectionIndex].requestModel?[activeId?.requestId ?? 0]?.headers;
     final headerController = useTextEditingController(text: row.key);
 
     return TextField(
       controller: headerController,
       decoration: InputDecoration(hintText: keyFieldHintText ?? 'key'),
       onChanged: (key) {
-        headerRows?[index] = row.copyWith(key: key);
+        rows?[index] = row.copyWith(key: key);
 
         if (onKeyFieldChanged != null) {
-          onKeyFieldChanged?.call(headerRows);
+          onKeyFieldChanged?.call(rows);
           return;
         }
 
-        ref.read(collectionsNotifierProvider.notifier).updateHeaders(activeId, headers: headerRows);
+        ref.read(collectionsNotifierProvider.notifier).updateHeaders(rows);
       },
     );
   }

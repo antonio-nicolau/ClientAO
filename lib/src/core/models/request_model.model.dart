@@ -10,7 +10,7 @@ class RequestModel extends Equatable {
   final List<KeyValueRow>? headers;
   final List<KeyValueRow>? urlParams;
 
-  const RequestModel({
+  RequestModel({
     this.url,
     this.body,
     this.method = RequestMethod.get,
@@ -40,5 +40,5 @@ class RequestModel extends Equatable {
 }
 
 final requestModelProvider = StateProvider<RequestModel?>((ref) {
-  return const RequestModel();
+  return RequestModel();
 });

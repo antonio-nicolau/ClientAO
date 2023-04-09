@@ -6,12 +6,12 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 class CollectionModel extends Equatable {
   final String id;
   final String? name;
-  final RequestModel? requestModel;
-  final AsyncValue<ResponseModel?>? response;
+  final List<RequestModel?>? requestModel;
+  final List<AsyncValue<ResponseModel?>?>? response;
 
   const CollectionModel({
     required this.id,
-    this.name,
+    this.name = "New collection",
     this.requestModel,
     this.response,
   });
@@ -21,14 +21,30 @@ class CollectionModel extends Equatable {
 
   CollectionModel copyWith({
     String? name,
-    RequestModel? requestModel,
-    AsyncValue<ResponseModel?>? response,
+    List<RequestModel?>? requestModel,
+    List<AsyncValue<ResponseModel?>?>? response,
   }) {
     return CollectionModel(
       id: id,
       name: name ?? this.name,
       requestModel: requestModel ?? this.requestModel,
       response: response ?? this.response,
+    );
+  }
+}
+
+class ActiveId {
+  final String? collection;
+  final int? requestId;
+  final String? folder;
+
+  ActiveId({this.collection, this.requestId, this.folder});
+
+  ActiveId copyWith({String? collection, int? requestId, String? folder}) {
+    return ActiveId(
+      collection: collection ?? this.collection,
+      requestId: requestId ?? this.requestId,
+      folder: folder ?? this.folder,
     );
   }
 }
