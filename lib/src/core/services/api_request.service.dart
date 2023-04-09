@@ -23,17 +23,17 @@ class ApiRequest implements IApiRequest {
   const ApiRequest(this._httpClient);
 
   @override
-  Future<http.Response> request(RequestModel requestModel) async {
+  Future<http.Response> request(RequestModel request) async {
     Response? response;
     final headers = Map.fromEntries(
-      requestModel.headers!.map((e) => MapEntry<String, String>(e.key ?? '', e.value ?? '')),
+      request.headers!.map((e) => MapEntry<String, String>(e.key ?? '', e.value ?? '')),
     );
 
-    final uri = getUriWithQueryParams(requestModel);
+    final uri = getUriWithQueryParams(request);
 
     final stopWatch = Stopwatch()..start();
 
-    switch (requestModel.method) {
+    switch (request.method) {
       case RequestMethod.get:
         response = await _httpClient.get(uri!, headers: headers);
         break;
@@ -58,9 +58,9 @@ class ApiRequest implements IApiRequest {
     return response;
   }
 
-  Uri? getUriWithQueryParams(RequestModel requestModel) {
-    final urlParamsList = requestModel.urlParams;
-    final uri = Uri.tryParse(requestModel.url ?? '');
+  Uri? getUriWithQueryParams(RequestModel request) {
+    final urlParamsList = request.urlParams;
+    final uri = Uri.tryParse(request.url ?? '');
 
     final queryParams = <String, String>{};
 
@@ -81,17 +81,3 @@ class ApiRequest implements IApiRequest {
     return null;
   }
 }
-
-// class ApiRequestNotifier extends StateNotifier<AsyncValue<http.Response?>?> {
-//   ApiRequestNotifier(this._apiRequest) : super(null);
-
-//   final IApiRequest _apiRequest;
-
-//   void request(RequestModel requestModel) async {
-//     state = const AsyncValue.loading();
-
-//     state = await AsyncValue.guard(() async {
-//       return _apiRequest.request(requestModel);
-//     });
-//   }
-// }

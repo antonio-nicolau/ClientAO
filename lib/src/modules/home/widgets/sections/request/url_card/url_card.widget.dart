@@ -24,10 +24,10 @@ class UrlCard extends HookConsumerWidget {
       [activeId],
     );
 
-    void request() {
-      final requestModel = collection.requests;
+    void sendRequest() {
+      final request = collection.requests;
 
-      if (requestModel != null) {
+      if (request != null) {
         ref.read(collectionsNotifierProvider.notifier).sendRequest();
       }
       focusNode.requestFocus();
@@ -49,12 +49,12 @@ class UrlCard extends HookConsumerWidget {
               onChanged: (value) {
                 ref.read(collectionsNotifierProvider.notifier).updateUrl(value);
               },
-              onSubmitted: (value) => request.call(),
+              onSubmitted: (value) => sendRequest.call(),
             ),
           ),
           const SizedBox(width: 8),
           FilledButton(
-            onPressed: request,
+            onPressed: sendRequest,
             child: const Icon(Icons.send),
           ),
         ],
@@ -81,10 +81,7 @@ class DropdownButtonRequestMethod extends HookConsumerWidget {
         height: 0,
       ),
       onChanged: (RequestMethod? value) {
-        final requestMethod = collection.requests;
-        ref.read(collectionsNotifierProvider.notifier).update(
-              requestModel: requestMethod?[activeId?.requestId ?? 0]?.copyWith(method: value ?? RequestMethod.get),
-            );
+        ref.read(collectionsNotifierProvider.notifier).updateRequestMethod(value);
       },
       items: RequestMethod.values.map<DropdownMenuItem<RequestMethod>>((RequestMethod value) {
         return DropdownMenuItem<RequestMethod>(

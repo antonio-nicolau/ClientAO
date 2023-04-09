@@ -8,12 +8,14 @@ class CollectionModel extends Equatable {
   final String? name;
   final List<RequestModel?>? requests;
   final List<AsyncValue<ResponseModel?>?>? responses;
+  final List<String>? folders;
 
   const CollectionModel({
     required this.id,
     this.name = "New collection",
     this.requests,
     this.responses,
+    this.folders,
   });
 
   @override
@@ -21,14 +23,14 @@ class CollectionModel extends Equatable {
 
   CollectionModel copyWith({
     String? name,
-    List<RequestModel?>? requestModel,
-    List<AsyncValue<ResponseModel?>?>? response,
+    List<RequestModel?>? requests,
+    List<AsyncValue<ResponseModel?>?>? responses,
   }) {
     return CollectionModel(
       id: id,
       name: name ?? this.name,
-      requests: requestModel ?? this.requests,
-      responses: response ?? this.responses,
+      requests: requests ?? this.requests,
+      responses: responses ?? this.responses,
     );
   }
 }

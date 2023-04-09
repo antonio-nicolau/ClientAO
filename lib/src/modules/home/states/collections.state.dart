@@ -1,3 +1,4 @@
+import 'package:client_ao/src/core/constants/enums.dart';
 import 'package:client_ao/src/core/models/collection.model.dart';
 import 'package:client_ao/src/core/models/http_header.model.dart';
 import 'package:client_ao/src/core/models/request_model.model.dart';
@@ -60,7 +61,7 @@ class CollectionsNotifier extends StateNotifier<List<CollectionModel>> {
     if (request != null) {
       final response = await _ref.read(apiRequestProvider).request(request);
       requestResponse?[activeId?.requestId ?? 0] = AsyncData(ResponseModel.fromResponse(response: response));
-      state[index] = state[index].copyWith(response: requestResponse);
+      state[index] = state[index].copyWith(responses: requestResponse);
       _updateRequestResponseState(activeId, AsyncData(ResponseModel.fromResponse(response: response)));
       return response;
     }
@@ -97,18 +98,15 @@ class CollectionsNotifier extends StateNotifier<List<CollectionModel>> {
     return 0;
   }
 
-  void update({String? name, RequestModel? requestModel}) {
+  void updateRequestMethod(RequestMethod? method) {
     final activeId = _ref.read(activeIdProvider);
     final requestId = activeId?.requestId ?? 0;
     final collection = getCollection();
     final requests = collection.requests;
 
-    requests?[requestId] = requestModel;
+    requests?[requestId] = requests[requestId]?.copyWith(method: method);
 
-    final newCollection = collection.copyWith(
-      name: name,
-      requestModel: requests,
-    );
+    final newCollection = collection.copyWith(requests: requests);
 
     _addToCollection(newCollection);
   }
@@ -122,7 +120,7 @@ class CollectionsNotifier extends StateNotifier<List<CollectionModel>> {
 
     requests?[requestId] = requests[requestId]?.copyWith(url: url);
 
-    final newCollection = collection.copyWith(requestModel: requests);
+    final newCollection = collection.copyWith(requests: requests);
 
     _addToCollection(newCollection);
   }
@@ -134,7 +132,7 @@ class CollectionsNotifier extends StateNotifier<List<CollectionModel>> {
 
     requests?[requestId] = requests[requestId]?.copyWith(headers: headers);
 
-    final newCollection = collection.copyWith(requestModel: requests);
+    final newCollection = collection.copyWith(requests: requests);
 
     _addToCollection(newCollection);
   }
@@ -146,7 +144,7 @@ class CollectionsNotifier extends StateNotifier<List<CollectionModel>> {
 
     requests?[requestId] = requests[requestId]?.copyWith(urlParams: urlParams);
 
-    final newCollection = collection.copyWith(requestModel: requests);
+    final newCollection = collection.copyWith(requests: requests);
 
     _addToCollection(newCollection);
   }

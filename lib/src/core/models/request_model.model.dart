@@ -10,6 +10,7 @@ class RequestModel extends Equatable {
   final List<KeyValueRow>? headers;
   final List<KeyValueRow>? urlParams;
   final String? name;
+  final String? folderId;
 
   RequestModel({
     this.url,
@@ -18,6 +19,7 @@ class RequestModel extends Equatable {
     this.headers,
     this.urlParams,
     this.name,
+    this.folderId,
   });
 
   RequestModel copyWith({
@@ -28,11 +30,13 @@ class RequestModel extends Equatable {
     List<KeyValueRow>? headers,
     List<KeyValueRow>? urlParams,
     String? name,
+    String? folderId,
   }) {
     return RequestModel(
       url: url ?? this.url,
       body: body ?? this.body,
       name: name ?? this.name,
+      folderId: folderId ?? this.folderId,
       method: method ?? this.method,
       headers: headers ?? this.headers,
       urlParams: urlParams ?? this.urlParams,
