@@ -31,13 +31,13 @@ class ResponseHeaders extends ConsumerWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Expanded(
-                        child: Text(
+                        child: SelectableText(
                           header.key,
                           style: Theme.of(context).textTheme.labelLarge,
                         ),
                       ),
                       Expanded(
-                        child: Text(header.value),
+                        child: SelectableText(header.value),
                       ),
                     ],
                   ),
