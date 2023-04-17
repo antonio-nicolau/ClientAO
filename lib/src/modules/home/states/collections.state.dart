@@ -25,6 +25,10 @@ final requestResponseStateProvider = StateProvider.family<AsyncValue<ResponseMod
 
 class CollectionsNotifier extends StateNotifier<List<CollectionModel>> {
   CollectionsNotifier(this._ref) : super([]) {
+    final loaded = loadFromLocally();
+
+    if (loaded) return;
+
     final id = newCollection();
 
     Future.microtask(() {
@@ -35,6 +39,16 @@ class CollectionsNotifier extends StateNotifier<List<CollectionModel>> {
   }
 
   final Ref _ref;
+
+  bool loadFromLocally() {
+    final collections = _ref.read(hiveDataServiceProvider).getCollections();
+
+    if (collections != null && collections.isNotEmpty == true) {
+      state = collections;
+      return true;
+    }
+    return false;
+  }
 
   String addRequest(String? id) {
     final old = state.firstWhere((e) => e.id == id);
@@ -94,7 +108,7 @@ class CollectionsNotifier extends StateNotifier<List<CollectionModel>> {
   }
 
   int indexOfId() {
-    final activeId = _ref.read(activeIdProvider);
+    final activeId = _ref.watch(activeIdProvider);
     final index = state.indexWhere((e) => e.id == activeId?.collection);
 
     if (index != -1) return index;

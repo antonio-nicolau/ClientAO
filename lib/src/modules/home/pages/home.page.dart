@@ -1,3 +1,7 @@
+import 'dart:developer';
+
+import 'package:client_ao/src/core/services/hive_data.service.dart';
+import 'package:client_ao/src/modules/home/states/collections.state.dart';
 import 'package:client_ao/src/modules/home/widgets/sections/collections/collections_section.widget.dart';
 import 'package:client_ao/src/modules/home/widgets/sections/request/request_section.widget.dart';
 import 'package:client_ao/src/modules/home/widgets/sections/response/response_section.widget.dart';
@@ -10,6 +14,14 @@ class HomePage extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final collection = ref.watch(collectionsNotifierProvider.notifier).getCollection();
+
+    // Listen for Collection model changes and update cache
+    ref.listen(collectionsNotifierProvider, (previous, next) async {
+      log('Updating collection cache: ${collection.id}');
+      await ref.read(hiveDataServiceProvider).saveCollection(collection.id, collection);
+    });
+
     return Scaffold(
       body: MultiSplitViewTheme(
         data: MultiSplitViewThemeData(

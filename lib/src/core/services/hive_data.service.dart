@@ -1,8 +1,11 @@
+import 'dart:developer';
+
 import 'package:client_ao/src/core/constants/enums.dart';
 import 'package:client_ao/src/core/models/collection.model.dart';
 import 'package:client_ao/src/core/models/key_value_row.model.dart';
 import 'package:client_ao/src/core/models/request_model.model.dart';
 import 'package:client_ao/src/core/models/response.model.dart';
+import 'package:client_ao/src/core/utils/hive_extensions.dart';
 import 'package:hive/hive.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -13,7 +16,7 @@ final hiveDataServiceProvider = Provider<ILocalDataStorage>((ref) {
 });
 
 abstract class ILocalDataStorage {
-  Future<void> saveCollection(String id, CollectionModel collection);
+  Future<void> saveCollection(String? id, CollectionModel? collection);
   List<CollectionModel>? getCollections();
   Future<void> deleteCollection(String key);
   Future<void> deleteRequest(String key);
@@ -30,7 +33,15 @@ class HiveDataService implements ILocalDataStorage {
   }
 
   @override
-  Future<void> saveCollection(String id, CollectionModel value) async {
+  Future<void> saveCollection(String? id, CollectionModel? value) async {
+    if (id == null || value == null) return;
+
+    if (collectionsBox.isNotEmpty && collectionsBox.containsKey(id)) {
+      log('same collection: $id');
+      await collectionsBox.putAtKey(id, value);
+      return;
+    }
+    log('old collection');
     await collectionsBox.put(id, value);
   }
 
