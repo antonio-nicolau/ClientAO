@@ -1,0 +1,62 @@
+import 'package:client_ao/src/core/constants/enums.dart';
+import 'package:client_ao/src/core/models/collection.model.dart';
+import 'package:client_ao/src/core/models/key_value_row.model.dart';
+import 'package:client_ao/src/core/models/request_model.model.dart';
+import 'package:client_ao/src/core/models/response.model.dart';
+import 'package:hive/hive.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
+
+final collectionsBox = Hive.box<CollectionModel>('collections');
+
+final hiveDataServiceProvider = Provider<ILocalDataStorage>((ref) {
+  return HiveDataService(ref);
+});
+
+abstract class ILocalDataStorage {
+  Future<void> saveCollection(String id, CollectionModel collection);
+  List<CollectionModel>? getCollections();
+  Future<void> deleteCollection(String key);
+  Future<void> deleteRequest(String key);
+}
+
+class HiveDataService implements ILocalDataStorage {
+  final Ref _ref;
+
+  const HiveDataService(this._ref);
+
+  @override
+  List<CollectionModel>? getCollections() {
+    return collectionsBox.values.toList();
+  }
+
+  @override
+  Future<void> saveCollection(String id, CollectionModel value) async {
+    await collectionsBox.put(id, value);
+  }
+
+  @override
+  Future<void> deleteCollection(String key) async {
+    await collectionsBox.delete(key);
+  }
+
+  @override
+  Future<void> deleteRequest(String key) {
+    // TODO: implement deleteRequest
+    throw UnimplementedError();
+  }
+}
+
+Future<void> openHiveBoxes() async {
+  await Hive.openBox<Map<dynamic, dynamic>>('environmentValues');
+  await Hive.openBox<String>('environments');
+  await Hive.openBox<String>('selectedEnvironment');
+  await Hive.openBox<CollectionModel>('collections');
+}
+
+void registerAdapters() async {
+  Hive.registerAdapter(RequestMethodAdapter());
+  Hive.registerAdapter(KeyValueRowAdapter());
+  Hive.registerAdapter(RequestModelAdapter());
+  Hive.registerAdapter(ResponseModelAdapter());
+  Hive.registerAdapter(CollectionModelAdapter());
+}

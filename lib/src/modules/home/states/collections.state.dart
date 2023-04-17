@@ -1,9 +1,10 @@
 import 'package:client_ao/src/core/constants/enums.dart';
 import 'package:client_ao/src/core/models/collection.model.dart';
-import 'package:client_ao/src/core/models/http_header.model.dart';
+import 'package:client_ao/src/core/models/key_value_row.model.dart';
 import 'package:client_ao/src/core/models/request_model.model.dart';
 import 'package:client_ao/src/core/models/response.model.dart';
 import 'package:client_ao/src/core/services/api_request.service.dart';
+import 'package:client_ao/src/core/services/hive_data.service.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:http/http.dart';
 import 'package:uuid/uuid.dart';
@@ -84,6 +85,8 @@ class CollectionsNotifier extends StateNotifier<List<CollectionModel>> {
       responses: [AsyncData(null)],
     );
     state = [newCollection, ...state];
+
+    _ref.read(hiveDataServiceProvider).saveCollection(newCollection.id, newCollection);
 
     addRequest(newCollection.id);
 

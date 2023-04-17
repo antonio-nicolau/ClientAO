@@ -1,5 +1,5 @@
 import 'package:client_ao/src/core/constants/enums.dart';
-import 'package:client_ao/src/core/models/http_header.model.dart';
+import 'package:client_ao/src/core/models/key_value_row.model.dart';
 import 'package:client_ao/src/core/models/request_model.model.dart';
 import 'package:client_ao/src/core/services/client.service.interface.dart';
 import 'package:client_ao/src/core/services/http_client.service.dart';

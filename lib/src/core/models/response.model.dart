@@ -1,13 +1,14 @@
 import 'dart:io';
 import 'dart:convert';
 import 'dart:typed_data';
-import 'package:flutter/material.dart';
 import 'package:collection/collection.dart' show mergeMaps;
+import 'package:hive/hive.dart';
 import 'package:http/http.dart';
 import 'package:http_parser/http_parser.dart';
 import 'package:xml/xml.dart';
+part 'response.model.g.dart';
 
-@immutable
+@HiveType(typeId: 1)
 class ResponseModel {
   const ResponseModel({
     this.statusCode,
@@ -22,15 +23,34 @@ class ResponseModel {
     this.time,
   });
 
+  @HiveField(0)
   final int? statusCode;
+
+  @HiveField(1)
   final Map<String, String>? headers;
+
+  @HiveField(2)
   final Map<String, String>? requestHeaders;
+
+  @HiveField(3)
   final String? contentType;
+
+  @HiveField(4)
   final MediaType? mediaType;
+
+  @HiveField(5)
   final String? body;
+
+  @HiveField(6)
   final String? formattedBody;
+
+  @HiveField(7)
   final Uint8List? bodyBytes;
+
+  @HiveField(8)
   final Duration? time;
+
+  @HiveField(9)
   final Uri? requestUri;
 
   factory ResponseModel.fromResponse({

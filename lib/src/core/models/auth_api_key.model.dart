@@ -1,5 +1,5 @@
 import 'package:client_ao/src/core/models/base_auth.interface.model.dart';
-import 'package:client_ao/src/core/models/http_header.model.dart';
+import 'package:client_ao/src/core/models/key_value_row.model.dart';
 
 class AuthApiKeyModel implements BaseAuth {
   final KeyValueRow? keyValue;

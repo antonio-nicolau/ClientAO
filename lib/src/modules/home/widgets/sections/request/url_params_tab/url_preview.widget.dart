@@ -1,4 +1,4 @@
-import 'package:client_ao/src/core/models/http_header.model.dart';
+import 'package:client_ao/src/core/models/key_value_row.model.dart';
 import 'package:client_ao/src/modules/home/states/collections.state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';

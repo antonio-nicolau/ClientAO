@@ -1,13 +1,25 @@
 import 'package:client_ao/src/core/models/request_model.model.dart';
 import 'package:client_ao/src/core/models/response.model.dart';
 import 'package:equatable/equatable.dart';
+import 'package:hive/hive.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+part 'collection.model.g.dart';
 
+@HiveType(typeId: 3)
 class CollectionModel extends Equatable {
+  @HiveField(0)
   final String id;
+
+  @HiveField(1)
   final String? name;
+
+  @HiveField(2)
   final List<RequestModel?>? requests;
+
+  @HiveField(3)
   final List<AsyncValue<ResponseModel?>?>? responses;
+
+  @HiveField(4)
   final List<String>? folders;
 
   const CollectionModel({
