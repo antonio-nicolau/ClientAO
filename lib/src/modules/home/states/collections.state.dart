@@ -20,7 +20,7 @@ final collectionsNotifierProvider = StateNotifierProvider<CollectionsNotifier, L
 final requestResponseStateProvider = StateProvider.family<AsyncValue<ResponseModel?>?, ActiveId?>((ref, activeId) {
   final collectionIndex = ref.watch(collectionsNotifierProvider.notifier).indexOfId();
 
-  return ref.watch(collectionsNotifierProvider)[collectionIndex].responses?[activeId?.requestId ?? 0];
+  return AsyncData(ref.watch(collectionsNotifierProvider)[collectionIndex].responses?[activeId?.requestId ?? 0]);
 });
 
 class CollectionsNotifier extends StateNotifier<List<CollectionModel>> {
@@ -39,7 +39,7 @@ class CollectionsNotifier extends StateNotifier<List<CollectionModel>> {
   String addRequest(String? id) {
     final old = state.firstWhere((e) => e.id == id);
     old.requests?.add(RequestModel(headers: [KeyValueRow()]));
-    old.responses?.add(const AsyncValue.data(null));
+    old.responses?.add(ResponseModel());
 
     state = [
       for (final e in state)
@@ -61,7 +61,7 @@ class CollectionsNotifier extends StateNotifier<List<CollectionModel>> {
 
     if (request != null) {
       final response = await _ref.read(apiRequestProvider).request(request);
-      requestResponse?[activeId?.requestId ?? 0] = AsyncData(ResponseModel.fromResponse(response: response));
+      requestResponse?[activeId?.requestId ?? 0] = ResponseModel.fromResponse(response: response);
       state[index] = state[index].copyWith(responses: requestResponse);
       _updateRequestResponseState(activeId, AsyncData(ResponseModel.fromResponse(response: response)));
       return response;
@@ -82,7 +82,7 @@ class CollectionsNotifier extends StateNotifier<List<CollectionModel>> {
     final newCollection = CollectionModel(
       id: uuid.v1(),
       requests: <RequestModel>[],
-      responses: [AsyncData(null)],
+      responses: [ResponseModel()],
     );
     state = [newCollection, ...state];
 
