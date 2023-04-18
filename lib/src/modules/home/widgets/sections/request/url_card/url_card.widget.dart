@@ -47,7 +47,7 @@ class UrlCard extends HookConsumerWidget {
                 hintText: "Enter API endpoint",
               ),
               onChanged: (value) {
-                ref.read(collectionsNotifierProvider.notifier).updateUrl(value);
+                ref.read(collectionsNotifierProvider.notifier).updateRequest(url: value);
               },
               onSubmitted: (value) => sendRequest.call(),
             ),
@@ -72,7 +72,7 @@ class DropdownButtonRequestMethod extends HookConsumerWidget {
     final collectionIndex = ref.watch(collectionsNotifierProvider.notifier).indexOfId();
     final collection = ref.watch(collectionsNotifierProvider)[collectionIndex];
 
-    return DropdownButton<RequestMethod>(
+    return DropdownButton<HttpVerb>(
       focusColor: Theme.of(context).colorScheme.surface,
       value: collection.requests?[activeId?.requestId ?? 0]?.method,
       icon: const Icon(Icons.unfold_more_rounded),
@@ -80,11 +80,11 @@ class DropdownButtonRequestMethod extends HookConsumerWidget {
       underline: Container(
         height: 0,
       ),
-      onChanged: (RequestMethod? value) {
-        ref.read(collectionsNotifierProvider.notifier).updateRequestMethod(value);
+      onChanged: (HttpVerb? value) {
+        ref.read(collectionsNotifierProvider.notifier).updateRequest(method: value);
       },
-      items: RequestMethod.values.map<DropdownMenuItem<RequestMethod>>((RequestMethod value) {
-        return DropdownMenuItem<RequestMethod>(
+      items: HttpVerb.values.map<DropdownMenuItem<HttpVerb>>((HttpVerb value) {
+        return DropdownMenuItem<HttpVerb>(
           value: value,
           child: Padding(
             padding: const EdgeInsets.only(left: 16),

@@ -19,7 +19,7 @@ class RequestModelAdapter extends TypeAdapter<RequestModel> {
     return RequestModel(
       url: fields[0] as String?,
       body: fields[1] as String?,
-      method: fields[2] as RequestMethod,
+      method: fields[2] as HttpVerb,
       headers: (fields[3] as List?)?.cast<KeyValueRow>(),
       urlParams: (fields[4] as List?)?.cast<KeyValueRow>(),
       name: fields[5] as String?,

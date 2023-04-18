@@ -14,7 +14,7 @@ class RequestModel extends Equatable {
   final String? body;
 
   @HiveField(2)
-  final RequestMethod method;
+  final HttpVerb method;
 
   @HiveField(3)
   final List<KeyValueRow>? headers;
@@ -31,7 +31,7 @@ class RequestModel extends Equatable {
   RequestModel({
     this.url,
     this.body,
-    this.method = RequestMethod.get,
+    this.method = HttpVerb.get,
     this.headers,
     this.urlParams,
     this.name,
@@ -42,7 +42,7 @@ class RequestModel extends Equatable {
     Uri? uri,
     String? url,
     String? body,
-    RequestMethod? method,
+    HttpVerb? method,
     List<KeyValueRow>? headers,
     List<KeyValueRow>? urlParams,
     String? name,

@@ -93,10 +93,7 @@ class CollectionsNotifier extends StateNotifier<List<CollectionModel>> {
     _ref.read(requestResponseStateProvider(activeId).notifier).update((state) => newState);
   }
 
-  CollectionModel getCollection() {
-    final idx = indexOfId();
-    return state[idx];
-  }
+  CollectionModel getCollection() => state[indexOfId()];
 
   String newCollection() {
     final newCollection = CollectionModel(
@@ -119,65 +116,24 @@ class CollectionsNotifier extends StateNotifier<List<CollectionModel>> {
     return 0;
   }
 
-  void updateRequestMethod(RequestMethod? method) {
-    final activeId = _ref.read(activeIdProvider);
-    final requestId = activeId?.requestId ?? 0;
-    final collection = getCollection();
-    final requests = collection.requests;
-
-    requests?[requestId] = requests[requestId]?.copyWith(method: method);
-
-    final newCollection = collection.copyWith(requests: requests);
-
-    _addToCollection(newCollection);
-  }
-
-  void updateUrl(String? url) {
-    final requestId = _ref.read(activeIdProvider)?.requestId ?? 0;
-
-    final collection = getCollection();
-
-    final requests = collection.requests;
-
-    requests?[requestId] = requests[requestId]?.copyWith(url: url);
-
-    final newCollection = collection.copyWith(requests: requests);
-
-    _addToCollection(newCollection);
-  }
-
-  void updateHeaders(List<KeyValueRow>? headers) {
+  void updateRequest({
+    HttpVerb? method,
+    String? url,
+    List<KeyValueRow>? headers,
+    String? name,
+    List<KeyValueRow>? urlParams,
+  }) {
     final requestId = _ref.read(activeIdProvider)?.requestId ?? 0;
     final collection = getCollection();
     final requests = collection.requests;
 
-    requests?[requestId] = requests[requestId]?.copyWith(headers: headers);
-
-    final newCollection = collection.copyWith(requests: requests);
-
-    _addToCollection(newCollection);
-  }
-
-  void updateRequestName(String? name) {
-    final requestId = _ref.read(activeIdProvider)?.requestId ?? 0;
-
-    final collection = getCollection();
-
-    final requests = collection.requests;
-
-    requests?[requestId] = requests[requestId]?.copyWith(name: name);
-
-    final newCollection = collection.copyWith(requests: requests);
-
-    _addToCollection(newCollection);
-  }
-
-  void updateUrlParams(urlParams) {
-    final requestId = _ref.read(activeIdProvider)?.requestId ?? 0;
-    final collection = getCollection();
-    final requests = collection.requests;
-
-    requests?[requestId] = requests[requestId]?.copyWith(urlParams: urlParams);
+    requests?[requestId] = requests[requestId]?.copyWith(
+      method: method,
+      name: name,
+      url: url,
+      urlParams: urlParams,
+      headers: headers,
+    );
 
     final newCollection = collection.copyWith(requests: requests);
 

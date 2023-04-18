@@ -34,19 +34,19 @@ class ApiRequest implements IApiRequest {
     final stopWatch = Stopwatch()..start();
 
     switch (request.method) {
-      case RequestMethod.get:
+      case HttpVerb.get:
         response = await _httpClient.get(uri!, headers: headers);
         break;
-      case RequestMethod.post:
+      case HttpVerb.post:
         response = await _httpClient.post(uri!, headers: headers);
         break;
-      case RequestMethod.put:
+      case HttpVerb.put:
         response = await _httpClient.put(uri!, headers: headers);
         break;
-      case RequestMethod.patch:
+      case HttpVerb.patch:
         response = await _httpClient.patch(uri!, headers: headers);
         break;
-      case RequestMethod.delete:
+      case HttpVerb.delete:
         response = await _httpClient.delete(uri!, headers: headers);
         break;
     }

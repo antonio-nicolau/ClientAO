@@ -6,44 +6,44 @@ part of 'enums.dart';
 // TypeAdapterGenerator
 // **************************************************************************
 
-class RequestMethodAdapter extends TypeAdapter<RequestMethod> {
+class HttpVerbAdapter extends TypeAdapter<HttpVerb> {
   @override
   final int typeId = 4;
 
   @override
-  RequestMethod read(BinaryReader reader) {
+  HttpVerb read(BinaryReader reader) {
     switch (reader.readByte()) {
       case 0:
-        return RequestMethod.get;
+        return HttpVerb.get;
       case 1:
-        return RequestMethod.post;
+        return HttpVerb.post;
       case 2:
-        return RequestMethod.put;
+        return HttpVerb.put;
       case 3:
-        return RequestMethod.patch;
+        return HttpVerb.patch;
       case 4:
-        return RequestMethod.delete;
+        return HttpVerb.delete;
       default:
-        return RequestMethod.get;
+        return HttpVerb.get;
     }
   }
 
   @override
-  void write(BinaryWriter writer, RequestMethod obj) {
+  void write(BinaryWriter writer, HttpVerb obj) {
     switch (obj) {
-      case RequestMethod.get:
+      case HttpVerb.get:
         writer.writeByte(0);
         break;
-      case RequestMethod.post:
+      case HttpVerb.post:
         writer.writeByte(1);
         break;
-      case RequestMethod.put:
+      case HttpVerb.put:
         writer.writeByte(2);
         break;
-      case RequestMethod.patch:
+      case HttpVerb.patch:
         writer.writeByte(3);
         break;
-      case RequestMethod.delete:
+      case HttpVerb.delete:
         writer.writeByte(4);
         break;
     }
@@ -55,7 +55,7 @@ class RequestMethodAdapter extends TypeAdapter<RequestMethod> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is RequestMethodAdapter &&
+      other is HttpVerbAdapter &&
           runtimeType == other.runtimeType &&
           typeId == other.typeId;
 }

@@ -36,7 +36,7 @@ class ValueTextField extends HookConsumerWidget {
           return;
         }
 
-        ref.read(collectionsNotifierProvider.notifier).updateHeaders(rows);
+        ref.read(collectionsNotifierProvider.notifier).updateRequest(headers: rows);
       },
     );
   }

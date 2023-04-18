@@ -40,7 +40,7 @@ class _UrlParamsRowsList extends HookConsumerWidget {
             label: 'Add',
             onTap: () {
               urlParamsRows?.add(KeyValueRow());
-              ref.read(collectionsNotifierProvider.notifier).updateUrlParams(urlParamsRows);
+              ref.read(collectionsNotifierProvider.notifier).updateRequest(urlParams: urlParamsRows);
             },
           ),
           _HeadersButtons(
@@ -59,7 +59,7 @@ class _UrlParamsRowsList extends HookConsumerWidget {
       keyColumnName: 'Keys',
       valueColumnName: 'Values',
       onFieldsChange: (rows) {
-        ref.read(collectionsNotifierProvider.notifier).updateUrlParams(rows);
+        ref.read(collectionsNotifierProvider.notifier).updateRequest(urlParams: rows);
       },
       onRemoveTaped: () {},
     );

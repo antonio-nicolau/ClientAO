@@ -29,7 +29,7 @@ class CollectionNameTextField extends HookConsumerWidget {
           final value = collectionNameController.text.trim();
           enableTextField.value = false;
           if (value.isNotEmpty) {
-            ref.read(collectionsNotifierProvider.notifier).updateRequestName(value);
+            ref.read(collectionsNotifierProvider.notifier).updateRequest(name: value);
           }
         },
         onSubmitted: (value) {
@@ -41,7 +41,7 @@ class CollectionNameTextField extends HookConsumerWidget {
 
             enableTextField.value = false;
             if (value.isNotEmpty) {
-              ref.read(collectionsNotifierProvider.notifier).updateRequestName(value);
+              ref.read(collectionsNotifierProvider.notifier).updateRequest(name: value);
             }
           }
         },

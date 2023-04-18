@@ -23,7 +23,7 @@ class RequestHeaders extends HookConsumerWidget {
             label: 'Add',
             onTap: () {
               rows?.add(KeyValueRow());
-              ref.read(collectionsNotifierProvider.notifier).updateHeaders(rows);
+              ref.read(collectionsNotifierProvider.notifier).updateRequest(headers: rows);
             },
           ),
           _HeadersButtons(
