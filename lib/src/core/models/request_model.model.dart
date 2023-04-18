@@ -60,7 +60,7 @@ class RequestModel extends Equatable {
   }
 
   @override
-  List<Object?> get props => [url, method, headers, urlParams];
+  List<Object?> get props => [url, body, name, folderId, method, headers, urlParams];
 }
 
 final requestModelProvider = StateProvider<RequestModel?>((ref) {

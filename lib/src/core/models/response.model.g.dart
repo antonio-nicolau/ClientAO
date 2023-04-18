@@ -19,10 +19,10 @@ class ResponseModelAdapter extends TypeAdapter<ResponseModel> {
     return ResponseModel(
       statusCode: fields[0] as int?,
       headers: (fields[1] as Map?)?.cast<String, String>(),
-      requestUri: fields[9] as Uri?,
+      requestUri: fields[9] as String?,
       requestHeaders: (fields[2] as Map?)?.cast<String, String>(),
       contentType: fields[3] as String?,
-      mediaType: fields[4] as MediaType?,
+      mediaType: fields[4] as String?,
       body: fields[5] as String?,
       formattedBody: fields[6] as String?,
       bodyBytes: fields[7] as Uint8List?,

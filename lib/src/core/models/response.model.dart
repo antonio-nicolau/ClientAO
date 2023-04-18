@@ -2,6 +2,7 @@ import 'dart:io';
 import 'dart:convert';
 import 'dart:typed_data';
 import 'package:collection/collection.dart' show mergeMaps;
+import 'package:equatable/equatable.dart';
 import 'package:hive/hive.dart';
 import 'package:http/http.dart';
 import 'package:http_parser/http_parser.dart';
@@ -9,7 +10,7 @@ import 'package:xml/xml.dart';
 part 'response.model.g.dart';
 
 @HiveType(typeId: 1)
-class ResponseModel {
+class ResponseModel extends Equatable {
   const ResponseModel({
     this.statusCode,
     this.headers,
@@ -36,7 +37,7 @@ class ResponseModel {
   final String? contentType;
 
   @HiveField(4)
-  final MediaType? mediaType;
+  final String? mediaType;
 
   @HiveField(5)
   final String? body;
@@ -51,7 +52,7 @@ class ResponseModel {
   final Duration? time;
 
   @HiveField(9)
-  final Uri? requestUri;
+  final String? requestUri;
 
   factory ResponseModel.fromResponse({
     required Response response,
@@ -73,16 +74,29 @@ class ResponseModel {
     return ResponseModel(
       statusCode: response.statusCode,
       headers: responseHeaders,
-      requestUri: response.request?.url,
+      requestUri: response.request?.url.toString(),
       requestHeaders: response.request?.headers,
       contentType: contentType,
-      mediaType: mediaType,
+      mediaType: mediaType?.subtype,
       body: body,
       formattedBody: formatBody(body, mediaType),
       bodyBytes: response.bodyBytes,
       time: time,
     );
   }
+
+  @override
+  List<Object?> get props => [
+        statusCode,
+        headers,
+        requestHeaders,
+        contentType,
+        mediaType,
+        body,
+        formattedBody,
+        bodyBytes,
+        time,
+      ];
 }
 
 String? formatBody(String? body, MediaType? mediaType) {

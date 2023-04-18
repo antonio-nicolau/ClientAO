@@ -31,7 +31,7 @@ class CollectionModel extends Equatable {
   });
 
   @override
-  List<Object?> get props => [id, name, requests];
+  List<Object?> get props => [id, name, requests, responses, folders];
 
   CollectionModel copyWith({
     String? name,
