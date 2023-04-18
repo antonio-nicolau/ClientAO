@@ -58,7 +58,7 @@ class CollectionsSection extends HookConsumerWidget {
                     ref.read(activeIdProvider.notifier).update(
                           (state) => state?.copyWith(
                             collection: collection.id,
-                            requestId: index,
+                            requestId: 0,
                           ),
                         );
                   },

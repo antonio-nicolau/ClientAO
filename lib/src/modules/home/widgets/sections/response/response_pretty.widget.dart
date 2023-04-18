@@ -14,7 +14,7 @@ class ResponsePretty extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final url = response?.requestUri?.toString();
+    final url = response?.requestUri;
     final contentType = response?.headers?[HttpHeaders.contentTypeHeader];
     final mediaType = contentType?.isNotEmpty == true ? MediaType.parse(contentType ?? '') : MediaType('text', 'json');
 

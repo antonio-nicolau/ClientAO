@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:client_ao/src/core/models/collection.model.dart';
 import 'package:client_ao/src/core/services/hive_data.service.dart';
 import 'package:client_ao/src/modules/home/states/collections.state.dart';
 import 'package:client_ao/src/modules/home/widgets/sections/collections/collections_section.widget.dart';
@@ -14,11 +15,10 @@ class HomePage extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final collection = ref.watch(collectionsNotifierProvider.notifier).getCollection();
-
     // Listen for Collection model changes and update cache
-    ref.listen(collectionsNotifierProvider, (previous, next) async {
-      log('Updating collection cache: ${collection.id}');
+    ref.listen<List<CollectionModel>>(collectionsNotifierProvider, (previous, next) async {
+      final index = ref.read(collectionsNotifierProvider.notifier).indexOfId();
+      final collection = ref.read(collectionsNotifierProvider)[index];
       await ref.read(hiveDataServiceProvider).saveCollection(collection.id, collection);
     });
 
