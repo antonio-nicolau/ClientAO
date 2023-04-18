@@ -15,7 +15,7 @@ final collectionsNotifierProvider = StateNotifierProvider<CollectionsNotifier, L
   return CollectionsNotifier(ref);
 });
 
-final requestResponseStateProvider = StateProvider.family<AsyncValue<ResponseModel?>?, ActiveId?>((ref, activeId) {
+final responseStateProvider = StateProvider.family<AsyncValue<ResponseModel?>?, ActiveId?>((ref, activeId) {
   final collectionIndex = ref.watch(collectionsNotifierProvider.notifier).indexOfId();
   final collections = ref.watch(collectionsNotifierProvider);
 
@@ -86,7 +86,7 @@ class CollectionsNotifier extends StateNotifier<List<CollectionModel>> {
   }
 
   void _updateRequestResponseState(ActiveId? activeId, AsyncValue<ResponseModel> newState) {
-    _ref.read(requestResponseStateProvider(activeId).notifier).update((state) => newState);
+    _ref.read(responseStateProvider(activeId).notifier).update((state) => newState);
   }
 
   CollectionModel getCollection() => state[indexOfId()];

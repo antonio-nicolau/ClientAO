@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:client_ao/src/modules/home/states/collections.state.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class RequestStatus extends HookConsumerWidget {
@@ -9,11 +10,11 @@ class RequestStatus extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final activeId = ref.watch(activeIdProvider);
-    final requestResponse = ref.watch(requestResponseStateProvider(activeId));
+    final responseAsync = ref.watch(responseStateProvider(activeId));
 
-    return requestResponse?.when(
-          data: (response) {
-            if (response == null || response.statusCode == null) return const SizedBox.shrink();
+    return responseAsync?.when(
+          data: (data) {
+            if (data == null || data.statusCode == null) return const SizedBox.shrink();
 
             return Container(
               color: Colors.amber,
@@ -21,9 +22,9 @@ class RequestStatus extends HookConsumerWidget {
                 children: [
                   Container(
                     padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 20),
-                    color: response.statusCode == HttpStatus.ok ? Colors.green : Colors.red,
+                    color: data.statusCode == HttpStatus.ok ? Colors.green : Colors.red,
                     child: Text(
-                      response.statusCode.toString(),
+                      data.statusCode.toString(),
                       style: Theme.of(context).textTheme.labelLarge?.copyWith(fontWeight: FontWeight.bold),
                     ),
                   ),
@@ -34,8 +35,10 @@ class RequestStatus extends HookConsumerWidget {
           error: (error, _) {
             return const Text('Error');
           },
-          loading: () => const Center(
-            child: CircularProgressIndicator(),
+          loading: () => Center(
+            child: SpinKitThreeBounce(
+              color: Theme.of(context).primaryColor,
+            ),
           ),
         ) ??
         const SizedBox.shrink();

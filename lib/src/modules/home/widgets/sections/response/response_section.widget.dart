@@ -15,7 +15,7 @@ class ResponseSection extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final activeId = ref.watch(activeIdProvider);
     final tabController = useTabController(initialLength: 2);
-    final requestResponse = ref.watch(requestResponseStateProvider(activeId));
+    final responseAsync = ref.watch(responseStateProvider(activeId));
 
     return SizedBox(
       width: MediaQuery.of(context).size.width,
@@ -30,7 +30,7 @@ class ResponseSection extends HookConsumerWidget {
               children: [
                 Container(
                   padding: const EdgeInsets.all(16),
-                  child: requestResponse?.when(
+                  child: responseAsync?.when(
                     data: (response) {
                       return ResponsePretty(response: response);
                     },

@@ -8,11 +8,11 @@ class ResponseHeaders extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final activeId = ref.watch(activeIdProvider);
-    final requestResponse = ref.watch(requestResponseStateProvider(activeId));
+    final responseAsync = ref.watch(responseStateProvider(activeId));
 
     return Container(
       padding: const EdgeInsets.all(16),
-      child: requestResponse?.when(
+      child: responseAsync?.when(
         data: (response) {
           final headers = response?.headers ?? {};
 
