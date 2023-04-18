@@ -1,16 +1,12 @@
-# client_ao
+# ClientAO
 
-A new Flutter project.
+ClientAO is a open-source cross-platform API Client that can help you easily create & customise your API requests, visually inspect responses and generate Dart code on the go.
 
 ## Getting Started
 
-ClientAO Insomnia is a collaborative open source API development platform that makes it easy to build high-quality APIs — without the bloat and clutter of other tools.
 
-A few resources to get you started if this is your first Flutter project:
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+With ClientAO you can draft API requests via an easy to use GUI which allows you to:
+Create different types of HTTP requests (GET, HEAD, POST, PATCH, PUT and DELETE)
+Easily manipulate and play around with request inputs like headers, query parameters Auth and body
+Create and use different environment
