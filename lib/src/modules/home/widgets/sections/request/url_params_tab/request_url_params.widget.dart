@@ -29,7 +29,7 @@ class _UrlParamsRowsList extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final activeId = ref.watch(activeIdProvider);
     final index = ref.watch(collectionsNotifierProvider.notifier).indexOfId();
-    final urlParamsRows = ref.watch(collectionsNotifierProvider)[index].requests?[activeId?.requestId ?? 0]?.headers;
+    final rows = ref.watch(collectionsNotifierProvider)[index].requests?[activeId?.requestId ?? 0]?.urlParams;
 
     List<_HeadersButtons>? buttons;
 
@@ -39,8 +39,8 @@ class _UrlParamsRowsList extends HookConsumerWidget {
           _HeadersButtons(
             label: 'Add',
             onTap: () {
-              urlParamsRows?.add(KeyValueRow());
-              ref.read(collectionsNotifierProvider.notifier).updateRequest(urlParams: urlParamsRows);
+              rows?.add(KeyValueRow());
+              ref.read(collectionsNotifierProvider.notifier).updateRequest(urlParams: rows);
             },
           ),
           _HeadersButtons(
@@ -55,13 +55,15 @@ class _UrlParamsRowsList extends HookConsumerWidget {
     );
 
     final daviModel = createDaviTable(
-      rows: urlParamsRows,
+      rows: rows,
       keyColumnName: 'Keys',
       valueColumnName: 'Values',
       onFieldsChange: (rows) {
         ref.read(collectionsNotifierProvider.notifier).updateRequest(urlParams: rows);
       },
-      onRemoveTaped: () {},
+      onRemoveTaped: (index) {
+        ref.read(collectionsNotifierProvider.notifier).removeUrlParam(index);
+      },
     );
 
     return Column(
@@ -82,7 +84,12 @@ class _UrlParamsRowsList extends HookConsumerWidget {
             },
           ),
         ),
-        Expanded(child: Davi<KeyValueRow>(daviModel)),
+        Expanded(
+          child: Davi<KeyValueRow>(
+            key: Key('${activeId?.requestId}-${rows?.length}'),
+            daviModel,
+          ),
+        ),
       ],
     );
   }

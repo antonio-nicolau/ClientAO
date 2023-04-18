@@ -11,7 +11,7 @@ DaviModel<KeyValueRow> createDaviTable({
   String? keyFieldHintText,
   String? valueFieldHintText,
   Function(List<KeyValueRow>?)? onFieldsChange,
-  VoidCallback? onRemoveTaped,
+  Function(int index)? onRemoveTaped,
 }) {
   return DaviModel<KeyValueRow>(
     rows: rows ?? <KeyValueRow>[],
@@ -19,9 +19,11 @@ DaviModel<KeyValueRow> createDaviTable({
       DaviColumn(
         name: keyColumnName,
         grow: 1,
+        sortable: false,
         cellBuilder: (context, row) {
           return KeyTextField(
             index: row.index,
+            rows: rows,
             row: row.data,
             keyFieldHintText: keyFieldHintText,
             onKeyFieldChanged: onFieldsChange,
@@ -37,9 +39,11 @@ DaviModel<KeyValueRow> createDaviTable({
       DaviColumn(
         name: valueColumnName,
         grow: 1,
+        sortable: false,
         cellBuilder: (context, row) {
           return ValueTextField(
             index: row.index,
+            rows: rows,
             row: row.data,
             valueFieldHintText: valueFieldHintText,
             onValueFieldChanged: onFieldsChange,
@@ -50,7 +54,7 @@ DaviModel<KeyValueRow> createDaviTable({
         width: 30,
         cellBuilder: (BuildContext context, DaviRow<KeyValueRow> row) {
           return InkWell(
-            onTap: onRemoveTaped,
+            onTap: () => onRemoveTaped?.call(row.index),
             child: Icon(
               Icons.remove_circle,
               size: 16,

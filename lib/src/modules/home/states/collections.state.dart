@@ -1,5 +1,4 @@
-import 'dart:developer';
-
+import 'package:client_ao/src/core/constants/default_values.dart';
 import 'package:client_ao/src/core/constants/enums.dart';
 import 'package:client_ao/src/core/models/collection.model.dart';
 import 'package:client_ao/src/core/models/key_value_row.model.dart';
@@ -9,9 +8,6 @@ import 'package:client_ao/src/core/services/api_request.service.dart';
 import 'package:client_ao/src/core/services/hive_data.service.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:http/http.dart';
-import 'package:uuid/uuid.dart';
-
-const uuid = Uuid();
 
 final activeIdProvider = StateProvider<ActiveId?>((ref) => ActiveId());
 
@@ -98,8 +94,8 @@ class CollectionsNotifier extends StateNotifier<List<CollectionModel>> {
   String newCollection() {
     final newCollection = CollectionModel(
       id: uuid.v1(),
-      requests: <RequestModel>[],
-      responses: [ResponseModel()],
+      requests: const <RequestModel>[],
+      responses: const [ResponseModel()],
     );
     state = [newCollection, ...state];
 
@@ -151,27 +147,34 @@ class CollectionsNotifier extends StateNotifier<List<CollectionModel>> {
   }
 
   void removeAllHeaders() {
-    final activeId = _ref.read(activeIdProvider);
+    updateRequest(headers: <KeyValueRow>[KeyValueRow()]);
+  }
+
+  void removeHeader(int index) {
     final requestId = _ref.read(activeIdProvider)?.requestId ?? 0;
-    final index = activeId?.collection;
+    CollectionModel collection = getCollection();
     final requests = getCollection().requests;
 
-    requests?[requestId] = requests[requestId]?.copyWith(headers: [KeyValueRow()]);
+    requests?[requestId]?.headers?.removeAt(index);
 
-    // state = [
-    //   for (final e in state)
-    //     e.copyWith(
-    //       requestModel: e.requestModel?.copyWith(headers: [KeyValueRow()]),
-    //     )
-    // ];
+    collection = collection.copyWith(requests: requests);
+
+    _addToCollection(collection);
   }
 
   void removeAllUrlParams() {
-    // state = [
-    //   for (final e in state)
-    //     e.copyWith(
-    //       requestModel: e.requestModel?.copyWith(urlParams: [KeyValueRow()]),
-    //     )
-    // ];
+    updateRequest(urlParams: <KeyValueRow>[KeyValueRow()]);
+  }
+
+  void removeUrlParam(int index) {
+    final requestId = _ref.read(activeIdProvider)?.requestId ?? 0;
+    CollectionModel collection = getCollection();
+    final requests = getCollection().requests;
+
+    requests?[requestId]?.urlParams?.removeAt(index);
+
+    collection = collection.copyWith(requests: requests);
+
+    _addToCollection(collection);
   }
 }

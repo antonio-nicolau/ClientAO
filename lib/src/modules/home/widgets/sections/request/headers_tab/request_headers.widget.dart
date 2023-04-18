@@ -41,7 +41,9 @@ class RequestHeaders extends HookConsumerWidget {
       rows: rows,
       keyColumnName: 'Headers',
       valueColumnName: 'Values',
-      onRemoveTaped: () {},
+      onRemoveTaped: (index) {
+        ref.read(collectionsNotifierProvider.notifier).removeHeader(index);
+      },
     );
 
     return Column(
@@ -62,7 +64,12 @@ class RequestHeaders extends HookConsumerWidget {
             },
           ),
         ),
-        Expanded(child: Davi<KeyValueRow>(daviModel)),
+        Expanded(
+          child: Davi<KeyValueRow>(
+            key: Key('${activeId?.requestId}-${rows?.length}'),
+            daviModel,
+          ),
+        ),
       ],
     );
   }

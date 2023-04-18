@@ -10,19 +10,18 @@ class ValueTextField extends HookConsumerWidget {
     required this.index,
     this.valueFieldHintText,
     this.onValueFieldChanged,
+    this.rows,
     required this.row,
   });
 
   final int index;
   final String? valueFieldHintText;
   final Function(List<KeyValueRow>?)? onValueFieldChanged;
+  final List<KeyValueRow>? rows;
   final KeyValueRow row;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final activeId = ref.watch(activeIdProvider);
-    final collectionIndex = ref.watch(collectionsNotifierProvider.notifier).indexOfId();
-    final rows = ref.watch(collectionsNotifierProvider)[collectionIndex].requests?[activeId?.requestId ?? 0]?.headers;
     final headerController = useTextEditingController(text: row.value);
 
     return TextField(
