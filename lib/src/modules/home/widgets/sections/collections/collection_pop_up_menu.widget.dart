@@ -1,17 +1,18 @@
 import 'package:client_ao/src/core/constants/enums.dart';
+import 'package:client_ao/src/core/models/collection.model.dart';
 import 'package:client_ao/src/modules/home/states/collections.state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class PopUpCollectionMenu extends HookConsumerWidget {
-  const PopUpCollectionMenu(this.widgetRef, {super.key});
+  const PopUpCollectionMenu(this.widgetRef, this.collection, {super.key});
 
   final WidgetRef widgetRef;
+  final CollectionModel collection;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final activeId = ref.watch(activeIdProvider);
     final selectedMenu = useState<CollectionPopUpItem?>(null);
 
     return PopupMenuButton<CollectionPopUpItem>(
@@ -26,7 +27,8 @@ class PopUpCollectionMenu extends HookConsumerWidget {
                 // TODO: Handle this case.
                 break;
               case CollectionPopUpItem.addRequest:
-                widgetRef.read(collectionsNotifierProvider.notifier).addRequest(activeId?.collection);
+                widgetRef.read(activeIdProvider.notifier).update((state) => state?.copyWith(collection: collection.id));
+                widgetRef.read(collectionsNotifierProvider.notifier).addRequest(collection.id);
                 break;
               case CollectionPopUpItem.addFolder:
                 // TODO: Handle this case.

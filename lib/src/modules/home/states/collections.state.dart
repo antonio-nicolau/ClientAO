@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:client_ao/src/core/constants/enums.dart';
 import 'package:client_ao/src/core/models/collection.model.dart';
 import 'package:client_ao/src/core/models/key_value_row.model.dart';
@@ -19,8 +21,12 @@ final collectionsNotifierProvider = StateNotifierProvider<CollectionsNotifier, L
 
 final requestResponseStateProvider = StateProvider.family<AsyncValue<ResponseModel?>?, ActiveId?>((ref, activeId) {
   final collectionIndex = ref.watch(collectionsNotifierProvider.notifier).indexOfId();
+  final collections = ref.watch(collectionsNotifierProvider);
 
-  return AsyncData(ref.watch(collectionsNotifierProvider)[collectionIndex].responses?[activeId?.requestId ?? 0]);
+  if (collections.isNotEmpty) {
+    return AsyncData(collections[collectionIndex].responses?[activeId?.requestId ?? 0]);
+  }
+  return null;
 });
 
 class CollectionsNotifier extends StateNotifier<List<CollectionModel>> {
@@ -100,15 +106,13 @@ class CollectionsNotifier extends StateNotifier<List<CollectionModel>> {
     );
     state = [newCollection, ...state];
 
-    _ref.read(hiveDataServiceProvider).saveCollection(newCollection.id, newCollection);
-
     addRequest(newCollection.id);
 
     return newCollection.id;
   }
 
   int indexOfId() {
-    final activeId = _ref.watch(activeIdProvider);
+    final activeId = _ref.read(activeIdProvider);
     final index = state.indexWhere((e) => e.id == activeId?.collection);
 
     if (index != -1) return index;
@@ -148,6 +152,20 @@ class CollectionsNotifier extends StateNotifier<List<CollectionModel>> {
     final requests = collection.requests;
 
     requests?[requestId] = requests[requestId]?.copyWith(headers: headers);
+
+    final newCollection = collection.copyWith(requests: requests);
+
+    _addToCollection(newCollection);
+  }
+
+  void updateRequestName(String? name) {
+    final requestId = _ref.read(activeIdProvider)?.requestId ?? 0;
+
+    final collection = getCollection();
+
+    final requests = collection.requests;
+
+    requests?[requestId] = requests[requestId]?.copyWith(name: name);
 
     final newCollection = collection.copyWith(requests: requests);
 
