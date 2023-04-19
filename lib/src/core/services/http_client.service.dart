@@ -1,7 +1,6 @@
-import 'dart:developer';
-
 import 'package:client_ao/src/core/constants/enums.dart';
 import 'package:client_ao/src/core/models/base_auth.interface.model.dart';
+import 'package:client_ao/src/modules/home/widgets/sections/request/auth_tab/auth_basic.widget.dart';
 import 'package:client_ao/src/modules/home/widgets/sections/request/auth_tab/auth_with_api_key.widget.dart';
 import 'package:client_ao/src/modules/home/widgets/sections/request/auth_tab/authentication_options.widget.dart';
 import 'package:client_ao/src/modules/home/widgets/sections/request/auth_tab/auth_with_bearer_token.widget.dart';
@@ -20,10 +19,10 @@ class HttpClient extends http.BaseClient {
 
   @override
   Future<http.StreamedResponse> send(http.BaseRequest request) {
-    final response = getAuthorizationMethod();
+    final authMethod = getAuthorizationMethod();
 
-    if (response != null && response.isEnabled()) {
-      request.headers.addAll(response.toKeyValue());
+    if (authMethod != null && authMethod.isEnabled()) {
+      request.headers.addAll(authMethod.toKeyValue());
     }
 
     return _inner.send(request);
@@ -32,7 +31,7 @@ class HttpClient extends http.BaseClient {
   BaseAuth? getAuthorizationMethod() {
     final authMethod = _ref.read(selectedAuthOptionProvider);
 
-    switch (authMethod.method) {
+    switch (authMethod?.method) {
       case AuthMethod.apiKeyAuth:
         final keyValue = _ref.read(authWithApiKeyProvider);
         return keyValue;
@@ -40,10 +39,11 @@ class HttpClient extends http.BaseClient {
         final keyValue = _ref.read(authWithBearerTokenProvider);
         return keyValue;
       case AuthMethod.basic:
-        // TODO: Handle this case.
-        log('To be implemented');
-        return null;
+        final keyValue = _ref.read(authBasicProvider);
+        return keyValue;
       case AuthMethod.noAuthentication:
+        return null;
+      default:
         return null;
     }
   }

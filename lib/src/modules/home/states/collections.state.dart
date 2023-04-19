@@ -47,14 +47,27 @@ class CollectionsNotifier extends StateNotifier<List<CollectionModel>> {
 
     if (collections != null && collections.isNotEmpty == true) {
       state = collections;
+
+      Future.microtask(() {
+        _ref.read(activeIdProvider.notifier).update(
+              (state) => state?.copyWith(
+                collection: collections.first.id,
+                requestId: 0,
+              ),
+            );
+      });
       return true;
     }
+
     return false;
   }
 
   String addRequest(String? id) {
     final old = state.firstWhere((e) => e.id == id);
-    old.requests?.add(RequestModel(headers: [KeyValueRow()]));
+    old.requests?.add(RequestModel(
+      headers: [KeyValueRow()],
+      urlParams: [KeyValueRow()],
+    ));
     old.responses?.add(ResponseModel());
 
     state = [

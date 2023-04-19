@@ -86,9 +86,12 @@ class _UrlParamsRowsList extends HookConsumerWidget {
           ),
         ),
         Expanded(
-          child: Davi<KeyValueRow>(
-            key: Key('${activeId?.requestId}-${rows?.length}'),
-            daviModel,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8),
+            child: Davi<KeyValueRow>(
+              key: Key('${activeId?.requestId}-${rows?.length}'),
+              daviModel,
+            ),
           ),
         ),
       ],
