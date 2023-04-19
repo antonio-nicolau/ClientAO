@@ -117,6 +117,7 @@ class CollectionsNotifier extends StateNotifier<List<CollectionModel>> {
     String? url,
     List<KeyValueRow>? headers,
     String? name,
+    String? body,
     List<KeyValueRow>? urlParams,
   }) {
     final requestId = _ref.read(activeIdProvider)?.requestId ?? 0;
@@ -127,6 +128,7 @@ class CollectionsNotifier extends StateNotifier<List<CollectionModel>> {
       method: method,
       name: name,
       url: url,
+      body: body,
       urlParams: urlParams,
       headers: headers,
     );

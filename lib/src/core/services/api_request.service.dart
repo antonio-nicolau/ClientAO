@@ -12,11 +12,6 @@ final apiRequestProvider = Provider<IApiRequest>((ref) {
   return ApiRequest(httpClient);
 });
 
-// final apiRequestNotifierProvider = StateNotifierProvider<ApiRequestNotifier, AsyncValue<Response?>?>((ref) {
-//   final apiRequest = ref.read(apiRequestProvider);
-//   return ApiRequestNotifier(apiRequest);
-// });
-
 class ApiRequest implements IApiRequest {
   final HttpClient _httpClient;
 
@@ -30,6 +25,7 @@ class ApiRequest implements IApiRequest {
     );
 
     final uri = getUriWithQueryParams(request);
+    final body = request.body;
 
     final stopWatch = Stopwatch()..start();
 
@@ -38,16 +34,16 @@ class ApiRequest implements IApiRequest {
         response = await _httpClient.get(uri!, headers: headers);
         break;
       case HttpVerb.post:
-        response = await _httpClient.post(uri!, headers: headers);
+        response = await _httpClient.post(uri!, headers: headers, body: body);
         break;
       case HttpVerb.put:
-        response = await _httpClient.put(uri!, headers: headers);
+        response = await _httpClient.put(uri!, headers: headers, body: body);
         break;
       case HttpVerb.patch:
-        response = await _httpClient.patch(uri!, headers: headers);
+        response = await _httpClient.patch(uri!, headers: headers, body: body);
         break;
       case HttpVerb.delete:
-        response = await _httpClient.delete(uri!, headers: headers);
+        response = await _httpClient.delete(uri!, headers: headers, body: body);
         break;
     }
 
