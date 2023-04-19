@@ -1,6 +1,6 @@
 import 'package:client_ao/src/modules/home/states/collections.state.dart';
 import 'package:client_ao/src/modules/home/widgets/environments/environment_section.widget.dart';
-import 'package:client_ao/src/modules/home/widgets/sections/collections/collections_item.widget.dart';
+import 'package:client_ao/src/modules/home/widgets/sections/collections/collections_names_list.widget.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -62,7 +62,7 @@ class CollectionsSection extends HookConsumerWidget {
                           ),
                         );
                   },
-                  child: CollectionListItem(
+                  child: CollectionNamesList(
                     collectionId: collection.id,
                     collection: collection,
                   ),

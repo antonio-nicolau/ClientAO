@@ -18,7 +18,7 @@ class ResponsePretty extends ConsumerWidget {
     final contentType = response?.headers?[HttpHeaders.contentTypeHeader];
     final mediaType = contentType?.isNotEmpty == true ? MediaType.parse(contentType ?? '') : MediaType('text', 'json');
 
-    if (response == null) {
+    if (response == null || response?.body == null) {
       return const Center(
         child: Text('Enter the URL and click Send to get a response'),
       );

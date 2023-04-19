@@ -1,4 +1,5 @@
 import 'package:client_ao/src/core/models/key_value_row.model.dart';
+import 'package:client_ao/src/core/utils/client_ao_extensions.dart';
 import 'package:client_ao/src/core/utils/tables.utils.dart';
 import 'package:client_ao/src/modules/home/states/collections.state.dart';
 import 'package:client_ao/src/modules/home/widgets/sections/request/url_params_tab/url_preview.widget.dart';
@@ -29,7 +30,7 @@ class _UrlParamsRowsList extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final activeId = ref.watch(activeIdProvider);
     final index = ref.watch(collectionsNotifierProvider.notifier).indexOfId();
-    final rows = ref.watch(collectionsNotifierProvider)[index].requests?[activeId?.requestId ?? 0]?.urlParams;
+    final rows = ref.watch(collectionsNotifierProvider)[index].requests?.get(activeId?.requestId)?.urlParams;
 
     List<_HeadersButtons>? buttons;
 

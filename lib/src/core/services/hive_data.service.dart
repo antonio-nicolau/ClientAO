@@ -5,7 +5,7 @@ import 'package:client_ao/src/core/models/collection.model.dart';
 import 'package:client_ao/src/core/models/key_value_row.model.dart';
 import 'package:client_ao/src/core/models/request_model.model.dart';
 import 'package:client_ao/src/core/models/response.model.dart';
-import 'package:client_ao/src/core/utils/hive_extensions.dart';
+import 'package:client_ao/src/core/utils/client_ao_extensions.dart';
 import 'package:hive/hive.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -19,7 +19,7 @@ abstract class ILocalDataStorage {
   Future<void> saveCollection(String? id, CollectionModel? collection);
   List<CollectionModel>? getCollections();
   Future<void> deleteCollection(String key);
-  Future<void> deleteRequest(String key);
+  Future<void> removeUnusedIds(List<String> ids);
 }
 
 class HiveDataService implements ILocalDataStorage {
@@ -51,9 +51,15 @@ class HiveDataService implements ILocalDataStorage {
   }
 
   @override
-  Future<void> deleteRequest(String key) {
-    // TODO: implement deleteRequest
-    throw UnimplementedError();
+  Future<void> removeUnusedIds(List<String> ids) async {
+    for (var item in collectionsBox.values.toList()) {
+      if (!ids.contains(item.id)) {
+        collectionsBox.delete(item.id);
+        log('removed ${item.id} from cache');
+      }
+    }
+
+    return;
   }
 }
 

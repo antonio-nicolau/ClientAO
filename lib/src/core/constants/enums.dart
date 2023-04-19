@@ -4,6 +4,8 @@ part 'enums.g.dart';
 
 enum CollectionPopUpItem { edit, addRequest, addFolder }
 
+enum RequestPopUpItem { delete }
+
 @HiveType(typeId: 4)
 enum HttpVerb {
   @HiveField(0)

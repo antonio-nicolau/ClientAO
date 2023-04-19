@@ -1,4 +1,5 @@
 import 'package:client_ao/src/core/constants/enums.dart';
+import 'package:client_ao/src/core/utils/client_ao_extensions.dart';
 import 'package:client_ao/src/core/utils/layout.utils.dart';
 import 'package:client_ao/src/modules/home/states/collections.state.dart';
 import 'package:flutter/material.dart';
@@ -12,7 +13,7 @@ class UrlCard extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final activeId = ref.watch(activeIdProvider);
     final collection = ref.watch(collectionsNotifierProvider.notifier).getCollection();
-    final url = collection.requests?[activeId?.requestId ?? 0]?.url;
+    final url = collection.requests?.get(activeId?.requestId)?.url;
     final urlController = useTextEditingController(text: url);
     final focusNode = useFocusNode();
 
@@ -74,7 +75,7 @@ class DropdownButtonRequestMethod extends HookConsumerWidget {
 
     return DropdownButton<HttpVerb>(
       focusColor: Theme.of(context).colorScheme.surface,
-      value: collection.requests?[activeId?.requestId ?? 0]?.method,
+      value: collection.requests?.get(activeId?.requestId)?.method,
       icon: const Icon(Icons.unfold_more_rounded),
       elevation: 4,
       underline: Container(

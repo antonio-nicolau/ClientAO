@@ -1,4 +1,5 @@
 import 'package:client_ao/src/core/models/key_value_row.model.dart';
+import 'package:client_ao/src/core/utils/client_ao_extensions.dart';
 import 'package:client_ao/src/modules/home/states/collections.state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -17,8 +18,8 @@ class UrlPreview extends HookConsumerWidget {
 
     useEffect(
       () {
-        final urlParamsList = collection.requests?[activeId?.requestId ?? 0]?.urlParams;
-        final url = Uri.tryParse(collection.requests?[activeId?.requestId ?? 0]?.url ?? '');
+        final urlParamsList = collection.requests?.get(activeId?.requestId)?.urlParams;
+        final url = Uri.tryParse(collection.requests?.get(activeId?.requestId)?.url ?? '');
 
         if (url != null) {
           final queryParams = <String, String>{};
@@ -41,7 +42,7 @@ class UrlPreview extends HookConsumerWidget {
       },
     );
 
-    if (collection.requests?[activeId?.requestId ?? 0]?.url == null ||
+    if (collection.requests?.get(activeId?.requestId)?.url == null ||
         collection.requests?[activeId?.requestId ?? 0]?.url?.isEmpty == true) {
       return const SizedBox.shrink();
     }

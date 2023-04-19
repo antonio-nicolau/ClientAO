@@ -155,7 +155,7 @@ class CollectionsNotifier extends StateNotifier<List<CollectionModel>> {
   void removeHeader(int index) {
     final requestId = _ref.read(activeIdProvider)?.requestId ?? 0;
     CollectionModel collection = getCollection();
-    final requests = getCollection().requests;
+    final requests = collection.requests;
 
     requests?[requestId]?.headers?.removeAt(index);
 
@@ -171,9 +171,20 @@ class CollectionsNotifier extends StateNotifier<List<CollectionModel>> {
   void removeUrlParam(int index) {
     final requestId = _ref.read(activeIdProvider)?.requestId ?? 0;
     CollectionModel collection = getCollection();
-    final requests = getCollection().requests;
+    final requests = collection.requests;
 
     requests?[requestId]?.urlParams?.removeAt(index);
+
+    collection = collection.copyWith(requests: requests);
+
+    _addToCollection(collection);
+  }
+
+  void removeRequest(int index) {
+    CollectionModel collection = getCollection();
+    final requests = collection.requests;
+
+    requests?.removeAt(index);
 
     collection = collection.copyWith(requests: requests);
 

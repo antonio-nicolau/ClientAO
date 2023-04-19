@@ -1,5 +1,5 @@
 import 'package:client_ao/src/core/services/storage.interface.dart';
-import 'package:client_ao/src/core/utils/hive_extensions.dart';
+import 'package:client_ao/src/core/utils/client_ao_extensions.dart';
 import 'package:client_ao/src/modules/home/states/environment.state.dart';
 import 'package:hive/hive.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
