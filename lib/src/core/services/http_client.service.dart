@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:client_ao/src/core/constants/enums.dart';
 import 'package:client_ao/src/core/models/base_auth.interface.model.dart';
 import 'package:client_ao/src/modules/home/widgets/sections/request/auth_tab/auth_basic.widget.dart';
@@ -19,13 +21,24 @@ class HttpClient extends http.BaseClient {
 
   @override
   Future<http.StreamedResponse> send(http.BaseRequest request) {
+    request.headers.clear();
+
     final authMethod = getAuthorizationMethod();
 
     if (authMethod != null && authMethod.isEnabled()) {
       request.headers.addAll(authMethod.toKeyValue());
     }
+    request.headers.addAll(getDefaultHeaders());
 
     return _inner.send(request);
+  }
+
+  Map<String, String> getDefaultHeaders() {
+    return {
+      HttpHeaders.userAgentHeader: 'ClientAO/0.1.2',
+      HttpHeaders.acceptEncodingHeader: 'gzip',
+      HttpHeaders.connectionHeader: 'keep-alive',
+    };
   }
 
   BaseAuth? getAuthorizationMethod() {
