@@ -31,3 +31,23 @@ String getRequestTitleFromUrl(String? url) {
   }
   return url;
 }
+
+String toHumanizeDuration(Duration? duration) {
+  if (duration == null) {
+    return "";
+  }
+  if (duration.inMinutes >= 1) {
+    final min = duration.inMinutes;
+    final secs = duration.inSeconds.remainder(60) * 100 ~/ 60;
+    final secondsPadding = secs < 10 ? "0" : "";
+    return "$min.$secondsPadding$secs m";
+  }
+  if (duration.inSeconds >= 1) {
+    final secs = duration.inSeconds;
+    final milliseconds = duration.inMilliseconds.remainder(1000) ~/ 10;
+    final millisecondsPadding = milliseconds < 10 ? "0" : "";
+    return "$secs.$millisecondsPadding$milliseconds s";
+  } else {
+    return "${duration.inMilliseconds} ms";
+  }
+}

@@ -6,8 +6,8 @@ import 'package:client_ao/src/core/models/request_model.model.dart';
 import 'package:client_ao/src/core/models/response.model.dart';
 import 'package:client_ao/src/core/services/api_request.service.dart';
 import 'package:client_ao/src/core/services/hive_data.service.dart';
+import 'package:client_ao/src/core/utils/client_ao_extensions.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:http/http.dart';
 
 final activeIdProvider = StateProvider<ActiveId?>((ref) => ActiveId());
 
@@ -78,7 +78,7 @@ class CollectionsNotifier extends StateNotifier<List<CollectionModel>> {
     return old.id;
   }
 
-  Future<Response?> sendRequest() async {
+  Future<void> sendRequest() async {
     final activeId = _ref.read(activeIdProvider);
     final requestId = activeId?.requestId ?? 0;
     final index = indexOfId();
@@ -90,15 +90,18 @@ class CollectionsNotifier extends StateNotifier<List<CollectionModel>> {
 
     if (request != null) {
       final response = await _ref.read(apiRequestProvider).request(request);
-      requestResponse?[activeId?.requestId ?? 0] = ResponseModel.fromResponse(response: response);
+
+      requestResponse?[activeId?.requestId ?? 0] = ResponseModel.fromResponse(
+        response: response.$0,
+        requestDuration: response.$1,
+      );
+
       state[index] = state[index].copyWith(responses: requestResponse);
-      _updateRequestResponseState(activeId, AsyncData(ResponseModel.fromResponse(response: response)));
-      return response;
+      _updateRequestResponseState(activeId, AsyncData(requestResponse?.get(activeId?.requestId)));
     }
-    return null;
   }
 
-  void _updateRequestResponseState(ActiveId? activeId, AsyncValue<ResponseModel> newState) {
+  void _updateRequestResponseState(ActiveId? activeId, AsyncValue<ResponseModel?> newState) {
     _ref.read(responseStateProvider(activeId).notifier).update((state) => newState);
   }
 

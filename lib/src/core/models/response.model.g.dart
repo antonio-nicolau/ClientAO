@@ -26,7 +26,7 @@ class ResponseModelAdapter extends TypeAdapter<ResponseModel> {
       body: fields[5] as String?,
       formattedBody: fields[6] as String?,
       bodyBytes: fields[7] as Uint8List?,
-      time: fields[8] as Duration?,
+      requestDuration: fields[8] as Duration?,
     );
   }
 
@@ -51,7 +51,7 @@ class ResponseModelAdapter extends TypeAdapter<ResponseModel> {
       ..writeByte(7)
       ..write(obj.bodyBytes)
       ..writeByte(8)
-      ..write(obj.time)
+      ..write(obj.requestDuration)
       ..writeByte(9)
       ..write(obj.requestUri);
   }

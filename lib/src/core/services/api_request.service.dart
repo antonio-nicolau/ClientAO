@@ -18,7 +18,7 @@ class ApiRequest implements IApiRequest {
   const ApiRequest(this._httpClient);
 
   @override
-  Future<http.Response> request(RequestModel request) async {
+  Future<(http.Response,Duration)> request(RequestModel request) async {
     Response? response;
     final headers = Map.fromEntries(
       request.headers!.map((e) => MapEntry<String, String>(e.key ?? '', e.value ?? '')),
@@ -49,9 +49,7 @@ class ApiRequest implements IApiRequest {
 
     stopWatch.stop();
 
-    print(stopWatch.elapsed);
-
-    return response;
+    return (response,stopWatch.elapsed);
   }
 
   Uri? getUriWithQueryParams(RequestModel request) {

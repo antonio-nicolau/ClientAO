@@ -1,4 +1,5 @@
-import 'dart:io';
+import 'package:client_ao/src/core/constants/default_values.dart';
+import 'package:client_ao/src/core/utils/layout.utils.dart';
 import 'package:client_ao/src/modules/home/states/collections.state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -16,17 +17,23 @@ class RequestStatus extends HookConsumerWidget {
           data: (data) {
             if (data == null || data.statusCode == null) return const SizedBox.shrink();
 
-            return Container(
-              color: Colors.amber,
+            return Padding(
+              padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 20),
               child: Row(
                 children: [
-                  Container(
-                    padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 20),
-                    color: data.statusCode == HttpStatus.ok ? Colors.green : Colors.red,
-                    child: Text(
-                      data.statusCode.toString(),
-                      style: Theme.of(context).textTheme.labelLarge?.copyWith(fontWeight: FontWeight.bold),
-                    ),
+                  Text(
+                    data.statusCode.toString(),
+                    style: Theme.of(context).textTheme.labelSmall?.copyWith(fontWeight: FontWeight.bold, color: Colors.green),
+                  ),
+                  const SizedBox(width: 8),
+                  Text(
+                    '${defaultResponseCodeReasons[data.statusCode]}',
+                    style: Theme.of(context).textTheme.labelSmall?.copyWith(fontWeight: FontWeight.bold, color: Colors.green),
+                  ),
+                  const SizedBox(width: 8),
+                  Text(
+                    toHumanizeDuration(data.requestDuration),
+                    style: Theme.of(context).textTheme.labelSmall?.copyWith(fontWeight: FontWeight.bold, color: Colors.green),
                   ),
                 ],
               ),
