@@ -14,7 +14,7 @@ extension HiveBox on Box {
   Future<void> putAtKey(String key, dynamic value) async {
     final index = keys.toList().indexWhere((e) => e == key);
 
-    if (index != -1) {
+    if (index != -1 && index < length) {
       log('key: $index -> $key');
       await putAt(index, value);
     } else {

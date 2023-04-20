@@ -32,7 +32,7 @@ class RequestStatus extends HookConsumerWidget {
                   ),
                   const SizedBox(width: 8),
                   Text(
-                    toHumanizeDuration(data.requestDuration),
+                    '${data.requestDuration}',
                     style: Theme.of(context).textTheme.labelSmall?.copyWith(fontWeight: FontWeight.bold, color: Colors.green),
                   ),
                 ],
@@ -42,11 +42,7 @@ class RequestStatus extends HookConsumerWidget {
           error: (error, _) {
             return const Text('Error');
           },
-          loading: () => Center(
-            child: SpinKitThreeBounce(
-              color: Theme.of(context).primaryColor,
-            ),
-          ),
+          loading: () => const SizedBox.shrink(),
         ) ??
         const SizedBox.shrink();
   }

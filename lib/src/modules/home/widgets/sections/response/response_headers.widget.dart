@@ -16,7 +16,7 @@ class ResponseHeaders extends ConsumerWidget {
         data: (response) {
           final headers = response?.headers ?? {};
 
-          if (headers.isEmpty) return const Text('no headers');
+          if (headers.isEmpty) return const Center(child: Text('no headers'));
 
           return ListView.builder(
               itemCount: headers.entries.length,

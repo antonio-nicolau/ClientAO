@@ -26,7 +26,7 @@ class ResponseModelAdapter extends TypeAdapter<ResponseModel> {
       body: fields[5] as String?,
       formattedBody: fields[6] as String?,
       bodyBytes: fields[7] as Uint8List?,
-      requestDuration: fields[8] as Duration?,
+      requestDuration: fields[8] as String?,
     );
   }
 

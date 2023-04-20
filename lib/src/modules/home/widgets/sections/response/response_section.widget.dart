@@ -8,12 +8,17 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
+final displayResponsePreviewTabProvider = StateProvider<bool>((ref) {
+  return false;
+});
+
 class ResponseSection extends HookConsumerWidget {
   const ResponseSection({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final activeId = ref.watch(activeIdProvider);
+    final hideTabBars = ref.watch(displayResponsePreviewTabProvider);
     final tabController = useTabController(initialLength: 2);
     final responseAsync = ref.watch(responseStateProvider(activeId));
 
@@ -23,7 +28,10 @@ class ResponseSection extends HookConsumerWidget {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           const RequestStatus(),
-          ResponsePreviewTabs(tabController: tabController),
+          Visibility(
+            visible: hideTabBars,
+            child: ResponsePreviewTabs(tabController: tabController),
+          ),
           Expanded(
             child: TabBarView(
               controller: tabController,
@@ -32,6 +40,16 @@ class ResponseSection extends HookConsumerWidget {
                   padding: const EdgeInsets.all(16),
                   child: responseAsync?.when(
                     data: (response) {
+                      if (response == null || response.body == null) {
+                        Future.microtask(() {
+                          ref.read(displayResponsePreviewTabProvider.notifier).update((state) => false);
+                        });
+                        return const NoRequestSentPage();
+                      }
+
+                      Future.microtask(() {
+                        ref.read(displayResponsePreviewTabProvider.notifier).update((state) => true);
+                      });
                       return ResponsePretty(response: response);
                     },
                     error: (error, _) {
@@ -59,6 +77,27 @@ class ResponseSection extends HookConsumerWidget {
           )
         ],
       ),
+    );
+  }
+}
+
+class NoRequestSentPage extends StatelessWidget {
+  const NoRequestSentPage({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Text(
+          'Send a request to start playing around',
+          style: Theme.of(context).textTheme.titleLarge,
+        ),
+        const SizedBox(height: 16),
+        const Icon(Icons.send, size: 50),
+      ],
     );
   }
 }

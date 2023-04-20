@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'dart:convert';
 import 'dart:typed_data';
+import 'package:client_ao/src/core/utils/layout.utils.dart';
 import 'package:collection/collection.dart' show mergeMaps;
 import 'package:equatable/equatable.dart';
 import 'package:hive/hive.dart';
@@ -49,7 +50,7 @@ class ResponseModel extends Equatable {
   final Uint8List? bodyBytes;
 
   @HiveField(8)
-  final Duration? requestDuration;
+  final String? requestDuration;
 
   @HiveField(9)
   final String? requestUri;
@@ -69,7 +70,7 @@ class ResponseModel extends Equatable {
       {HttpHeaders.contentLengthHeader: response.contentLength.toString()},
       response.headers,
     );
-    print('dr: $requestDuration');
+
     final body = (mediaType?.subtype == 'json') ? utf8.decode(response.bodyBytes) : response.body;
     return ResponseModel(
       statusCode: response.statusCode,
@@ -81,7 +82,7 @@ class ResponseModel extends Equatable {
       body: body,
       formattedBody: formatBody(body, mediaType),
       bodyBytes: response.bodyBytes,
-      requestDuration: requestDuration,
+      requestDuration: toHumanizeDuration(requestDuration),
     );
   }
 

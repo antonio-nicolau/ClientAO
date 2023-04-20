@@ -63,19 +63,28 @@ class CollectionsNotifier extends StateNotifier<List<CollectionModel>> {
   }
 
   String addRequest(String? id) {
-    final old = state.firstWhere((e) => e.id == id);
-    old.requests?.add(RequestModel(
-      headers: [KeyValueRow()],
-      urlParams: [KeyValueRow()],
-    ));
-    old.responses?.add(ResponseModel());
+    CollectionModel collection = state.firstWhere((e) => e.id == id);
+
+    final requests = collection.requests ?? [];
+    final responses = collection.responses ?? [];
+
+    collection = collection.copyWith(
+      requests: [
+        ...requests,
+        RequestModel(
+          headers: [KeyValueRow()],
+          urlParams: [KeyValueRow()],
+        )
+      ],
+      responses: [...responses, const ResponseModel()],
+    );
 
     state = [
       for (final e in state)
-        if (e.id == old.id) old else e
+        if (e.id == collection.id) collection else e
     ];
 
-    return old.id;
+    return collection.id;
   }
 
   Future<void> sendRequest() async {
@@ -109,9 +118,9 @@ class CollectionsNotifier extends StateNotifier<List<CollectionModel>> {
 
   String newCollection() {
     final newCollection = CollectionModel(
-      id: uuid.v1(),
+      id: uuid.v4(),
       requests: const <RequestModel>[],
-      responses: const [ResponseModel()],
+      responses: const <ResponseModel>[],
     );
     state = [newCollection, ...state];
 
