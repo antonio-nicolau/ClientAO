@@ -6,10 +6,16 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class PopUpCollectionMenu extends HookConsumerWidget {
-  const PopUpCollectionMenu(this.widgetRef, this.collection, {super.key});
+  const PopUpCollectionMenu({
+    super.key,
+    required this.widgetRef,
+    required this.index,
+    required this.collection,
+  });
 
   final WidgetRef widgetRef;
   final CollectionModel collection;
+  final int index;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -22,16 +28,16 @@ class PopUpCollectionMenu extends HookConsumerWidget {
           value: e,
           child: Text(e.name),
           onTap: () {
+            widgetRef.read(activeIdProvider.notifier).update((state) => state?.copyWith(collection: collection.id));
             switch (e) {
               case CollectionPopUpItem.edit:
                 // TODO: Handle this case.
                 break;
               case CollectionPopUpItem.addRequest:
-                widgetRef.read(activeIdProvider.notifier).update((state) => state?.copyWith(collection: collection.id));
                 widgetRef.read(collectionsNotifierProvider.notifier).addRequest(collection.id);
                 break;
-              case CollectionPopUpItem.addFolder:
-                // TODO: Handle this case.
+              case CollectionPopUpItem.delete:
+                widgetRef.read(collectionsNotifierProvider.notifier).removeCollection(collection.id);
                 break;
             }
           },

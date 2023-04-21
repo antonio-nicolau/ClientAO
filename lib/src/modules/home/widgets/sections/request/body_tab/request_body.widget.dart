@@ -11,7 +11,7 @@ class RequestBody extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final activeId = ref.watch(activeIdProvider);
-    final defaultValue = ref.watch(collectionsNotifierProvider.notifier).getCollection().requests?[activeId?.requestId ?? 0]?.body;
+    final defaultValue = ref.watch(collectionsNotifierProvider.notifier).getCollection()?.requests?[activeId?.requestId ?? 0]?.body;
     final bodyController = useTextEditingController(
       text: formatBody(defaultValue, MediaType('text', 'json')),
     );

@@ -1,7 +1,7 @@
 import 'package:hive/hive.dart';
 part 'enums.g.dart';
 
-enum CollectionPopUpItem { edit, addRequest, addFolder }
+enum CollectionPopUpItem { edit, addRequest, delete }
 
 enum RequestPopUpItem { delete }
 

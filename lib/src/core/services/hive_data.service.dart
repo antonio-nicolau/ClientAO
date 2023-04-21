@@ -16,10 +16,10 @@ final hiveDataServiceProvider = Provider<ILocalDataStorage>((ref) {
 });
 
 abstract class ILocalDataStorage {
-  Future<void> saveCollection(String? id, CollectionModel? collection);
+  Future<void> saveCollection(CollectionModel? collection);
   List<CollectionModel>? getCollections();
   Future<void> deleteCollection(String key);
-  Future<void> removeUnusedIds(List<String> ids);
+  Future<void> removeUnusedIds(List<CollectionModel> collections);
 }
 
 class HiveDataService implements ILocalDataStorage {
@@ -33,16 +33,16 @@ class HiveDataService implements ILocalDataStorage {
   }
 
   @override
-  Future<void> saveCollection(String? id, CollectionModel? value) async {
-    if (id == null || value == null) return;
+  Future<void> saveCollection(CollectionModel? collection) async {
+    if (collection == null) return;
 
-    if (collectionsBox.isNotEmpty && collectionsBox.containsKey(id)) {
-      log('same collection: $id');
-      await collectionsBox.putAtKey(id, value);
+    if (collectionsBox.isNotEmpty && collectionsBox.containsKey(collection.id)) {
+      log('same collection: ${collection.id}');
+      await collectionsBox.putAtKey(collection.id, collection);
       return;
     }
     log('old collection');
-    await collectionsBox.put(id, value);
+    await collectionsBox.put(collection.id, collection);
   }
 
   @override
@@ -51,9 +51,11 @@ class HiveDataService implements ILocalDataStorage {
   }
 
   @override
-  Future<void> removeUnusedIds(List<String> ids) async {
+  Future<void> removeUnusedIds(List<CollectionModel> collections) async {
+    final validIds = collections.map((e) => e.id).toList();
+
     for (var item in collectionsBox.values.toList()) {
-      if (!ids.contains(item.id)) {
+      if (!validIds.contains(item.id)) {
         collectionsBox.delete(item.id);
         log('removed ${item.id} from cache');
       }

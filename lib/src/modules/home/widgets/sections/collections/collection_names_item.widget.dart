@@ -112,7 +112,7 @@ class _PopUpRequestNameItemMenu extends HookConsumerWidget {
               case RequestPopUpItem.delete:
                 widgetRef.read(activeIdProvider.notifier).update((state) => state?.copyWith(collection: collectionId));
 
-                final length = widgetRef.read(collectionsNotifierProvider.notifier).getCollection().requests?.length;
+                final length = widgetRef.read(collectionsNotifierProvider.notifier).getCollection()?.requests?.length;
 
                 if (index >= (length ?? 0)) {
                   widgetRef.read(activeIdProvider.notifier).update((state) => state?.copyWith(requestId: index - 1));

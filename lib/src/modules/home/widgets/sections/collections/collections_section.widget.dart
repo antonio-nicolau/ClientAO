@@ -44,6 +44,7 @@ class CollectionsSection extends HookConsumerWidget {
           const SizedBox(height: 24),
           Expanded(
             child: ListView.builder(
+              key: Key('${collections.length}'),
               itemCount: collections.length,
               shrinkWrap: true,
               itemBuilder: (context, index) {
@@ -65,6 +66,7 @@ class CollectionsSection extends HookConsumerWidget {
                   child: CollectionNamesList(
                     collectionId: collection.id,
                     collection: collection,
+                    collectionIndex: index,
                   ),
                 );
               },

@@ -13,7 +13,7 @@ class UrlCard extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final activeId = ref.watch(activeIdProvider);
     final collection = ref.watch(collectionsNotifierProvider.notifier).getCollection();
-    final url = collection.requests?.get(activeId?.requestId)?.url;
+    final url = collection?.requests?.get(activeId?.requestId)?.url;
     final urlController = useTextEditingController(text: url);
     final focusNode = useFocusNode();
 
@@ -26,7 +26,7 @@ class UrlCard extends HookConsumerWidget {
     );
 
     void sendRequest() {
-      final request = collection.requests;
+      final request = collection?.requests;
 
       if (request != null) {
         ref.read(collectionsNotifierProvider.notifier).sendRequest();

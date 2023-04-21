@@ -20,7 +20,7 @@ final responseStateProvider = StateProvider.family<AsyncValue<ResponseModel?>?, 
   final collections = ref.watch(collectionsNotifierProvider);
 
   if (collections.isNotEmpty) {
-    return AsyncData(collections[collectionIndex].responses?[activeId?.requestId ?? 0]);
+    return AsyncData(collections[collectionIndex].responses?.get(activeId?.requestId ?? 0));
   }
   return null;
 });
@@ -92,8 +92,8 @@ class CollectionsNotifier extends StateNotifier<List<CollectionModel>> {
     final requestId = activeId?.requestId ?? 0;
     final index = indexOfId();
     final collection = getCollection();
-    final request = collection.requests?[requestId];
-    final requestResponse = collection.responses;
+    final request = collection?.requests?[requestId];
+    final requestResponse = collection?.responses;
 
     _updateRequestResponseState(activeId, const AsyncLoading());
 
@@ -114,7 +114,7 @@ class CollectionsNotifier extends StateNotifier<List<CollectionModel>> {
     _ref.read(responseStateProvider(activeId).notifier).update((state) => newState);
   }
 
-  CollectionModel getCollection() => state[indexOfId()];
+  CollectionModel? getCollection() => state.get(indexOfId());
 
   String newCollection() {
     final newCollection = CollectionModel(
@@ -147,7 +147,7 @@ class CollectionsNotifier extends StateNotifier<List<CollectionModel>> {
   }) {
     final requestId = _ref.read(activeIdProvider)?.requestId ?? 0;
     final collection = getCollection();
-    final requests = collection.requests;
+    final requests = collection?.requests;
 
     requests?[requestId] = requests[requestId]?.copyWith(
       method: method,
@@ -158,19 +158,21 @@ class CollectionsNotifier extends StateNotifier<List<CollectionModel>> {
       headers: headers,
     );
 
-    final newCollection = collection.copyWith(requests: requests);
+    final newCollection = collection?.copyWith(requests: requests);
 
     _addToCollection(newCollection);
   }
 
-  List<CollectionModel> _addToCollection(CollectionModel newCollection) {
+  void _addToCollection(CollectionModel? newCollection) {
     final index = indexOfId();
 
-    return state = [
-      ...state.sublist(0, index),
-      newCollection,
-      ...state.sublist(index + 1),
-    ];
+    if (newCollection != null) {
+      state = [
+        ...state.sublist(0, index),
+        newCollection,
+        ...state.sublist(index + 1),
+      ];
+    }
   }
 
   void removeAllHeaders() {
@@ -179,12 +181,12 @@ class CollectionsNotifier extends StateNotifier<List<CollectionModel>> {
 
   void removeHeader(int index) {
     final requestId = _ref.read(activeIdProvider)?.requestId ?? 0;
-    CollectionModel collection = getCollection();
-    final requests = collection.requests;
+    CollectionModel? collection = getCollection();
+    final requests = collection?.requests;
 
     requests?[requestId]?.headers?.removeAt(index);
 
-    collection = collection.copyWith(requests: requests);
+    collection = collection?.copyWith(requests: requests);
 
     _addToCollection(collection);
   }
@@ -195,24 +197,31 @@ class CollectionsNotifier extends StateNotifier<List<CollectionModel>> {
 
   void removeUrlParam(int index) {
     final requestId = _ref.read(activeIdProvider)?.requestId ?? 0;
-    CollectionModel collection = getCollection();
-    final requests = collection.requests;
+    CollectionModel? collection = getCollection();
+    final requests = collection?.requests;
 
     requests?[requestId]?.urlParams?.removeAt(index);
 
-    collection = collection.copyWith(requests: requests);
+    collection = collection?.copyWith(requests: requests);
 
     _addToCollection(collection);
   }
 
   void removeRequest(int index) {
-    CollectionModel collection = getCollection();
-    final requests = collection.requests;
+    CollectionModel? collection = getCollection();
+    final requests = collection?.requests;
 
     requests?.removeAt(index);
 
-    collection = collection.copyWith(requests: requests);
+    collection = collection?.copyWith(requests: requests);
 
     _addToCollection(collection);
+  }
+
+  void removeCollection(String id) {
+    state = [
+      for (final item in state)
+        if (item.id != id) item
+    ];
   }
 }

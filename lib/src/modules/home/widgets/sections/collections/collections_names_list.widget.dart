@@ -10,10 +10,12 @@ class CollectionNamesList extends HookConsumerWidget {
     super.key,
     required this.collectionId,
     required this.collection,
+    required this.collectionIndex,
   });
 
   final CollectionModel collection;
   final String collectionId;
+  final int collectionIndex;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -34,7 +36,12 @@ class CollectionNamesList extends HookConsumerWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text('${collection.name}'),
-                if (showMenu.value) PopUpCollectionMenu(ref, collection),
+                if (showMenu.value)
+                  PopUpCollectionMenu(
+                    widgetRef: ref,
+                    collection: collection,
+                    index: collectionIndex,
+                  ),
               ],
             ),
           ),
