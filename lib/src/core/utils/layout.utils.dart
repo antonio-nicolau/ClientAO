@@ -51,3 +51,16 @@ String toHumanizeDuration(Duration? duration) {
     return "${duration.inMilliseconds} ms";
   }
 }
+
+// Convert to KB, MB, or GB
+String toHumanizeResponseSize(int responseSize) {
+  if (responseSize < 1024) {
+    return '$responseSize bytes';
+  } else if (responseSize < (1024 * 1024)) {
+    return '${(responseSize / 1024).toStringAsFixed(2)} KB';
+  } else if (responseSize < (1024 * 1024 * 1024)) {
+    return '${(responseSize / (1024 * 1024)).toStringAsFixed(2)} MB';
+  } else {
+    return '${(responseSize / (1024 * 1024 * 1024)).toStringAsFixed(2)} GB';
+  }
+}

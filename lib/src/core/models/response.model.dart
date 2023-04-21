@@ -22,6 +22,7 @@ class ResponseModel extends Equatable {
     this.body,
     this.formattedBody,
     this.bodyBytes,
+    this.responseSize,
     this.requestDuration,
   });
 
@@ -55,6 +56,9 @@ class ResponseModel extends Equatable {
   @HiveField(9)
   final String? requestUri;
 
+  @HiveField(10)
+  final String? responseSize;
+
   factory ResponseModel.fromResponse({
     required Response response,
     Duration? requestDuration,
@@ -72,6 +76,12 @@ class ResponseModel extends Equatable {
     );
 
     final body = (mediaType?.subtype == 'json') ? utf8.decode(response.bodyBytes) : response.body;
+
+    int? responseSize = response.contentLength;
+
+    /// If contentLength header was not set
+    responseSize ??= response.bodyBytes.length;
+
     return ResponseModel(
       statusCode: response.statusCode,
       headers: responseHeaders,
@@ -83,6 +93,7 @@ class ResponseModel extends Equatable {
       formattedBody: formatBody(body, mediaType),
       bodyBytes: response.bodyBytes,
       requestDuration: toHumanizeDuration(requestDuration),
+      responseSize: toHumanizeResponseSize(responseSize),
     );
   }
 

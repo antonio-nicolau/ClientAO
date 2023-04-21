@@ -35,6 +35,11 @@ class RequestStatus extends HookConsumerWidget {
                     '${data.requestDuration}',
                     style: Theme.of(context).textTheme.labelSmall?.copyWith(fontWeight: FontWeight.bold, color: Colors.green),
                   ),
+                  const SizedBox(width: 8),
+                  Text(
+                    '${data.responseSize}',
+                    style: Theme.of(context).textTheme.labelSmall?.copyWith(fontWeight: FontWeight.bold, color: Colors.green),
+                  ),
                 ],
               ),
             );

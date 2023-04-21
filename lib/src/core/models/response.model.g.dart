@@ -26,6 +26,7 @@ class ResponseModelAdapter extends TypeAdapter<ResponseModel> {
       body: fields[5] as String?,
       formattedBody: fields[6] as String?,
       bodyBytes: fields[7] as Uint8List?,
+      responseSize: fields[10] as String?,
       requestDuration: fields[8] as String?,
     );
   }
@@ -33,7 +34,7 @@ class ResponseModelAdapter extends TypeAdapter<ResponseModel> {
   @override
   void write(BinaryWriter writer, ResponseModel obj) {
     writer
-      ..writeByte(10)
+      ..writeByte(11)
       ..writeByte(0)
       ..write(obj.statusCode)
       ..writeByte(1)
@@ -53,7 +54,9 @@ class ResponseModelAdapter extends TypeAdapter<ResponseModel> {
       ..writeByte(8)
       ..write(obj.requestDuration)
       ..writeByte(9)
-      ..write(obj.requestUri);
+      ..write(obj.requestUri)
+      ..writeByte(10)
+      ..write(obj.responseSize);
   }
 
   @override
