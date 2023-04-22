@@ -28,7 +28,7 @@ class RequestModel extends Equatable {
   @HiveField(6)
   final String? folderId;
 
-  RequestModel({
+  const RequestModel({
     this.url,
     this.body,
     this.method = HttpVerb.get,
@@ -64,5 +64,5 @@ class RequestModel extends Equatable {
 }
 
 final requestModelProvider = StateProvider<RequestModel?>((ref) {
-  return RequestModel();
+  return const RequestModel();
 });

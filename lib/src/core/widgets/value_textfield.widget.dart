@@ -27,15 +27,21 @@ class ValueTextField extends HookConsumerWidget {
     return TextField(
       controller: headerController,
       decoration: InputDecoration(hintText: valueFieldHintText ?? 'value'),
-      onChanged: (key) {
-        rows?[index] = row.copyWith(value: key);
+      onChanged: (value) {
+        List<KeyValueRow> newRows = rows ?? [];
+
+        newRows = [
+          ...newRows.sublist(0, index),
+          row.copyWith(value: value),
+          ...newRows.sublist(index + 1),
+        ];
 
         if (onValueFieldChanged != null) {
-          onValueFieldChanged?.call(rows);
+          onValueFieldChanged?.call(newRows);
           return;
         }
 
-        ref.read(collectionsNotifierProvider.notifier).updateRequest(headers: rows);
+        ref.read(collectionsNotifierProvider.notifier).updateRequest(headers: newRows);
       },
     );
   }

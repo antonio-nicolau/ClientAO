@@ -40,7 +40,7 @@ class _UrlParamsRowsList extends HookConsumerWidget {
           _HeadersButtons(
             label: 'Add',
             onTap: () {
-              rows?.add(KeyValueRow());
+              rows?.add(const KeyValueRow());
               ref.read(collectionsNotifierProvider.notifier).updateRequest(urlParams: rows);
             },
           ),

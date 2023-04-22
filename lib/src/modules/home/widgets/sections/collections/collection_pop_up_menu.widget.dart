@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:client_ao/src/core/constants/enums.dart';
 import 'package:client_ao/src/core/models/collection.model.dart';
 import 'package:client_ao/src/modules/home/states/collections.state.dart';
@@ -31,7 +33,7 @@ class PopUpCollectionMenu extends HookConsumerWidget {
             widgetRef.read(activeIdProvider.notifier).update((state) => state?.copyWith(collection: collection.id));
             switch (e) {
               case CollectionPopUpItem.edit:
-                // TODO: Handle this case.
+                log('TODO: Handle this case');
                 break;
               case CollectionPopUpItem.addRequest:
                 widgetRef.read(collectionsNotifierProvider.notifier).addRequest(collection.id);

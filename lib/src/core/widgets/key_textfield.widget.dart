@@ -28,14 +28,20 @@ class KeyTextField extends HookConsumerWidget {
       controller: headerController,
       decoration: InputDecoration(hintText: keyFieldHintText ?? 'key'),
       onChanged: (key) {
-        rows?[index] = row.copyWith(key: key);
+        List<KeyValueRow> newRows = rows ?? [];
+
+        newRows = [
+          ...newRows.sublist(0, index),
+          row.copyWith(key: key),
+          ...newRows.sublist(index + 1),
+        ];
 
         if (onKeyFieldChanged != null) {
-          onKeyFieldChanged?.call(rows);
+          onKeyFieldChanged?.call(newRows);
           return;
         }
 
-        ref.read(collectionsNotifierProvider.notifier).updateRequest(headers: rows);
+        ref.read(collectionsNotifierProvider.notifier).updateRequest(headers: newRows);
       },
     );
   }

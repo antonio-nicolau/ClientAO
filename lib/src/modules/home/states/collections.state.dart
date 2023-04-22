@@ -70,7 +70,7 @@ class CollectionsNotifier extends StateNotifier<List<CollectionModel>> {
     collection = collection.copyWith(
       requests: [
         ...requests,
-        RequestModel(
+        const RequestModel(
           headers: [KeyValueRow()],
           urlParams: [KeyValueRow()],
         )
@@ -175,7 +175,7 @@ class CollectionsNotifier extends StateNotifier<List<CollectionModel>> {
   }
 
   void removeAllHeaders() {
-    updateRequest(headers: <KeyValueRow>[KeyValueRow()]);
+    updateRequest(headers: <KeyValueRow>[const KeyValueRow()]);
   }
 
   void removeHeader(int index) {
@@ -191,7 +191,7 @@ class CollectionsNotifier extends StateNotifier<List<CollectionModel>> {
   }
 
   void removeAllUrlParams() {
-    updateRequest(urlParams: <KeyValueRow>[KeyValueRow()]);
+    updateRequest(urlParams: <KeyValueRow>[const KeyValueRow()]);
   }
 
   void removeUrlParam(int index) {

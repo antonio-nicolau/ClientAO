@@ -12,6 +12,7 @@ include: package:flutter_lints/flutter.yaml
 analyzer:
   errors:
     invalid_annotation_target: ignore
+    depend_on_referenced_packages: ignore
   enable-experiment:
     - records
 
