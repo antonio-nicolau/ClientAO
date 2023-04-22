@@ -1,3 +1,4 @@
+import 'package:client_ao/src/core/constants/strings.dart';
 import 'package:client_ao/src/modules/home/states/collections.state.dart';
 import 'package:client_ao/src/modules/home/widgets/sections/request/auth_tab/auth_layout_by_auth_method.widget.dart';
 import 'package:client_ao/src/modules/home/widgets/sections/request/auth_tab/auth_tab.widget.dart';
@@ -69,12 +70,12 @@ class EmptyCollectionsPage extends ConsumerWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Text(
-            'Create a collection for your requests',
+            emptyCollectionsTitle,
             style: Theme.of(context).textTheme.titleLarge,
           ),
           const SizedBox(height: 16),
           const Text(
-            'A collection lets you group related requests and easily set common authorization, header, and variables for all requests in it.',
+            emptyCollectionsSubtitle,
             textAlign: TextAlign.center,
           ),
           const SizedBox(height: 24),
@@ -82,7 +83,7 @@ class EmptyCollectionsPage extends ConsumerWidget {
               onPressed: () {
                 ref.read(collectionsNotifierProvider.notifier).newCollection();
               },
-              child: const Text('Create collection')),
+              child: const Text(emptyCollectionsButtonText)),
         ],
       ),
     );
