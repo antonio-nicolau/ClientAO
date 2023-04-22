@@ -7,7 +7,6 @@ import 'package:equatable/equatable.dart';
 import 'package:hive/hive.dart';
 import 'package:http/http.dart';
 import 'package:http_parser/http_parser.dart';
-import 'package:xml/xml.dart';
 part 'response.model.g.dart';
 
 @HiveType(typeId: 1)

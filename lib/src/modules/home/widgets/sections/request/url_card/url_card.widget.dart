@@ -1,7 +1,7 @@
 import 'package:client_ao/src/modules/home/states/collections.state.dart';
+import 'package:client_ao/src/modules/home/widgets/sections/request/url_card/dropdown_button_request_method.widget.dart';
+import 'package:client_ao/src/shared/constants/strings.dart';
 import 'package:client_ao/src/shared/utils/client_ao_extensions.dart';
-import 'package:client_ao/src/shared/constants/enums.dart';
-import 'package:client_ao/src/shared/utils/layout.utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -34,71 +34,52 @@ class UrlCard extends HookConsumerWidget {
       focusNode.requestFocus();
     }
 
-    return Container(
-      margin: const EdgeInsets.only(right: 16),
-      child: Row(
-        children: [
-          const DropdownButtonRequestMethod(),
-          const SizedBox(width: 8),
-          Expanded(
-            child: TextField(
-              controller: urlController,
-              focusNode: focusNode,
-              decoration: const InputDecoration(
-                hintText: "Enter API endpoint",
+    return SizedBox(
+      height: 50,
+      child: Container(
+        decoration: BoxDecoration(
+            border: Border(
+                bottom: BorderSide(
+          color: Theme.of(context).dividerColor.withOpacity(0.5),
+        ))),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            const DropdownButtonRequestMethod(),
+            const SizedBox(width: 8),
+            Expanded(
+              child: TextField(
+                controller: urlController,
+                focusNode: focusNode,
+                decoration: const InputDecoration(
+                  hintText: urlHintText,
+                  enabledBorder: InputBorder.none,
+                  contentPadding: EdgeInsets.symmetric(horizontal: 8),
+                ),
+                onChanged: (value) {
+                  ref.read(collectionsNotifierProvider.notifier).updateRequest(url: value);
+                },
+                onSubmitted: (value) => sendRequest.call(),
               ),
-              onChanged: (value) {
-                ref.read(collectionsNotifierProvider.notifier).updateRequest(url: value);
-              },
-              onSubmitted: (value) => sendRequest.call(),
             ),
-          ),
-          const SizedBox(width: 8),
-          FilledButton(
-            onPressed: sendRequest,
-            child: const Icon(Icons.send),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class DropdownButtonRequestMethod extends HookConsumerWidget {
-  const DropdownButtonRequestMethod({super.key});
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final activeId = ref.watch(activeIdProvider);
-    final collectionIndex = ref.watch(collectionsNotifierProvider.notifier).indexOfId();
-    final collection = ref.watch(collectionsNotifierProvider).get(collectionIndex);
-
-    return DropdownButton<HttpVerb>(
-      focusColor: Theme.of(context).colorScheme.surface,
-      value: collection?.requests?.get(activeId?.requestId)?.method,
-      icon: const Icon(Icons.unfold_more_rounded),
-      elevation: 4,
-      underline: Container(
-        height: 0,
-      ),
-      onChanged: (HttpVerb? value) {
-        ref.read(collectionsNotifierProvider.notifier).updateRequest(method: value);
-      },
-      items: HttpVerb.values.map<DropdownMenuItem<HttpVerb>>((HttpVerb value) {
-        return DropdownMenuItem<HttpVerb>(
-          value: value,
-          child: Padding(
-            padding: const EdgeInsets.only(left: 16),
-            child: Text(
-              value.name.toUpperCase(),
-              style: Theme.of(context).textTheme.labelMedium?.copyWith(
-                    fontWeight: FontWeight.bold,
-                    color: getRequestMethodColor(value),
+            FilledButton(
+              onPressed: sendRequest,
+              style: ButtonStyle(
+                shape: MaterialStateProperty.all(
+                  const RoundedRectangleBorder(
+                    borderRadius: BorderRadius.zero,
                   ),
+                ),
+                padding: MaterialStateProperty.all(const EdgeInsets.symmetric(
+                  horizontal: 20,
+                  vertical: 24,
+                )),
+              ),
+              child: const Text('Send'),
             ),
-          ),
-        );
-      }).toList(),
+          ],
+        ),
+      ),
     );
   }
 }

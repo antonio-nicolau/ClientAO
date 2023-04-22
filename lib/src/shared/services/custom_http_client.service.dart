@@ -8,15 +8,15 @@ import 'package:client_ao/src/shared/models/auth/base_auth.interface.model.dart'
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:http/http.dart' as http;
 
-final httpClientProvider = Provider<HttpClient>((ref) {
-  return HttpClient(http.Client(), ref);
+final httpClientProvider = Provider<CustomHttpClient>((ref) {
+  return CustomHttpClient(http.Client(), ref);
 });
 
-class HttpClient extends http.BaseClient {
+class CustomHttpClient extends http.BaseClient {
   final http.Client _inner;
   final Ref _ref;
 
-  HttpClient(this._inner, this._ref);
+  CustomHttpClient(this._inner, this._ref);
 
   @override
   Future<http.StreamedResponse> send(http.BaseRequest request) {
