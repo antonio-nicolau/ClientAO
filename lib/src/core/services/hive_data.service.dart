@@ -3,7 +3,7 @@ import 'dart:developer';
 import 'package:client_ao/src/core/constants/enums.dart';
 import 'package:client_ao/src/core/models/collection.model.dart';
 import 'package:client_ao/src/core/models/key_value_row.model.dart';
-import 'package:client_ao/src/core/models/request_model.model.dart';
+import 'package:client_ao/src/core/models/request.model.dart';
 import 'package:client_ao/src/core/models/response.model.dart';
 import 'package:client_ao/src/core/utils/client_ao_extensions.dart';
 import 'package:hive/hive.dart';

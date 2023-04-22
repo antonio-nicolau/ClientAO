@@ -16,6 +16,11 @@ class RequestSection extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final activeId = ref.watch(activeIdProvider);
     final tabController = useTabController(initialLength: 4);
+    final collectionsLength = ref.watch(collectionsNotifierProvider.select((value) => value.length));
+
+    if (collectionsLength == 0) {
+      return const EmptyCollectionsPage();
+    }
 
     return Container(
       key: Key(activeId.toString()),
@@ -47,6 +52,37 @@ class RequestSection extends HookConsumerWidget {
               ],
             ),
           ),
+        ],
+      ),
+    );
+  }
+}
+
+class EmptyCollectionsPage extends ConsumerWidget {
+  const EmptyCollectionsPage({super.key});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text(
+            'Create a collection for your requests',
+            style: Theme.of(context).textTheme.titleLarge,
+          ),
+          const SizedBox(height: 16),
+          const Text(
+            'A collection lets you group related requests and easily set common authorization, header, and variables for all requests in it.',
+            textAlign: TextAlign.center,
+          ),
+          const SizedBox(height: 24),
+          ElevatedButton(
+              onPressed: () {
+                ref.read(collectionsNotifierProvider.notifier).newCollection();
+              },
+              child: const Text('Create collection')),
         ],
       ),
     );

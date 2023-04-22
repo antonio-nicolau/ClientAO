@@ -71,11 +71,11 @@ class DropdownButtonRequestMethod extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final activeId = ref.watch(activeIdProvider);
     final collectionIndex = ref.watch(collectionsNotifierProvider.notifier).indexOfId();
-    final collection = ref.watch(collectionsNotifierProvider)[collectionIndex];
+    final collection = ref.watch(collectionsNotifierProvider).get(collectionIndex);
 
     return DropdownButton<HttpVerb>(
       focusColor: Theme.of(context).colorScheme.surface,
-      value: collection.requests?.get(activeId?.requestId)?.method,
+      value: collection?.requests?.get(activeId?.requestId)?.method,
       icon: const Icon(Icons.unfold_more_rounded),
       elevation: 4,
       underline: Container(

@@ -1,3 +1,4 @@
+import 'package:client_ao/src/core/models/collection.model.dart';
 import 'package:client_ao/src/core/models/key_value_row.model.dart';
 import 'package:client_ao/src/core/utils/client_ao_extensions.dart';
 import 'package:client_ao/src/modules/home/states/collections.state.dart';
@@ -13,13 +14,13 @@ class UrlPreview extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final activeId = ref.watch(activeIdProvider);
     final collectionIndex = ref.watch(collectionsNotifierProvider.notifier).indexOfId();
-    final collection = ref.watch(collectionsNotifierProvider)[collectionIndex];
+    final collection = ref.watch(collectionsNotifierProvider).get(collectionIndex);
     final urlToPreview = useState<String?>('');
 
     useEffect(
       () {
-        final urlParamsList = collection.requests?.get(activeId?.requestId)?.urlParams;
-        final url = Uri.tryParse(collection.requests?.get(activeId?.requestId)?.url ?? '');
+        final urlParamsList = collection?.requests?.get(activeId?.requestId)?.urlParams;
+        final url = Uri.tryParse(collection?.requests?.get(activeId?.requestId)?.url ?? '');
 
         if (url != null) {
           final queryParams = <String, String>{};
@@ -42,8 +43,8 @@ class UrlPreview extends HookConsumerWidget {
       },
     );
 
-    if (collection.requests?.get(activeId?.requestId)?.url == null ||
-        collection.requests?[activeId?.requestId ?? 0]?.url?.isEmpty == true) {
+    if (collection?.requests?.get(activeId?.requestId)?.url == null ||
+        collection?.requests?[activeId?.requestId ?? 0]?.url?.isEmpty == true) {
       return const SizedBox.shrink();
     }
 
@@ -58,18 +59,20 @@ class UrlPreview extends HookConsumerWidget {
       child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
         Expanded(child: Text('${urlToPreview.value}')),
         IconButton(
-          onPressed: () {
-            Clipboard.setData(ClipboardData(text: collection.requests?[activeId?.requestId ?? 0]?.url)).then(
-              (value) {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text('URL Copied to clipboard')),
-                );
-              },
-            );
-          },
+          onPressed: () => copyToClipboard(collection, activeId, context),
           icon: const Icon(Icons.copy_outlined),
         ),
       ]),
+    );
+  }
+
+  void copyToClipboard(CollectionModel? collection, ActiveId? activeId, BuildContext context) {
+    Clipboard.setData(ClipboardData(text: collection?.requests?.get(activeId?.requestId ?? 0)?.url)).then(
+      (value) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('URL Copied to clipboard')),
+        );
+      },
     );
   }
 }

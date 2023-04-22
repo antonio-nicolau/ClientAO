@@ -3,7 +3,7 @@ import 'package:client_ao/src/core/models/key_value_row.model.dart';
 import 'package:equatable/equatable.dart';
 import 'package:hive/hive.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-part 'request_model.model.g.dart';
+part 'request.model.g.dart';
 
 @HiveType(typeId: 0)
 class RequestModel extends Equatable {

@@ -2,7 +2,7 @@ import 'package:client_ao/src/core/constants/default_values.dart';
 import 'package:client_ao/src/core/constants/enums.dart';
 import 'package:client_ao/src/core/models/collection.model.dart';
 import 'package:client_ao/src/core/models/key_value_row.model.dart';
-import 'package:client_ao/src/core/models/request_model.model.dart';
+import 'package:client_ao/src/core/models/request.model.dart';
 import 'package:client_ao/src/core/models/response.model.dart';
 import 'package:client_ao/src/core/services/api_request.service.dart';
 import 'package:client_ao/src/core/services/hive_data.service.dart';
@@ -27,7 +27,7 @@ final responseStateProvider = StateProvider.family<AsyncValue<ResponseModel?>?, 
 
 class CollectionsNotifier extends StateNotifier<List<CollectionModel>> {
   CollectionsNotifier(this._ref) : super([]) {
-    final loaded = loadFromLocally();
+    final loaded = loadFromCache();
 
     if (loaded) return;
 
@@ -42,12 +42,12 @@ class CollectionsNotifier extends StateNotifier<List<CollectionModel>> {
 
   final Ref _ref;
 
-  bool loadFromLocally() {
+  bool loadFromCache() {
     final collections = _ref.read(hiveDataServiceProvider).getCollections();
 
-    if (collections != null && collections.isNotEmpty == true) {
-      state = collections;
+    state = collections ?? [];
 
+    if (collections != null && collections.isNotEmpty == true) {
       Future.microtask(() {
         _ref.read(activeIdProvider.notifier).update(
               (state) => state?.copyWith(
@@ -56,10 +56,9 @@ class CollectionsNotifier extends StateNotifier<List<CollectionModel>> {
               ),
             );
       });
-      return true;
     }
 
-    return false;
+    return true;
   }
 
   String addRequest(String? id) {

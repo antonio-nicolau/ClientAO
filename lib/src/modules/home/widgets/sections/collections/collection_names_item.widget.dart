@@ -1,6 +1,6 @@
 import 'package:client_ao/src/core/constants/enums.dart';
 import 'package:client_ao/src/core/models/collection.model.dart';
-import 'package:client_ao/src/core/models/request_model.model.dart';
+import 'package:client_ao/src/core/models/request.model.dart';
 import 'package:client_ao/src/core/utils/layout.utils.dart';
 import 'package:client_ao/src/modules/home/states/collections.state.dart';
 import 'package:client_ao/src/modules/home/widgets/sections/collections/collection_name_textfield.widget.dart';
