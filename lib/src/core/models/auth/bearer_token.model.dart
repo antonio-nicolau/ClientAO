@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:client_ao/src/core/models/base_auth.interface.model.dart';
+import 'package:client_ao/src/core/models/auth/base_auth.interface.model.dart';
 
 class BearerAuthentication implements BaseAuth {
   final String? token;

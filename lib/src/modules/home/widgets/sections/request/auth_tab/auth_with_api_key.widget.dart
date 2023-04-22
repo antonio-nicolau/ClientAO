@@ -1,4 +1,4 @@
-import 'package:client_ao/src/core/models/auth_api_key.model.dart';
+import 'package:client_ao/src/core/models/auth/auth_api_key.model.dart';
 import 'package:client_ao/src/core/models/key_value_row.model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';

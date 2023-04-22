@@ -1,7 +1,7 @@
 import 'dart:io';
 
 import 'package:client_ao/src/core/constants/enums.dart';
-import 'package:client_ao/src/core/models/base_auth.interface.model.dart';
+import 'package:client_ao/src/core/models/auth/base_auth.interface.model.dart';
 import 'package:client_ao/src/modules/home/widgets/sections/request/auth_tab/auth_basic.widget.dart';
 import 'package:client_ao/src/modules/home/widgets/sections/request/auth_tab/auth_with_api_key.widget.dart';
 import 'package:client_ao/src/modules/home/widgets/sections/request/auth_tab/authentication_options.widget.dart';
