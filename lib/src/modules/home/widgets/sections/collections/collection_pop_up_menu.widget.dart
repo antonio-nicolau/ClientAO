@@ -32,9 +32,6 @@ class PopUpCollectionMenu extends HookConsumerWidget {
           onTap: () {
             widgetRef.read(activeIdProvider.notifier).update((state) => state?.copyWith(collection: collection.id));
             switch (e) {
-              case CollectionPopUpItem.edit:
-                log('TODO: Handle this case');
-                break;
               case CollectionPopUpItem.addRequest:
                 widgetRef.read(collectionsNotifierProvider.notifier).addRequest(collection.id);
                 break;

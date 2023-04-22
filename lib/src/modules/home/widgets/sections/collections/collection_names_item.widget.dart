@@ -2,8 +2,8 @@ import 'package:client_ao/src/core/constants/enums.dart';
 import 'package:client_ao/src/core/models/collection.model.dart';
 import 'package:client_ao/src/core/models/request.model.dart';
 import 'package:client_ao/src/core/utils/layout.utils.dart';
+import 'package:client_ao/src/core/widgets/client_ao_textfield.widget.dart';
 import 'package:client_ao/src/modules/home/states/collections.state.dart';
-import 'package:client_ao/src/modules/home/widgets/sections/collections/collection_name_textfield.widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -65,8 +65,13 @@ class CollectionListViewItem extends HookConsumerWidget {
                 ),
                 const SizedBox(width: 16),
                 Expanded(
-                  child: CollectionNameTextField(
-                    request?.name ?? getRequestTitleFromUrl(request?.url),
+                  child: ClientAoTextField(
+                    defaultValue: request?.name ?? getRequestTitleFromUrl(request?.url),
+                    onValueChange: (value) {
+                      ref.read(collectionsNotifierProvider.notifier).updateRequest(name: value);
+                    },
+                    contentPadding: EdgeInsets.zero,
+                    maxLines: 1,
                   ),
                 ),
                 if (showMenu.value)

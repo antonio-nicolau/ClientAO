@@ -1,4 +1,6 @@
 import 'package:client_ao/src/core/models/collection.model.dart';
+import 'package:client_ao/src/core/widgets/client_ao_textfield.widget.dart';
+import 'package:client_ao/src/modules/home/states/collections.state.dart';
 import 'package:client_ao/src/modules/home/widgets/sections/collections/collection_names_item.widget.dart';
 import 'package:client_ao/src/modules/home/widgets/sections/collections/collection_pop_up_menu.widget.dart';
 import 'package:flutter/material.dart';
@@ -35,7 +37,17 @@ class CollectionNamesList extends HookConsumerWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text('${collection.name}'),
+                Expanded(
+                  child: ClientAoTextField(
+                    defaultValue: collection.name,
+                    onValueChange: (value) {
+                      ref.read(collectionsNotifierProvider.notifier).renameCollection(value);
+                    },
+                    contentPadding: const EdgeInsets.symmetric(vertical: 16),
+                    style: Theme.of(context).textTheme.labelLarge,
+                    maxLines: 1,
+                  ),
+                ),
                 if (showMenu.value)
                   PopUpCollectionMenu(
                     widgetRef: ref,

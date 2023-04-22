@@ -223,4 +223,12 @@ class CollectionsNotifier extends StateNotifier<List<CollectionModel>> {
         if (item.id != id) item
     ];
   }
+
+  void renameCollection(String name) {
+    final collection = getCollection();
+
+    final newCollection = collection?.copyWith(name: name);
+
+    _addToCollection(newCollection);
+  }
 }
