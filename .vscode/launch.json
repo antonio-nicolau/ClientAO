@@ -8,20 +8,22 @@
             "name": "client_ao",
             "request": "launch",
             "type": "dart",
-            "args": ["--enable-experiment","records"]
+            "toolArgs": ["--enable-experiment","records"],
             
         },
         {
             "name": "client_ao (profile mode)",
             "request": "launch",
             "type": "dart",
-            "flutterMode": "profile"
+            "flutterMode": "profile",
+            "toolArgs": ["--enable-experiment","records"],
         },
         {
             "name": "client_ao (release mode)",
             "request": "launch",
             "type": "dart",
-            "flutterMode": "release"
+            "flutterMode": "release",
+            "toolArgs": ["--enable-experiment","records"],
         }
     ]
 }
