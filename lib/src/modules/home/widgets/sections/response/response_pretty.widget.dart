@@ -1,9 +1,9 @@
 import 'dart:developer';
 import 'dart:io';
+import 'package:client_ao/src/shared/models/response.model.dart';
 import 'package:flutter_highlighter/flutter_highlighter.dart';
 import 'package:flutter_highlighter/themes/github.dart';
 import 'package:http_parser/http_parser.dart';
-import 'package:client_ao/src/core/models/response.model.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 

@@ -1,5 +1,5 @@
-import 'package:client_ao/src/core/models/request.model.dart';
-import 'package:client_ao/src/core/models/response.model.dart';
+import 'package:client_ao/src/shared/models/request.model.dart';
+import 'package:client_ao/src/shared/models/response.model.dart';
 import 'package:equatable/equatable.dart';
 import 'package:hive/hive.dart';
 part 'collection.model.g.dart';

@@ -1,4 +1,4 @@
-import 'package:client_ao/src/core/constants/enums.dart';
+import 'package:client_ao/src/shared/constants/enums.dart';
 import 'package:equatable/equatable.dart';
 
 class AuthOptionModel extends Equatable {

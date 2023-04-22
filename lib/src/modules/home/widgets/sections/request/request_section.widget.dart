@@ -1,4 +1,3 @@
-import 'package:client_ao/src/core/constants/strings.dart';
 import 'package:client_ao/src/modules/home/states/collections.state.dart';
 import 'package:client_ao/src/modules/home/widgets/sections/request/auth_tab/auth_layout_by_auth_method.widget.dart';
 import 'package:client_ao/src/modules/home/widgets/sections/request/auth_tab/auth_tab.widget.dart';
@@ -6,6 +5,7 @@ import 'package:client_ao/src/modules/home/widgets/sections/request/body_tab/req
 import 'package:client_ao/src/modules/home/widgets/sections/request/headers_tab/request_headers.widget.dart';
 import 'package:client_ao/src/modules/home/widgets/sections/request/url_params_tab/request_url_params.widget.dart';
 import 'package:client_ao/src/modules/home/widgets/sections/request/url_card/url_card.widget.dart';
+import 'package:client_ao/src/shared/constants/strings.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';

@@ -1,6 +1,6 @@
-import 'package:client_ao/src/core/services/hive.service.dart';
 import 'package:client_ao/src/modules/home/states/environment.state.dart';
 import 'package:client_ao/src/modules/home/widgets/environments/sub_environments.widget.dart';
+import 'package:client_ao/src/shared/services/hive.service.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 

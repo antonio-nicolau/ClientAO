@@ -54,8 +54,5 @@ class HttpVerbAdapter extends TypeAdapter<HttpVerb> {
 
   @override
   bool operator ==(Object other) =>
-      identical(this, other) ||
-      other is HttpVerbAdapter &&
-          runtimeType == other.runtimeType &&
-          typeId == other.typeId;
+      identical(this, other) || other is HttpVerbAdapter && runtimeType == other.runtimeType && typeId == other.typeId;
 }

@@ -1,8 +1,8 @@
-import 'package:client_ao/src/core/models/key_value_row.model.dart';
-import 'package:client_ao/src/core/utils/client_ao_extensions.dart';
-import 'package:client_ao/src/core/utils/tables.utils.dart';
 import 'package:client_ao/src/modules/home/states/collections.state.dart';
+import 'package:client_ao/src/shared/utils/client_ao_extensions.dart';
 import 'package:client_ao/src/modules/home/widgets/sections/request/url_params_tab/url_preview.widget.dart';
+import 'package:client_ao/src/shared/models/key_value_row.model.dart';
+import 'package:client_ao/src/shared/utils/tables.utils.dart';
 import 'package:davi/davi.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';

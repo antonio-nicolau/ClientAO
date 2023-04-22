@@ -1,12 +1,12 @@
-import 'package:client_ao/src/core/constants/default_values.dart';
-import 'package:client_ao/src/core/constants/enums.dart';
-import 'package:client_ao/src/core/models/collection.model.dart';
-import 'package:client_ao/src/core/models/key_value_row.model.dart';
-import 'package:client_ao/src/core/models/request.model.dart';
-import 'package:client_ao/src/core/models/response.model.dart';
-import 'package:client_ao/src/core/services/api_request.service.dart';
-import 'package:client_ao/src/core/services/hive_data.service.dart';
-import 'package:client_ao/src/core/utils/client_ao_extensions.dart';
+import 'package:client_ao/src/shared/constants/default_values.dart';
+import 'package:client_ao/src/shared/constants/enums.dart';
+import 'package:client_ao/src/shared/utils/client_ao_extensions.dart';
+import 'package:client_ao/src/shared/models/collection.model.dart';
+import 'package:client_ao/src/shared/models/key_value_row.model.dart';
+import 'package:client_ao/src/shared/models/request.model.dart';
+import 'package:client_ao/src/shared/models/response.model.dart';
+import 'package:client_ao/src/shared/services/api_request.service.dart';
+import 'package:client_ao/src/shared/services/hive_data.service.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 final activeIdProvider = StateProvider<ActiveId?>((ref) => ActiveId());

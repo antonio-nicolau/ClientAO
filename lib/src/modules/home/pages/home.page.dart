@@ -1,10 +1,10 @@
-import 'package:client_ao/src/core/models/collection.model.dart';
-import 'package:client_ao/src/core/services/hive_data.service.dart';
-import 'package:client_ao/src/core/utils/client_ao_extensions.dart';
 import 'package:client_ao/src/modules/home/states/collections.state.dart';
 import 'package:client_ao/src/modules/home/widgets/sections/collections/collections_section.widget.dart';
 import 'package:client_ao/src/modules/home/widgets/sections/request/request_section.widget.dart';
 import 'package:client_ao/src/modules/home/widgets/sections/response/response_section.widget.dart';
+import 'package:client_ao/src/shared/models/collection.model.dart';
+import 'package:client_ao/src/shared/services/hive_data.service.dart';
+import 'package:client_ao/src/shared/utils/client_ao_extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:multi_split_view/multi_split_view.dart';

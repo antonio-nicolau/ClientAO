@@ -1,5 +1,5 @@
-import 'package:client_ao/src/core/constants/default_values.dart';
 import 'package:client_ao/src/modules/home/states/collections.state.dart';
+import 'package:client_ao/src/shared/constants/default_values.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 

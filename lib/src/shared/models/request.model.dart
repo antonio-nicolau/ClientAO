@@ -1,5 +1,5 @@
-import 'package:client_ao/src/core/constants/enums.dart';
-import 'package:client_ao/src/core/models/key_value_row.model.dart';
+import 'package:client_ao/src/shared/constants/enums.dart';
+import 'package:client_ao/src/shared/models/key_value_row.model.dart';
 import 'package:equatable/equatable.dart';
 import 'package:hive/hive.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';

@@ -1,8 +1,9 @@
-import 'package:client_ao/src/core/constants/enums.dart';
-import 'package:client_ao/src/core/models/key_value_row.model.dart';
-import 'package:client_ao/src/core/models/request.model.dart';
-import 'package:client_ao/src/core/services/client.service.interface.dart';
-import 'package:client_ao/src/core/services/http_client.service.dart';
+
+import 'package:client_ao/src/shared/constants/enums.dart';
+import 'package:client_ao/src/shared/models/key_value_row.model.dart';
+import 'package:client_ao/src/shared/models/request.model.dart';
+import 'package:client_ao/src/shared/services/client.service.interface.dart';
+import 'package:client_ao/src/shared/services/http_client.service.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:http/http.dart';
 import 'package:http/http.dart' as http;

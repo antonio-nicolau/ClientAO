@@ -1,7 +1,7 @@
 import 'dart:io';
 import 'dart:convert';
 import 'dart:typed_data';
-import 'package:client_ao/src/core/utils/layout.utils.dart';
+import 'package:client_ao/src/shared/utils/layout.utils.dart';
 import 'package:collection/collection.dart' show mergeMaps;
 import 'package:equatable/equatable.dart';
 import 'package:hive/hive.dart';
@@ -109,33 +109,4 @@ class ResponseModel extends Equatable {
         bodyBytes,
         requestDuration,
       ];
-}
-
-String? formatBody(String? body, MediaType? mediaType) {
-  if (mediaType != null && body != null) {
-    var subtype = mediaType.subtype;
-    try {
-      if (subtype.contains('json')) {
-        final tmp = jsonDecode(body);
-        String result = const JsonEncoder.withIndent('  ').convert(tmp);
-        return result;
-      }
-      if (subtype.contains('xml')) {
-        final document = XmlDocument.parse(body);
-        String result = document.toXmlString(pretty: true, indent: '  ');
-        return result;
-      }
-      if (subtype == 'html') {
-        var len = body.length;
-        var lines = const JsonEncoder.withIndent('  ').convert(body);
-        var numOfLines = lines.length;
-        if (numOfLines != 0 && len / numOfLines <= 200) {
-          return body;
-        }
-      }
-    } catch (e) {
-      return null;
-    }
-  }
-  return null;
 }

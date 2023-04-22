@@ -1,5 +1,5 @@
-import 'package:client_ao/src/core/constants/enums.dart';
-import 'package:client_ao/src/core/models/auth/auth_options.model.dart';
+import 'package:client_ao/src/shared/constants/enums.dart';
+import 'package:client_ao/src/shared/models/auth/auth_options.model.dart';
 import 'package:uuid/uuid.dart';
 
 const uuid = Uuid();

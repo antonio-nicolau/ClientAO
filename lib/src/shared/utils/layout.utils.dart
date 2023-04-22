@@ -1,5 +1,8 @@
-import 'package:client_ao/src/core/constants/enums.dart';
+import 'dart:convert';
+import 'package:http_parser/http_parser.dart';
+import 'package:client_ao/src/shared/constants/enums.dart';
 import 'package:flutter/material.dart';
+import 'package:xml/xml.dart';
 
 Color getRequestMethodColor(HttpVerb? method) {
   switch (method) {
@@ -63,4 +66,33 @@ String toHumanizeResponseSize(int responseSize) {
   } else {
     return '${(responseSize / (1024 * 1024 * 1024)).toStringAsFixed(2)} GB';
   }
+}
+
+String? formatBody(String? body, MediaType? mediaType) {
+  if (mediaType != null && body != null) {
+    var subtype = mediaType.subtype;
+    try {
+      if (subtype.contains('json')) {
+        final tmp = jsonDecode(body);
+        String result = const JsonEncoder.withIndent('  ').convert(tmp);
+        return result;
+      }
+      if (subtype.contains('xml')) {
+        final document = XmlDocument.parse(body);
+        String result = document.toXmlString(pretty: true, indent: '  ');
+        return result;
+      }
+      if (subtype == 'html') {
+        var len = body.length;
+        var lines = const JsonEncoder.withIndent('  ').convert(body);
+        var numOfLines = lines.length;
+        if (numOfLines != 0 && len / numOfLines <= 200) {
+          return body;
+        }
+      }
+    } catch (e) {
+      return null;
+    }
+  }
+  return null;
 }

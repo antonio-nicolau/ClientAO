@@ -1,6 +1,6 @@
-import 'package:client_ao/src/core/models/key_value_row.model.dart';
-import 'package:client_ao/src/core/widgets/key_textfield.widget.dart';
-import 'package:client_ao/src/core/widgets/value_textfield.widget.dart';
+import 'package:client_ao/src/shared/models/key_value_row.model.dart';
+import 'package:client_ao/src/shared/widgets/key_textfield.widget.dart';
+import 'package:client_ao/src/shared/widgets/value_textfield.widget.dart';
 import 'package:davi/davi.dart';
 import 'package:flutter/material.dart';
 

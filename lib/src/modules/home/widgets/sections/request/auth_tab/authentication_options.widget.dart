@@ -1,5 +1,5 @@
-import 'package:client_ao/src/core/constants/default_values.dart';
-import 'package:client_ao/src/core/models/auth/auth_options.model.dart';
+import 'package:client_ao/src/shared/constants/default_values.dart';
+import 'package:client_ao/src/shared/models/auth/auth_options.model.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 

@@ -1,11 +1,10 @@
 import 'dart:io';
-
-import 'package:client_ao/src/core/constants/enums.dart';
-import 'package:client_ao/src/core/models/auth/base_auth.interface.model.dart';
 import 'package:client_ao/src/modules/home/widgets/sections/request/auth_tab/auth_basic.widget.dart';
 import 'package:client_ao/src/modules/home/widgets/sections/request/auth_tab/auth_with_api_key.widget.dart';
 import 'package:client_ao/src/modules/home/widgets/sections/request/auth_tab/authentication_options.widget.dart';
 import 'package:client_ao/src/modules/home/widgets/sections/request/auth_tab/auth_with_bearer_token.widget.dart';
+import 'package:client_ao/src/shared/constants/enums.dart';
+import 'package:client_ao/src/shared/models/auth/base_auth.interface.model.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:http/http.dart' as http;
 

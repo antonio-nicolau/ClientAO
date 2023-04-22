@@ -1,11 +1,10 @@
 import 'dart:developer';
-
-import 'package:client_ao/src/core/constants/enums.dart';
-import 'package:client_ao/src/core/models/collection.model.dart';
-import 'package:client_ao/src/core/models/key_value_row.model.dart';
-import 'package:client_ao/src/core/models/request.model.dart';
-import 'package:client_ao/src/core/models/response.model.dart';
-import 'package:client_ao/src/core/utils/client_ao_extensions.dart';
+import 'package:client_ao/src/shared/constants/enums.dart';
+import 'package:client_ao/src/shared/models/collection.model.dart';
+import 'package:client_ao/src/shared/models/key_value_row.model.dart';
+import 'package:client_ao/src/shared/models/request.model.dart';
+import 'package:client_ao/src/shared/models/response.model.dart';
+import 'package:client_ao/src/shared/utils/client_ao_extensions.dart';
 import 'package:hive/hive.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 

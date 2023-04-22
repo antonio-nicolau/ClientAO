@@ -1,7 +1,7 @@
-import 'package:client_ao/src/core/constants/enums.dart';
-import 'package:client_ao/src/core/utils/client_ao_extensions.dart';
-import 'package:client_ao/src/core/utils/layout.utils.dart';
 import 'package:client_ao/src/modules/home/states/collections.state.dart';
+import 'package:client_ao/src/shared/utils/client_ao_extensions.dart';
+import 'package:client_ao/src/shared/constants/enums.dart';
+import 'package:client_ao/src/shared/utils/layout.utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
