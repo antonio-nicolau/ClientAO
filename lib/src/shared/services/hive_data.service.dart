@@ -34,11 +34,10 @@ class HiveDataService implements ILocalDataStorage {
     if (collection == null) return;
 
     if (collectionsBox.isNotEmpty && collectionsBox.containsKey(collection.id)) {
-      log('same collection: ${collection.id}');
       await collectionsBox.putAtKey(collection.id, collection);
       return;
     }
-    log('old collection');
+
     await collectionsBox.put(collection.id, collection);
   }
 

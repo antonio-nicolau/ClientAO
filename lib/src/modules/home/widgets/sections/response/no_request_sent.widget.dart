@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class NoRequestSent extends ConsumerWidget {
+  /// Simple layout displayed for the case that no request was sent by user
   const NoRequestSent({super.key});
 
   @override

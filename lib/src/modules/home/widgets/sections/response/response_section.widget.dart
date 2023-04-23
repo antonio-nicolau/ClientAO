@@ -1,8 +1,8 @@
 import 'package:client_ao/src/modules/home/states/collections.state.dart';
 import 'package:client_ao/src/modules/home/widgets/sections/response/no_request_sent.widget.dart';
-import 'package:client_ao/src/modules/home/widgets/sections/response/request_status.widget.dart';
+import 'package:client_ao/src/modules/home/widgets/sections/response/response_status.widget.dart';
 import 'package:client_ao/src/modules/home/widgets/sections/response/response_headers.widget.dart';
-import 'package:client_ao/src/modules/home/widgets/sections/response/response_pretty.widget.dart';
+import 'package:client_ao/src/modules/home/widgets/sections/response/response_preview.widget.dart';
 import 'package:client_ao/src/modules/home/widgets/sections/response/response_preview_tabs.widget.dart';
 import 'package:client_ao/src/shared/exceptions/client_ao_exception.dart';
 import 'package:client_ao/src/shared/models/collection.model.dart';
@@ -31,7 +31,7 @@ class ResponseSection extends HookConsumerWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          const RequestStatus(),
+          const ResponseStatus(),
           ResponsePreviewTabs(tabController: tabController),
           Expanded(
             child: TabBarView(
@@ -47,7 +47,7 @@ class ResponseSection extends HookConsumerWidget {
                         return const NoRequestSent();
                       }
 
-                      return ResponsePretty(response: response);
+                      return ResponsePreview(response: response);
                     },
                     error: (error, _) => Text('$error'),
                     loading: () => const ClientAoLoading(),

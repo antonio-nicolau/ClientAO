@@ -3,8 +3,10 @@ import 'package:client_ao/src/shared/constants/default_values.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-class RequestStatus extends HookConsumerWidget {
-  const RequestStatus({super.key});
+class ResponseStatus extends HookConsumerWidget {
+  /// Widget responsible to build Response status section
+  /// on top of Response & Headers preview
+  const ResponseStatus({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -42,9 +44,7 @@ class RequestStatus extends HookConsumerWidget {
               ),
             );
           },
-          error: (error, _) {
-            return const Text('Error');
-          },
+          error: (error, _) => const Text('Error'),
           loading: () => const SizedBox.shrink(),
         ) ??
         const SizedBox.shrink();

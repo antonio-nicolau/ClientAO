@@ -7,8 +7,8 @@ import 'package:http_parser/http_parser.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-class ResponsePretty extends ConsumerWidget {
-  const ResponsePretty({super.key, this.response});
+class ResponsePreview extends ConsumerWidget {
+  const ResponsePreview({super.key, this.response});
 
   final ResponseModel? response;
 

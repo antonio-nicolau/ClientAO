@@ -9,11 +9,8 @@ import 'package:client_ao/src/shared/models/response.model.dart';
 import 'package:client_ao/src/shared/services/hive_data.service.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
+// A provider to save the current collection and request selected by user
 final activeIdProvider = StateProvider<ActiveId?>((ref) => ActiveId());
-
-final collectionsNotifierProvider = StateNotifierProvider<CollectionsNotifier, List<CollectionModel>>((ref) {
-  return CollectionsNotifier(ref);
-});
 
 final responseStateProvider = StateProvider.family<AsyncValue<ResponseModel?>?, ActiveId?>((ref, activeId) {
   final collectionIndex = ref.watch(collectionsNotifierProvider.notifier).indexOfId();
@@ -23,6 +20,10 @@ final responseStateProvider = StateProvider.family<AsyncValue<ResponseModel?>?, 
     return AsyncData(collections[collectionIndex].responses?.get(activeId?.requestId ?? 0));
   }
   return null;
+});
+
+final collectionsNotifierProvider = StateNotifierProvider<CollectionsNotifier, List<CollectionModel>>((ref) {
+  return CollectionsNotifier(ref);
 });
 
 class CollectionsNotifier extends StateNotifier<List<CollectionModel>> {

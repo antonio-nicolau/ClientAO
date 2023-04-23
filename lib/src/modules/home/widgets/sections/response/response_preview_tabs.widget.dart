@@ -31,12 +31,6 @@ class ResponsePreviewTabs extends HookConsumerWidget {
           },
           loading: () => const SizedBox.shrink(),
         ) ??
-        TabBar(
-          controller: tabController,
-          tabs: const [
-            Tab(text: 'aaa'),
-            Tab(text: 'sss'),
-          ],
-        );
+        const SizedBox.shrink();
   }
 }
