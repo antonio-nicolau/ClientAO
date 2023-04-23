@@ -4,7 +4,7 @@ import 'package:client_ao/src/shared/constants/strings.dart';
 import 'package:client_ao/src/shared/exceptions/client_ao_exception.dart';
 import 'package:client_ao/src/shared/models/request.model.dart';
 import 'package:client_ao/src/shared/repositories/api_request.repository.dart';
-import 'package:client_ao/src/shared/services/client.service.interface.dart';
+import 'package:client_ao/src/shared/repositories/api_request.repository.interface.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:http/http.dart' as http;
 
@@ -20,7 +20,7 @@ final apiRequestServiceProvider = Provider<ApiRequestService>((ref) {
 class ApiRequestService  {
 
   const ApiRequestService(this._apiRequest,this._ref);
-  final IApiRequest _apiRequest;
+  final IApiRequestRepository _apiRequest;
   final Ref _ref;
 
   Future<(http.Response,Duration)?> request(RequestModel request) async {
@@ -38,6 +38,5 @@ class ApiRequestService  {
 
     return null;
   }
-
 }
 

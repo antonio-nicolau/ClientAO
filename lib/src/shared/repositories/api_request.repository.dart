@@ -1,18 +1,18 @@
 import 'package:client_ao/src/shared/constants/enums.dart';
 import 'package:client_ao/src/shared/models/key_value_row.model.dart';
 import 'package:client_ao/src/shared/models/request.model.dart';
-import 'package:client_ao/src/shared/services/client.service.interface.dart';
+import 'package:client_ao/src/shared/repositories/api_request.repository.interface.dart';
 import 'package:client_ao/src/shared/services/custom_http_client.service.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:http/http.dart';
 import 'package:http/http.dart' as http;
 
-final apiRequestProvider = Provider<IApiRequest>((ref) {
+final apiRequestProvider = Provider<IApiRequestRepository>((ref) {
   final httpClient = ref.read(httpClientProvider);
   return ApiRequest(httpClient);
 });
 
-class ApiRequest implements IApiRequest {
+class ApiRequest implements IApiRequestRepository {
   final CustomHttpClient _httpClient;
 
   const ApiRequest(this._httpClient);
