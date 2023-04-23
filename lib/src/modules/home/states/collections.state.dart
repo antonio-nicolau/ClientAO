@@ -1,11 +1,11 @@
 import 'package:client_ao/src/shared/constants/default_values.dart';
 import 'package:client_ao/src/shared/constants/enums.dart';
+import 'package:client_ao/src/shared/services/collection.service.dart';
 import 'package:client_ao/src/shared/utils/client_ao_extensions.dart';
 import 'package:client_ao/src/shared/models/collection.model.dart';
 import 'package:client_ao/src/shared/models/key_value_row.model.dart';
 import 'package:client_ao/src/shared/models/request.model.dart';
 import 'package:client_ao/src/shared/models/response.model.dart';
-import 'package:client_ao/src/shared/services/api_request.service.dart';
 import 'package:client_ao/src/shared/services/hive_data.service.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -94,22 +94,18 @@ class CollectionsNotifier extends StateNotifier<List<CollectionModel>> {
     final request = collection?.requests?[requestId];
     final requestResponse = collection?.responses;
 
-    _updateRequestResponseState(activeId, const AsyncLoading());
+    updateRequestResponseState(const AsyncLoading());
 
-    if (request != null) {
-      final response = await _ref.read(apiRequestProvider).request(request);
+    final response = await _ref.read(collectionServiceProvider).request(request!);
 
-      requestResponse?[activeId?.requestId ?? 0] = ResponseModel.fromResponse(
-        response: response.$0,
-        requestDuration: response.$1,
-      );
+    requestResponse?[activeId?.requestId ?? 0] = response.value;
 
-      state[index] = state[index].copyWith(responses: requestResponse);
-      _updateRequestResponseState(activeId, AsyncData(requestResponse?.get(activeId?.requestId)));
-    }
+    state[index] = state[index].copyWith(responses: requestResponse);
+    updateRequestResponseState(response);
   }
 
-  void _updateRequestResponseState(ActiveId? activeId, AsyncValue<ResponseModel?> newState) {
+  void updateRequestResponseState(AsyncValue<ResponseModel?> newState) {
+    final activeId = _ref.read(activeIdProvider);
     _ref.read(responseStateProvider(activeId).notifier).update((state) => newState);
   }
 

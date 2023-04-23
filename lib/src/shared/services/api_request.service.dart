@@ -1,78 +1,43 @@
-
-import 'package:client_ao/src/shared/constants/enums.dart';
-import 'package:client_ao/src/shared/models/key_value_row.model.dart';
+import 'dart:io';
+import 'package:client_ao/src/modules/home/states/collections.state.dart';
+import 'package:client_ao/src/shared/constants/strings.dart';
+import 'package:client_ao/src/shared/exceptions/client_ao_exception.dart';
 import 'package:client_ao/src/shared/models/request.model.dart';
+import 'package:client_ao/src/shared/repositories/api_request.repository.dart';
 import 'package:client_ao/src/shared/services/client.service.interface.dart';
-import 'package:client_ao/src/shared/services/custom_http_client.service.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:http/http.dart';
 import 'package:http/http.dart' as http;
 
-final apiRequestProvider = Provider<IApiRequest>((ref) {
-  final httpClient = ref.read(httpClientProvider);
-  return ApiRequest(httpClient);
+final requestErrorProvider = StateProvider<ClientAoException?>((ref) {
+  return null;
 });
 
-class ApiRequest implements IApiRequest {
-  final CustomHttpClient _httpClient;
+final apiRequestServiceProvider = Provider<ApiRequestService>((ref) {
+  final apiRequest = ref.read(apiRequestProvider);
+  return  ApiRequestService(apiRequest,ref);
+});
 
-  const ApiRequest(this._httpClient);
+class ApiRequestService  {
 
-  @override
-  Future<(http.Response,Duration)> request(RequestModel request) async {
-    Response? response;
-    final headers = Map.fromEntries(
-      request.headers!.map((e) => MapEntry<String, String>(e.key ?? '', e.value ?? '')),
-    );
+  const ApiRequestService(this._apiRequest,this._ref);
+  final IApiRequest _apiRequest;
+  final Ref _ref;
 
-    final uri = getUriWithQueryParams(request);
-    final body = request.body;
-
-    final stopWatch = Stopwatch()..start();
-
-    switch (request.method) {
-      case HttpVerb.get:
-        response = await _httpClient.get(uri!, headers: headers);
-        break;
-      case HttpVerb.post:
-        response = await _httpClient.post(uri!, headers: headers, body: body);
-        break;
-      case HttpVerb.put:
-        response = await _httpClient.put(uri!, headers: headers, body: body);
-        break;
-      case HttpVerb.patch:
-        response = await _httpClient.patch(uri!, headers: headers, body: body);
-        break;
-      case HttpVerb.delete:
-        response = await _httpClient.delete(uri!, headers: headers, body: body);
-        break;
+  Future<(http.Response,Duration)?> request(RequestModel request) async {
+      final activeId = _ref.read(activeIdProvider);
+      _ref.read(requestErrorProvider.notifier).update((state) => null);
+    try {
+      final response = await _apiRequest.request(request);
+      return (response.$0,response.$1);
+    } on SocketException catch(_){
+      _ref.read(requestErrorProvider.notifier).state= ClientAoException(message: errorCouldNotSolveHost,requestId: activeId?.requestId,collectionId: activeId?.collection,);
+    } catch (e) {
+      // TODO: Improve error handling
+      _ref.read(requestErrorProvider.notifier).state= ClientAoException(message: e.toString(),requestId: activeId?.requestId,collectionId: activeId?.collection,);
     }
 
-    stopWatch.stop();
-
-    return (response,stopWatch.elapsed);
-  }
-
-  Uri? getUriWithQueryParams(RequestModel request) {
-    final urlParamsList = request.urlParams;
-    final uri = Uri.tryParse(request.url ?? '');
-
-    final queryParams = <String, String>{};
-
-    if (uri != null) {
-      final currentQueryParams = uri.queryParameters;
-      if (currentQueryParams.isNotEmpty) {
-        queryParams.addAll(currentQueryParams);
-      }
-
-      for (final e in urlParamsList ?? <KeyValueRow>[]) {
-        if (e.key != null) {
-          queryParams[e.key.toString()] = e.value ?? '';
-        }
-      }
-
-      return uri.replace(queryParameters: queryParams);
-    }
     return null;
   }
+
 }
+

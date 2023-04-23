@@ -25,3 +25,9 @@ enum AuthMethod {
   basic,
   noAuthentication,
 }
+
+class Protocol {
+  static const http = 'http://';
+  static const https = 'https://';
+  static const smtp = 'smtp://';
+}
