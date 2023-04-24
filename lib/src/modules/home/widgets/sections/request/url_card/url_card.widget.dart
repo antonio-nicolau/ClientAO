@@ -54,6 +54,7 @@ class UrlCard extends HookConsumerWidget {
                 decoration: const InputDecoration(
                   hintText: urlHintText,
                   enabledBorder: InputBorder.none,
+                  focusedBorder: InputBorder.none,
                   contentPadding: EdgeInsets.symmetric(horizontal: 8),
                 ),
                 onChanged: (value) {

@@ -41,7 +41,6 @@ class HomePage extends HookConsumerWidget {
           children: const [
             CollectionsSection(),
             RequestSection(),
-            ResponseSection(),
           ],
         ),
       ),
