@@ -3,6 +3,7 @@ import 'package:client_ao/src/shared/constants/enums.dart';
 import 'package:client_ao/src/shared/models/collection.model.dart';
 import 'package:client_ao/src/shared/models/request.model.dart';
 import 'package:client_ao/src/shared/utils/layout.utils.dart';
+import 'package:client_ao/src/shared/utils/theme/app_theme.dart';
 import 'package:client_ao/src/shared/widgets/client_ao_textfield.widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
@@ -25,6 +26,7 @@ class CollectionListViewItem extends HookConsumerWidget {
     final activeId = ref.watch(activeIdProvider);
     final showMenu = useState<bool>(false);
     final changeBackgroundOnHover = useState<bool>(false);
+    final appColors = ref.watch(appColorsProvider);
 
     return MouseRegion(
       onHover: (event) {
@@ -36,11 +38,9 @@ class CollectionListViewItem extends HookConsumerWidget {
         changeBackgroundOnHover.value = false;
       },
       child: Container(
-        color: changeBackgroundOnHover.value
-            ? Colors.grey[350]
-            : activeId?.requestId == index && activeId?.collection == collection.id
-                ? Colors.grey[350]
-                : Colors.transparent,
+        color: changeBackgroundOnHover.value || activeId?.requestId == index && activeId?.collection == collection.id
+            ? appColors.selectedColor()
+            : Colors.transparent,
         padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
         child: GestureDetector(
           onTap: () {
@@ -60,7 +60,6 @@ class CollectionListViewItem extends HookConsumerWidget {
                   (request?.method.name)?.toUpperCase() ?? '',
                   style: TextStyle(
                     color: getRequestMethodColor(request?.method),
-                    fontWeight: FontWeight.bold,
                   ),
                 ),
                 const SizedBox(width: 16),
