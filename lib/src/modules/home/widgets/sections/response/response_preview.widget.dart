@@ -35,6 +35,7 @@ class ResponsePreview extends ConsumerWidget {
           response?.formattedBody ?? '',
           theme: highlightViewTheme,
           language: mediaType.subtype,
+          tabSize: 16,
         );
     }
     return const Text('Content not supported');

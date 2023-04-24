@@ -48,7 +48,7 @@ class UrlPreview extends HookConsumerWidget {
       margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
       decoration: BoxDecoration(
         color: Theme.of(context).cardColor.withOpacity(0.5),
-        border: Border.all(color: Theme.of(context).dividerColor),
+        border: Border.all(color: Theme.of(context).colorScheme.surfaceVariant),
       ),
       padding: const EdgeInsets.all(16),
       child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [

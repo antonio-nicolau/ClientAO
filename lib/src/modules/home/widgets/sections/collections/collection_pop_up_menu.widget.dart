@@ -1,5 +1,7 @@
 import 'package:client_ao/src/modules/home/states/collections.state.dart';
+import 'package:client_ao/src/shared/constants/default_values.dart';
 import 'package:client_ao/src/shared/constants/enums.dart';
+import 'package:client_ao/src/shared/models/auth/pop_up.model.dart';
 import 'package:client_ao/src/shared/models/collection.model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
@@ -19,17 +21,17 @@ class PopUpCollectionMenu extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final selectedMenu = useState<CollectionPopUpItem?>(null);
+    final selectedMenu = useState<PopupMenuModel?>(null);
 
-    return PopupMenuButton<CollectionPopUpItem>(
+    return PopupMenuButton<PopupMenuModel>(
       initialValue: selectedMenu.value,
-      itemBuilder: (BuildContext context) => CollectionPopUpItem.values.map((e) {
-        return PopupMenuItem<CollectionPopUpItem>(
+      itemBuilder: (BuildContext context) => collectionMenuOptions.map((e) {
+        return PopupMenuItem<PopupMenuModel>(
           value: e,
-          child: Text(e.name),
+          child: Text(e.displayName),
           onTap: () {
             widgetRef.read(activeIdProvider.notifier).update((state) => state?.copyWith(collection: collection.id));
-            switch (e) {
+            switch (e.method) {
               case CollectionPopUpItem.addRequest:
                 widgetRef.read(collectionsNotifierProvider.notifier).addRequest(collection.id);
                 break;
