@@ -3,6 +3,10 @@ part 'enums.g.dart';
 
 enum CollectionPopUpItem { addRequest, delete }
 
+enum SendPopUpItem { send, generateCode, repeatRequest }
+
+enum codeGenSupport { dart }
+
 enum RequestPopUpItem { delete }
 
 @HiveType(typeId: 4)

@@ -17,6 +17,12 @@ const collectionMenuOptions = [
   PopupMenuModel(label: 'Delete', displayName: 'Delete', method: CollectionPopUpItem.delete),
 ];
 
+const sendMethodsOptions = [
+  PopupMenuModel(label: 'Send', displayName: 'Send', method: SendPopUpItem.send),
+  PopupMenuModel(label: 'Generate code', displayName: 'Generate code', method: SendPopUpItem.generateCode),
+  // PopupMenuModel(label: 'Repeat request', displayName: 'Repeat request', method: SendPopUpItem.repeatRequest),
+];
+
 const defaultResponseCodeReasons = {
   100: 'Continue',
   101: 'Switching Protocols',
@@ -101,12 +107,12 @@ final highlightViewTheme = {
   'section': const TextStyle(color: Color(0xff990000), fontWeight: FontWeight.bold),
   'selector-id': const TextStyle(color: Color(0xff990000), fontWeight: FontWeight.bold),
   'type': const TextStyle(color: Color(0xff445588), fontWeight: FontWeight.bold),
-  'tag': const TextStyle(color: Color(0xff000080), fontWeight: FontWeight.normal),
-  'name': const TextStyle(color: Color(0xff000080), fontWeight: FontWeight.normal),
+  'tag': const TextStyle(color: Colors.red, fontWeight: FontWeight.normal),
+  'name': const TextStyle(color: Colors.red, fontWeight: FontWeight.normal),
   'attribute': const TextStyle(color: Color(0xff000080), fontWeight: FontWeight.normal),
   'regexp': const TextStyle(color: Color(0xff009926)),
   'link': const TextStyle(color: Color(0xff009926)),
-  'symbol': const TextStyle(color: Color(0xff990073)),
+  'symbol': const TextStyle(color: Colors.white),
   'bullet': const TextStyle(color: Color(0xff990073)),
   'built_in': const TextStyle(color: Color(0xff0086b3)),
   'builtin-name': const TextStyle(color: Color(0xff0086b3)),

@@ -106,7 +106,7 @@ class EmptyCollectionsPage extends ConsumerWidget {
             textAlign: TextAlign.center,
           ),
           const SizedBox(height: 24),
-          ElevatedButton(
+          FilledButton(
               onPressed: () {
                 ref.read(collectionsNotifierProvider.notifier).newCollection();
               },
