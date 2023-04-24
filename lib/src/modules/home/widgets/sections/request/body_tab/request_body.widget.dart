@@ -21,6 +21,7 @@ class RequestBody extends HookConsumerWidget {
       keyboardType: TextInputType.multiline,
       minLines: 30,
       maxLines: 80,
+      decoration: const InputDecoration(contentPadding: EdgeInsets.all(8)),
       onChanged: (value) {
         if (value.trim().isNotEmpty) {
           ref.read(collectionsNotifierProvider.notifier).updateRequest(body: value);

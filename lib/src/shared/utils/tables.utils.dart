@@ -10,6 +10,7 @@ DaviModel<KeyValueRow> createDaviTable({
   String? valueColumnName,
   String? keyFieldHintText,
   String? valueFieldHintText,
+  required BuildContext context,
   Function(List<KeyValueRow>?)? onFieldsChange,
   Function(int index)? onRemoveTaped,
 }) {
@@ -20,13 +21,14 @@ DaviModel<KeyValueRow> createDaviTable({
         name: keyColumnName,
         grow: 1,
         sortable: false,
-        cellBuilder: (context, row) {
+        cellBuilder: (_, row) {
           return KeyTextField(
             index: row.index,
             rows: rows,
             row: row.data,
             keyFieldHintText: keyFieldHintText,
             onKeyFieldChanged: onFieldsChange,
+            parentContext: context,
           );
         },
       ),
@@ -40,19 +42,20 @@ DaviModel<KeyValueRow> createDaviTable({
         name: valueColumnName,
         grow: 1,
         sortable: false,
-        cellBuilder: (context, row) {
+        cellBuilder: (_, row) {
           return ValueTextField(
             index: row.index,
             rows: rows,
             row: row.data,
             valueFieldHintText: valueFieldHintText,
             onValueFieldChanged: onFieldsChange,
+            parentContext: context,
           );
         },
       ),
       DaviColumn(
         width: 30,
-        cellBuilder: (BuildContext context, DaviRow<KeyValueRow> row) {
+        cellBuilder: (_, row) {
           return InkWell(
             onTap: () => onRemoveTaped?.call(row.index),
             child: Icon(

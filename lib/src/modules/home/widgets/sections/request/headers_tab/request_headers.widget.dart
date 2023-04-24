@@ -41,6 +41,7 @@ class RequestHeaders extends HookConsumerWidget {
       rows: rows,
       keyColumnName: 'Headers',
       valueColumnName: 'Values',
+      context: context,
       onRemoveTaped: (index) {
         ref.read(collectionsNotifierProvider.notifier).removeHeader(index);
       },

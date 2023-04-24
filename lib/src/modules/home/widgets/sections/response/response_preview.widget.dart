@@ -1,8 +1,8 @@
 import 'dart:developer';
 import 'dart:io';
+import 'package:client_ao/src/shared/constants/default_values.dart';
 import 'package:client_ao/src/shared/models/response.model.dart';
 import 'package:flutter_highlighter/flutter_highlighter.dart';
-import 'package:flutter_highlighter/themes/github.dart';
 import 'package:http_parser/http_parser.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -33,7 +33,7 @@ class ResponsePreview extends ConsumerWidget {
       default:
         return HighlightView(
           response?.formattedBody ?? '',
-          theme: githubTheme,
+          theme: highlightViewTheme,
           language: mediaType.subtype,
         );
     }

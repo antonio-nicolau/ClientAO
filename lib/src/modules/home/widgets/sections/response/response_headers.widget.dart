@@ -1,4 +1,5 @@
 import 'package:client_ao/src/modules/home/states/collections.state.dart';
+import 'package:client_ao/src/shared/utils/theme/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -7,6 +8,7 @@ class ResponseHeaders extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final appColors = ref.watch(appColorsProvider);
     final activeId = ref.watch(activeIdProvider);
     final responseAsync = ref.watch(responseStateProvider(activeId));
 
@@ -26,7 +28,7 @@ class ResponseHeaders extends ConsumerWidget {
                 return Container(
                   padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 8),
                   margin: const EdgeInsets.only(bottom: 16),
-                  color: Colors.grey[200],
+                  color: appColors.selectedColor(),
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [

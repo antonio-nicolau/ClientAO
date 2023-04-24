@@ -58,6 +58,7 @@ class _UrlParamsRowsList extends HookConsumerWidget {
     final daviModel = createDaviTable(
       rows: rows,
       keyColumnName: 'Keys',
+      context: context,
       valueColumnName: 'Values',
       onFieldsChange: (rows) {
         ref.read(collectionsNotifierProvider.notifier).updateRequest(urlParams: rows);
@@ -86,12 +87,9 @@ class _UrlParamsRowsList extends HookConsumerWidget {
           ),
         ),
         Expanded(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8),
-            child: Davi<KeyValueRow>(
-              key: Key('${activeId?.requestId}-${rows?.length}'),
-              daviModel,
-            ),
+          child: Davi<KeyValueRow>(
+            key: Key('${activeId?.requestId}-${rows?.length}'),
+            daviModel,
           ),
         ),
       ],

@@ -1,5 +1,4 @@
 import 'package:client_ao/src/modules/home/states/collections.state.dart';
-import 'package:client_ao/src/modules/environments/environment_section.widget.dart';
 import 'package:client_ao/src/modules/home/widgets/sections/collections/collections_names_list.widget.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -14,31 +13,25 @@ class CollectionsSection extends HookConsumerWidget {
       padding: const EdgeInsets.all(16),
       child: Column(
         children: [
-          const EnvironmentSection(),
+          /// NOTE: In progress
+          // const EnvironmentSection(),
           const SizedBox(height: 16),
           SizedBox(
             height: 34,
-            child: Row(
-              children: [
-                IconButton(
-                  onPressed: () {
-                    final newId = ref.read(collectionsNotifierProvider.notifier).newCollection();
-                    ref.read(activeIdProvider.notifier).update((state) => state?.copyWith(collection: newId, requestId: 0));
-                  },
-                  icon: const Icon(Icons.add),
-                ),
-                const SizedBox(width: 8),
-                const Expanded(
-                  child: TextField(
-                    decoration: InputDecoration(
-                      suffixIcon: Icon(Icons.sort),
-                      enabledBorder: OutlineInputBorder(),
-                      focusedBorder: OutlineInputBorder(),
-                      contentPadding: EdgeInsets.all(8),
-                    ),
+            child: FilledButton(
+              onPressed: () {
+                final newId = ref.read(collectionsNotifierProvider.notifier).newCollection();
+                ref.read(activeIdProvider.notifier).update((state) => state?.copyWith(collection: newId, requestId: 0));
+              },
+              style: ButtonStyle(
+                elevation: MaterialStateProperty.all(4),
+                shape: MaterialStateProperty.all(
+                  const RoundedRectangleBorder(
+                    borderRadius: BorderRadius.zero,
                   ),
-                )
-              ],
+                ),
+              ),
+              child: const Text('New collection'),
             ),
           ),
           const SizedBox(height: 24),

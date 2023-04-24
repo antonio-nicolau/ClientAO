@@ -12,6 +12,7 @@ class ValueTextField extends HookConsumerWidget {
     this.onValueFieldChanged,
     this.rows,
     required this.row,
+    required this.parentContext,
   });
 
   final int index;
@@ -19,6 +20,7 @@ class ValueTextField extends HookConsumerWidget {
   final Function(List<KeyValueRow>?)? onValueFieldChanged;
   final List<KeyValueRow>? rows;
   final KeyValueRow row;
+  final BuildContext parentContext;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -26,7 +28,11 @@ class ValueTextField extends HookConsumerWidget {
 
     return TextField(
       controller: headerController,
-      decoration: InputDecoration(hintText: valueFieldHintText ?? 'value'),
+      decoration: InputDecoration(
+        hintText: valueFieldHintText ?? 'value',
+        hintStyle: Theme.of(parentContext).inputDecorationTheme.hintStyle,
+      ),
+      style: Theme.of(parentContext).textTheme.titleMedium,
       onChanged: (value) {
         List<KeyValueRow> newRows = rows ?? [];
 

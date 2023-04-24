@@ -43,17 +43,12 @@ class UrlPreview extends HookConsumerWidget {
       },
     );
 
-    if (collection?.requests?.get(activeId?.requestId)?.url == null ||
-        collection?.requests?[activeId?.requestId ?? 0]?.url?.isEmpty == true) {
-      return const SizedBox.shrink();
-    }
-
     return Container(
       width: MediaQuery.of(context).size.width,
       margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
       decoration: BoxDecoration(
-        color: Colors.grey[300],
-        borderRadius: BorderRadius.circular(8),
+        color: Theme.of(context).cardColor.withOpacity(0.5),
+        border: Border.all(color: Theme.of(context).dividerColor),
       ),
       padding: const EdgeInsets.all(16),
       child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
