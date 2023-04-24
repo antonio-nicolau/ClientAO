@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:client_ao/src/shared/models/key_value_row.model.dart';
 import 'package:http_parser/http_parser.dart';
 import 'package:client_ao/src/shared/constants/enums.dart';
 import 'package:flutter/material.dart';
@@ -95,4 +96,11 @@ String? formatBody(String? body, MediaType? mediaType) {
     }
   }
   return null;
+}
+
+Map<String, String>? listToMap(List<KeyValueRow>? rows, {bool isHeader = false}) {
+  if (rows == null) return null;
+  return Map.fromEntries(
+    rows.map((e) => MapEntry<String, String>(e.key ?? '', e.value ?? '')),
+  );
 }

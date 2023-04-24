@@ -1,7 +1,7 @@
 import 'dart:io';
 import 'dart:convert';
 import 'dart:typed_data';
-import 'package:client_ao/src/shared/utils/layout.utils.dart';
+import 'package:client_ao/src/shared/utils/functions.utils.dart';
 import 'package:collection/collection.dart' show mergeMaps;
 import 'package:equatable/equatable.dart';
 import 'package:hive/hive.dart';

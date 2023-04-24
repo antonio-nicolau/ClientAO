@@ -2,7 +2,7 @@ import 'package:client_ao/src/modules/home/states/collections.state.dart';
 import 'package:client_ao/src/shared/constants/enums.dart';
 import 'package:client_ao/src/shared/models/collection.model.dart';
 import 'package:client_ao/src/shared/models/request.model.dart';
-import 'package:client_ao/src/shared/utils/layout.utils.dart';
+import 'package:client_ao/src/shared/utils/functions.utils.dart';
 import 'package:client_ao/src/shared/utils/theme/app_theme.dart';
 import 'package:client_ao/src/shared/widgets/client_ao_textfield.widget.dart';
 import 'package:flutter/material.dart';
