@@ -20,7 +20,10 @@ class ResponsePreviewTabs extends HookConsumerWidget {
                   text: 'Headers',
                   icon: Text(
                     "(${data?.headers?.length ?? 0})",
-                    style: Theme.of(context).textTheme.labelSmall?.copyWith(fontWeight: FontWeight.bold, color: Colors.green),
+                    style: Theme.of(context)
+                        .textTheme
+                        .labelSmall
+                        ?.copyWith(fontWeight: FontWeight.bold, color: Theme.of(context).colorScheme.primary),
                   ),
                 ),
               ],
