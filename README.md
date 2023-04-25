@@ -43,7 +43,7 @@ In case you need any help with ClientAO please feel free to drop by our [Discord
 ### Download
 ClientAO is available for Mac, Windows and Linux, and can be downloaded from the links below:
 
-MacOS (Universal build - Apple Silicon & Intel) - [Download Link](https://github.com/antonio-nicolau/ClientAO/releases/download/untagged-a3bf796b2ec86ddb1dca/client_ao.dmg)
+MacOS (Universal build - Apple Silicon & Intel) - [Download Link](https://github.com/antonio-nicolau/ClientAO/releases/download/v1.0.0/client_ao.dmg)
 
 Windows - [Download Link](https://github.com/antonio-nicolau/ClientAO/releases/download/v1.0.0/client_ao.exe)
 
