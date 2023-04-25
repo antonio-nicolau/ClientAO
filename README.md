@@ -45,7 +45,7 @@ ClientAO is available for Mac, Windows and Linux, and can be downloaded from the
 
 MacOS (Universal build - Apple Silicon & Intel) - [Download Link](https://github.com/antonio-nicolau/ClientAO/releases/download/untagged-a3bf796b2ec86ddb1dca/client_ao.dmg)
 
-Windows - [Download Link](https://github.com/antonio-nicolau/ClientAO/releases/download/untagged-f8ed806a18236d8a52cf/client_ao.exe)
+Windows - [Download Link](https://github.com/antonio-nicolau/ClientAO/releases/download/v1.0.0/client_ao.exe)
 
 ### Having issue, want to request a feature or give Feedback
 Just click on the [Issue tab](https://github.com/antonio-nicolau/ClientAO/issues) to raise a new issue in this repo.
