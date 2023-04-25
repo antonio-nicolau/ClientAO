@@ -16,7 +16,7 @@ ClientAO is an open-source cross-platform API Client for building and using APIs
 - Easily manipulate request query params, Headers, Auth and body
 - Create and use different environment
 
-2. Visually inspect API Responses (HTTP status code, error message, headers, body, time taken)
+2. Visually inspect API Responses
 - Inspect request Response (status code, headers, body, time taken and response body size)
 - View formatted code previews for types like JSON, XML, HTML, etc...
 - For return results as images (video coming soon), ClientAO helps by directly previewing these results
