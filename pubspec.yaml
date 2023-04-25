@@ -49,6 +49,11 @@ dependencies:
   flutter_highlighter: ^0.1.1
   hive_generator: ^2.0.0
   hive_flutter: ^1.1.0
+  jinja: ^0.4.2
+  window_size:
+    git:
+      url: https://github.com/google/flutter-desktop-embedding.git
+      path: plugins/window_size
 
 dev_dependencies:
   flutter_test:
