@@ -1,6 +1,6 @@
 ---
 name: Feedback
-about: "Please let us know what you think \U0001F601"
+about: Please let us know what you think
 title: ''
 labels: ''
 assignees: ''
