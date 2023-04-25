@@ -104,3 +104,12 @@ Map<String, String>? listToMap(List<KeyValueRow>? rows, {bool isHeader = false})
     rows.map((e) => MapEntry<String, String>(e.key ?? '', e.value ?? '')),
   );
 }
+
+String padMultilineString(String text, int padding, {bool firstLinePadded = false}) {
+  var lines = const LineSplitter().convert(text);
+  int start = firstLinePadded ? 0 : 1;
+  for (start; start < lines.length; start++) {
+    lines[start] = ' ' * padding + lines[start];
+  }
+  return lines.join("\n");
+}
