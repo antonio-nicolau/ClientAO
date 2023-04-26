@@ -19,7 +19,6 @@ class ApiRequest implements IApiRequestRepository {
 
   @override
   Future<(http.Response,Duration)> request(RequestModel request) async {
-    Response? response;
     final headers = Map.fromEntries(
       request.headers!.map((e) => MapEntry<String, String>(e.key ?? '', e.value ?? '')),
     );
@@ -30,27 +29,36 @@ class ApiRequest implements IApiRequestRepository {
 
     final stopWatch = Stopwatch()..start();
 
-    switch (request.method) {
-      case HttpVerb.get:
-        response = await _httpClient.get(uri!, headers: headers);
-        break;
-      case HttpVerb.post:
-        response = await _httpClient.post(uri!, headers: headers, body: body);
-        break;
-      case HttpVerb.put:
-        response = await _httpClient.put(uri!, headers: headers, body: body);
-        break;
-      case HttpVerb.patch:
-        response = await _httpClient.patch(uri!, headers: headers, body: body);
-        break;
-      case HttpVerb.delete:
-        response = await _httpClient.delete(uri!, headers: headers, body: body);
-        break;
-    }
+    final response = await doRequest(method:request.method,
+      httpClient: _httpClient,
+      uri: uri,
+      headers: headers,
+      body: body,
+      );
 
     stopWatch.stop();
 
     return (response,stopWatch.elapsed);
+  }
+
+
+  Future<Response> doRequest({required HttpVerb method,required CustomHttpClient httpClient,required Uri? uri,Map<String,String>? headers,String? body,})async{
+
+    if(uri == null) throw Exception('Uri cannot be null');
+
+    final methodHandlers = <HttpVerb, Future<Response>>{
+      HttpVerb.get: httpClient.get(uri, headers: headers??{}),
+      HttpVerb.post: httpClient.post(uri, headers: headers, body: body),
+      HttpVerb.put: httpClient.put(uri, headers: headers, body: body),
+      HttpVerb.patch: httpClient.patch(uri, headers: headers, body: body),
+      HttpVerb.delete: httpClient.delete(uri, headers: headers, body: body),
+    };
+
+     if (!methodHandlers.containsKey(method)) {
+      throw UnsupportedError('Unsupported HTTP method: $method');
+    }
+
+    return methodHandlers[method]!;
   }
 
   Uri? getUriWithQueryParams(RequestModel request) {
