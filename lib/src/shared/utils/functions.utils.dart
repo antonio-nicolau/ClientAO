@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:client_ao/src/shared/models/key_value_row.model.dart';
+import 'package:flutter/services.dart';
 import 'package:http_parser/http_parser.dart';
 import 'package:client_ao/src/shared/constants/enums.dart';
 import 'package:flutter/material.dart';
@@ -100,7 +101,33 @@ String? formatBody(String? body, MediaType? mediaType) {
 
 Map<String, String>? listToMap(List<KeyValueRow>? rows, {bool isHeader = false}) {
   if (rows == null) return null;
+
+  if (rows.isNotEmpty && rows.first.key == null) return null;
+
   return Map.fromEntries(
     rows.map((e) => MapEntry<String, String>(e.key ?? '', e.value ?? '')),
+  );
+}
+
+String addPaddingToMultilineString(String text, int padding) {
+  var lines = const LineSplitter().convert(text);
+
+  for (int start = 1; start < lines.length; start++) {
+    lines[start] = ' ' * padding + lines[start];
+  }
+  return lines.join("\n");
+}
+
+void copyToClipboard({
+  required BuildContext context,
+  required String? text,
+  String? successMessage,
+}) async {
+  Clipboard.setData(ClipboardData(text: text)).then(
+    (value) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(successMessage ?? 'URL Copied to clipboard')),
+      );
+    },
   );
 }

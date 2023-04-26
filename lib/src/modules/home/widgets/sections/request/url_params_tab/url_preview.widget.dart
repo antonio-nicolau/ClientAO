@@ -1,9 +1,8 @@
 import 'package:client_ao/src/modules/home/states/collections.state.dart';
-import 'package:client_ao/src/shared/models/collection.model.dart';
 import 'package:client_ao/src/shared/utils/client_ao_extensions.dart';
 import 'package:client_ao/src/shared/models/key_value_row.model.dart';
+import 'package:client_ao/src/shared/utils/functions.utils.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -54,20 +53,15 @@ class UrlPreview extends HookConsumerWidget {
       child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
         Expanded(child: Text('${urlToPreview.value}')),
         IconButton(
-          onPressed: () => copyToClipboard(collection, activeId, context),
+          onPressed: () {
+            copyToClipboard(
+              context: context,
+              text: collection?.requests?.get(activeId?.requestId ?? 0)?.url,
+            );
+          },
           icon: const Icon(Icons.copy_outlined),
         ),
       ]),
-    );
-  }
-
-  void copyToClipboard(CollectionModel? collection, ActiveId? activeId, BuildContext context) {
-    Clipboard.setData(ClipboardData(text: collection?.requests?.get(activeId?.requestId ?? 0)?.url)).then(
-      (value) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('URL Copied to clipboard')),
-        );
-      },
     );
   }
 }

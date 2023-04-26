@@ -1,6 +1,6 @@
 import 'dart:developer';
 import 'dart:io';
-import 'package:client_ao/src/shared/constants/default_values.dart';
+import 'package:client_ao/src/shared/constants/highlight_view_themes.dart';
 import 'package:client_ao/src/shared/models/response.model.dart';
 import 'package:flutter_highlighter/flutter_highlighter.dart';
 import 'package:http_parser/http_parser.dart';
