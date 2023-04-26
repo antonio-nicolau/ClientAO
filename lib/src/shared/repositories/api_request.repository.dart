@@ -19,7 +19,6 @@ class ApiRequest implements IApiRequestRepository {
 
   @override
   Future<(http.Response,Duration)> request(RequestModel request) async {
-    Response? response;
     final headers = Map.fromEntries(
       request.headers!.map((e) => MapEntry<String, String>(e.key ?? '', e.value ?? '')),
     );
@@ -29,24 +28,20 @@ class ApiRequest implements IApiRequestRepository {
     final body = request.body;
 
     final stopWatch = Stopwatch()..start();
+    
+    final methodHandlers = <HttpVerb, Future<Response>>{
+      HttpVerb.get: _httpClient.get(uri!, headers: headers),
+      HttpVerb.post: _httpClient.post(uri!, headers: headers, body: body),
+      HttpVerb.put: _httpClient.put(uri!, headers: headers, body: body),
+      HttpVerb.patch: _httpClient.patch(uri!, headers: headers, body: body),
+      HttpVerb.delete: _httpClient.delete(uri!, headers: headers, body: body),
+  };
 
-    switch (request.method) {
-      case HttpVerb.get:
-        response = await _httpClient.get(uri!, headers: headers);
-        break;
-      case HttpVerb.post:
-        response = await _httpClient.post(uri!, headers: headers, body: body);
-        break;
-      case HttpVerb.put:
-        response = await _httpClient.put(uri!, headers: headers, body: body);
-        break;
-      case HttpVerb.patch:
-        response = await _httpClient.patch(uri!, headers: headers, body: body);
-        break;
-      case HttpVerb.delete:
-        response = await _httpClient.delete(uri!, headers: headers, body: body);
-        break;
+    if (!methodHandlers.containsKey(request.method)) {
+      throw UnsupportedError('Unsupported HTTP method: ${request.method}');
     }
+
+    final response = await methodHandlers[request.method]!;
 
     stopWatch.stop();
 
