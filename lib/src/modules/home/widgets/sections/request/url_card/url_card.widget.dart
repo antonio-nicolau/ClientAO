@@ -1,5 +1,6 @@
 import 'package:client_ao/src/modules/home/states/collections.state.dart';
 import 'package:client_ao/src/modules/home/widgets/sections/request/url_card/dropdown_button_request_method.widget.dart';
+import 'package:client_ao/src/modules/home/widgets/sections/request/url_card/send_request_button.widget.dart';
 import 'package:client_ao/src/shared/constants/strings.dart';
 import 'package:client_ao/src/shared/utils/client_ao_extensions.dart';
 import 'package:flutter/material.dart';
@@ -7,6 +8,8 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class UrlCard extends HookConsumerWidget {
+  /// Widget responsible to build request URL card
+  /// Select request method, add url and configure SEND options
   const UrlCard({super.key});
 
   @override
@@ -63,21 +66,7 @@ class UrlCard extends HookConsumerWidget {
                 onSubmitted: (value) => sendRequest.call(),
               ),
             ),
-            FilledButton(
-              onPressed: sendRequest,
-              style: ButtonStyle(
-                shape: MaterialStateProperty.all(
-                  const RoundedRectangleBorder(
-                    borderRadius: BorderRadius.zero,
-                  ),
-                ),
-                padding: MaterialStateProperty.all(const EdgeInsets.symmetric(
-                  horizontal: 20,
-                  vertical: 24,
-                )),
-              ),
-              child: const Text('Send'),
-            ),
+            SendRequestButton(collection: collection, onPressed: sendRequest)
           ],
         ),
       ),
