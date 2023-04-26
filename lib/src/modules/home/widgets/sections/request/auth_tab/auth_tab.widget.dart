@@ -14,9 +14,11 @@ class AuthTab extends ConsumerWidget {
       children: [
         Expanded(child: Text(auth?.displayName ?? '', maxLines: 1)),
         const SizedBox(width: 5),
-        IconButton(
-          onPressed: () => showAuthOptions(context),
-          icon: const Icon(Icons.arrow_drop_down),
+        Expanded(
+          child: IconButton(
+            onPressed: () => showAuthOptions(context),
+            icon: const Icon(Icons.arrow_drop_down),
+          ),
         ),
       ],
     );
