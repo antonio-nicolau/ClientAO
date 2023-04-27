@@ -52,6 +52,7 @@ class ApiRequest implements IApiRequestRepository {
       HttpVerb.put: httpClient.put(uri, headers: headers, body: body),
       HttpVerb.patch: httpClient.patch(uri, headers: headers, body: body),
       HttpVerb.delete: httpClient.delete(uri, headers: headers, body: body),
+      HttpVerb.head: httpClient.head(uri, headers: headers),
     };
 
      if (!methodHandlers.containsKey(method)) {

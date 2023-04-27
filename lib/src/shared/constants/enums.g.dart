@@ -23,6 +23,8 @@ class HttpVerbAdapter extends TypeAdapter<HttpVerb> {
         return HttpVerb.patch;
       case 4:
         return HttpVerb.delete;
+      case 5:
+        return HttpVerb.head;
       default:
         return HttpVerb.get;
     }
@@ -45,6 +47,9 @@ class HttpVerbAdapter extends TypeAdapter<HttpVerb> {
         break;
       case HttpVerb.delete:
         writer.writeByte(4);
+        break;
+      case HttpVerb.head:
+        writer.writeByte(5);
         break;
     }
   }
