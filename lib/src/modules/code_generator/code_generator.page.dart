@@ -1,5 +1,4 @@
-
-
+import 'dart:convert';
 import 'package:client_ao/src/modules/home/states/collections.state.dart';
 import 'package:client_ao/src/shared/code_generator/dart/dart_code_generator.dart';
 import 'package:client_ao/src/shared/constants/highlight_view_themes.dart';
@@ -65,12 +64,24 @@ class CodeGenPage extends ConsumerWidget {
           Divider(color: Theme.of(context).colorScheme.surfaceVariant),
           const SizedBox(height: 16),
           HighlightView(
-            code ?? '',
+            identWithLinesCount(code) ?? '',
             language: 'dart',
             theme: dartHighlightViewDarkTheme,
           ),
         ],
       ),
     );
+  }
+
+  String? identWithLinesCount(String? code) {
+    if (code == null) return null;
+
+    final lines = const LineSplitter().convert(code);
+
+    for (var i = 0; i < lines.length; i++) {
+      lines[i] = '${(i + 1)}${' ' * 8}${lines[i]}\n';
+    }
+
+    return lines.join();
   }
 }
