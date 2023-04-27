@@ -23,9 +23,21 @@ class SubEnvironments extends HookConsumerWidget {
         Expanded(
           child: Container(
             padding: const EdgeInsets.all(16),
-            child: EnvironmentValueTextField(
-              selectedValue.value,
-              key: Key(selectedValue.value),
+            child: ListView(
+              children: [
+                Align(
+                  alignment: Alignment.topRight,
+                  child: TextButton.icon(
+                    onPressed: () {},
+                    icon: const Icon(Icons.delete_forever_rounded),
+                    label: const Text('Delete'),
+                  ),
+                ),
+                EnvironmentValueTextField(
+                  selectedValue.value,
+                  key: Key(selectedValue.value),
+                ),
+              ],
             ),
           ),
         ),

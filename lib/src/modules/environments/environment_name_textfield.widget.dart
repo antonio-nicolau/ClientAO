@@ -1,4 +1,5 @@
 import 'package:client_ao/src/shared/services/hive.service.dart';
+import 'package:client_ao/src/shared/utils/theme/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -21,6 +22,7 @@ class EnvironmentNameTextField extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final envNameController = useTextEditingController(text: envName);
     final enableTextField = useState<bool>(false);
+    final appColors = ref.watch(appColorsProvider);
 
     return GestureDetector(
       onTap: () {
@@ -33,7 +35,7 @@ class EnvironmentNameTextField extends HookConsumerWidget {
         readOnly: !enableTextField.value,
         decoration: InputDecoration(
           filled: envName == selectedValue,
-          fillColor: envName == selectedValue ? Colors.grey[300] : Colors.transparent,
+          fillColor: envName == selectedValue ? appColors.selectedColor() : Colors.transparent,
         ),
         onChanged: (value) {
           if (value.isNotEmpty) {

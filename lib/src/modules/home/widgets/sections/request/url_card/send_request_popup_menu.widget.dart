@@ -44,7 +44,6 @@ class PopUpSendMenu extends HookConsumerWidget {
                     context: context,
                     builder: (context) => AlertDialog(
                       contentPadding: EdgeInsets.zero,
-                      shape: const RoundedRectangleBorder(),
                       insetPadding: EdgeInsets.zero,
                       backgroundColor: Colors.grey.shade900,
                       content: const CodeGenPage(),

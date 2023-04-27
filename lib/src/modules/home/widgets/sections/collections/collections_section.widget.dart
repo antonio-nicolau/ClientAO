@@ -1,3 +1,4 @@
+import 'package:client_ao/src/modules/environments/environment_section.widget.dart';
 import 'package:client_ao/src/modules/home/states/collections.state.dart';
 import 'package:client_ao/src/modules/home/widgets/sections/collections/collections_names_list.widget.dart';
 import 'package:flutter/material.dart';
@@ -14,7 +15,7 @@ class CollectionsSection extends HookConsumerWidget {
       child: Column(
         children: [
           /// NOTE: In progress
-          // const EnvironmentSection(),
+          const EnvironmentSection(),
           const SizedBox(height: 16),
           SizedBox(
             height: 34,

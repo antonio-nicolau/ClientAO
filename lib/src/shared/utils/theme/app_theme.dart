@@ -16,6 +16,10 @@ class Themes {
     textTheme: const TextTheme(
       titleMedium: TextStyle(color: Colors.white70),
     ),
+    dialogTheme: DialogTheme(
+      shape: const RoundedRectangleBorder(),
+      backgroundColor: Colors.grey.shade900,
+    ),
     inputDecorationTheme: InputDecorationTheme(
       hintStyle: TextStyle(color: Colors.grey.shade600),
     ),

@@ -113,16 +113,19 @@ class _ManageEnvironments extends ConsumerWidget {
         children: [
           Row(
             children: [
-              IconButton(
+              TextButton.icon(
                 onPressed: () async {
                   await ref.read(hiveServiceProvider).saveEnvironment();
                   ref.invalidate(environmentsProvider);
                 },
                 icon: const Icon(Icons.add),
+                label: const Text('New'),
               ),
-              ElevatedButton(
+              const SizedBox(width: 8),
+              TextButton.icon(
                 onPressed: () => ref.read(hiveServiceProvider).clearAll(),
-                child: const Text('Delete all'),
+                icon: const Icon(Icons.delete_forever),
+                label: const Text('Delete all'),
               ),
             ],
           ),
