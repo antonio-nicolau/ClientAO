@@ -19,7 +19,7 @@ Color getRequestMethodColor(HttpVerb? method) {
     case HttpVerb.delete:
       return Colors.red;
     default:
-      return Colors.deepPurpleAccent;
+      return Colors.blue;
   }
 }
 

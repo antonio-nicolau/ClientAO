@@ -5,8 +5,6 @@ enum CollectionPopUpItem { addRequest, delete }
 
 enum SendPopUpItem { send, generateCode, repeatRequest }
 
-enum codeGenSupport { dart }
-
 enum RequestPopUpItem { delete }
 
 @HiveType(typeId: 4)
@@ -21,6 +19,8 @@ enum HttpVerb {
   patch,
   @HiveField(4)
   delete,
+  @HiveField(5)
+  head,
 }
 
 enum AuthMethod {

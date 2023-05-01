@@ -1,6 +1,4 @@
-import 'package:client_ao/src/modules/home/states/environment.state.dart';
 import 'package:client_ao/src/shared/models/key_value_row.model.dart';
-import 'package:client_ao/src/shared/services/hive.service.dart';
 import 'package:client_ao/src/shared/utils/functions.utils.dart';
 import 'package:client_ao/src/shared/widgets/environment_suggestions.widget.dart';
 import 'package:flutter/material.dart';

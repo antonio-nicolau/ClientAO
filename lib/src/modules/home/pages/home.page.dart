@@ -1,7 +1,6 @@
 import 'package:client_ao/src/modules/home/states/collections.state.dart';
 import 'package:client_ao/src/modules/home/widgets/sections/collections/collections_section.widget.dart';
 import 'package:client_ao/src/modules/home/widgets/sections/request/request_section.widget.dart';
-import 'package:client_ao/src/modules/home/widgets/sections/response/response_section.widget.dart';
 import 'package:client_ao/src/shared/models/collection.model.dart';
 import 'package:client_ao/src/shared/services/hive_data.service.dart';
 import 'package:client_ao/src/shared/utils/client_ao_extensions.dart';
