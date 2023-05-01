@@ -1,6 +1,5 @@
 import 'package:client_ao/src/shared/models/key_value_row.model.dart';
-import 'package:client_ao/src/shared/widgets/key_textfield.widget.dart';
-import 'package:client_ao/src/shared/widgets/value_textfield.widget.dart';
+import 'package:client_ao/src/shared/widgets/custom_textfield.widget.dart';
 import 'package:davi/davi.dart';
 import 'package:flutter/material.dart';
 
@@ -22,12 +21,19 @@ DaviModel<KeyValueRow> createDaviTable({
         grow: 1,
         sortable: false,
         cellBuilder: (_, row) {
-          return KeyTextField(
+          return CustomValueTextField(
             index: row.index,
             rows: rows,
-            row: row.data,
-            keyFieldHintText: keyFieldHintText,
-            onKeyFieldChanged: onFieldsChange,
+            defaultValue: row.data.key,
+            valueFieldHintText: keyFieldHintText,
+            onValueFieldChanged: (value) => updateRows.call(
+              rows: rows,
+              row: row.data,
+              index: row.index,
+              value: value,
+              updateKey: true,
+              callback: (newRows) => onFieldsChange?.call(newRows),
+            ),
             parentContext: context,
           );
         },
@@ -43,12 +49,19 @@ DaviModel<KeyValueRow> createDaviTable({
         grow: 1,
         sortable: false,
         cellBuilder: (_, row) {
-          return ValueTextField(
+          return CustomValueTextField(
             index: row.index,
             rows: rows,
-            row: row.data,
+            defaultValue: row.data.value,
             valueFieldHintText: valueFieldHintText,
-            onValueFieldChanged: onFieldsChange,
+            onValueFieldChanged: (value) => updateRows.call(
+              rows: rows,
+              row: row.data,
+              index: row.index,
+              value: value,
+              updateValue: true,
+              callback: (newRows) => onFieldsChange?.call(newRows),
+            ),
             parentContext: context,
           );
         },
@@ -68,4 +81,30 @@ DaviModel<KeyValueRow> createDaviTable({
       ),
     ],
   );
+}
+
+void updateRows({
+  List<KeyValueRow>? rows,
+  required KeyValueRow row,
+  String? value,
+  bool updateKey = false,
+  bool updateValue = false,
+  required int index,
+  required Function(List<KeyValueRow>?) callback,
+}) {
+  List<KeyValueRow> newRows = rows ?? [];
+
+  if (updateKey) {
+    row = row.copyWith(key: value);
+  } else if (updateValue) {
+    row = row.copyWith(value: value);
+  }
+
+  newRows = [
+    ...newRows.sublist(0, index),
+    row,
+    ...newRows.sublist(index + 1),
+  ];
+
+  callback.call(newRows);
 }

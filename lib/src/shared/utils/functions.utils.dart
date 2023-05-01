@@ -131,3 +131,12 @@ void copyToClipboard({
     },
   );
 }
+
+(double dy,double dx,Size size) getWidgetSize(BuildContext? context) {
+    final renderBox = context?.findRenderObject() as RenderBox;
+    final local = renderBox.localToGlobal(Offset.zero);
+    final dy = local.dy;
+    final dx = local.dx;
+    final size = renderBox.size;
+    return (dx,dy,size);
+  }

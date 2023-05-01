@@ -60,8 +60,8 @@ class _UrlParamsRowsList extends HookConsumerWidget {
       keyColumnName: 'Keys',
       context: context,
       valueColumnName: 'Values',
-      onFieldsChange: (rows) {
-        ref.read(collectionsNotifierProvider.notifier).updateRequest(urlParams: rows);
+      onFieldsChange: (newRows) {
+        ref.read(collectionsNotifierProvider.notifier).updateRequest(urlParams: newRows);
       },
       onRemoveTaped: (index) {
         ref.read(collectionsNotifierProvider.notifier).removeUrlParam(index);

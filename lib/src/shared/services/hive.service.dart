@@ -82,4 +82,9 @@ class HiveService implements IStorage {
   Future<void> clearSelectedEnvironment() async {
     await selectedEnvBox.clear();
   }
+
+  @override
+  List<String> getEnvironmentsKey() {
+    return envBox.keys.map((e) => '$e').toList();
+  }
 }

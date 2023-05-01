@@ -20,5 +20,7 @@ abstract class IStorage {
 
   List<String> getAllEnvironments();
 
+  List<String> getEnvironmentsKey();
+
   Map<dynamic, dynamic>? getEnvironmentValuesByKey(String key);
 }
