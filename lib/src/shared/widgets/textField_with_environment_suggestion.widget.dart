@@ -1,3 +1,4 @@
+
 import 'package:client_ao/src/shared/models/key_value_row.model.dart';
 import 'package:client_ao/src/shared/utils/functions.utils.dart';
 import 'package:client_ao/src/shared/widgets/environment_suggestions.widget.dart';
@@ -18,17 +19,17 @@ final selectedSuggestionTextProvider = StateProvider.family<String?, int>((ref, 
   return null;
 });
 
-class CustomValueTextField extends HookConsumerWidget {
-  const CustomValueTextField({
+class TextFieldWithEnvironmentSuggestion extends HookConsumerWidget {
+  const TextFieldWithEnvironmentSuggestion({
     super.key,
-    this.valueFieldHintText,
-    this.onValueFieldChanged,
+    this.hintText,
+    this.onChanged,
     this.rows,
     this.defaultValue,
     required this.parentContext,
   });
-  final String? valueFieldHintText;
-  final Function(String)? onValueFieldChanged;
+  final String? hintText;
+  final Function(String)? onChanged;
   final List<KeyValueRow>? rows;
   final String? defaultValue;
   final BuildContext parentContext;
@@ -40,7 +41,7 @@ class CustomValueTextField extends HookConsumerWidget {
 
     ref.listen(selectedSuggestionTextProvider(headerController.hashCode), (previous, next) {
       if (next != null) {
-        onValueFieldChanged?.call(next);
+        onChanged?.call(next);
       }
     });
 
@@ -59,7 +60,7 @@ class CustomValueTextField extends HookConsumerWidget {
     return TextField(
       controller: headerController,
       decoration: InputDecoration(
-        hintText: valueFieldHintText ?? 'value',
+        hintText: hintText ?? 'value',
         hintStyle: Theme.of(parentContext).inputDecorationTheme.hintStyle,
       ),
       style: Theme.of(parentContext).textTheme.titleMedium,
@@ -68,7 +69,7 @@ class CustomValueTextField extends HookConsumerWidget {
 
         showEnvironmentVariablesSuggestions(context, ref);
 
-        onValueFieldChanged?.call(value);
+        onChanged?.call(value);
       },
     );
   }

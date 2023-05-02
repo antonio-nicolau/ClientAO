@@ -1,5 +1,5 @@
 import 'package:client_ao/src/shared/models/auth/bearer_token.model.dart';
-import 'package:client_ao/src/shared/widgets/custom_textfield.widget.dart';
+import 'package:client_ao/src/shared/widgets/textField_with_environment_suggestion.widget.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -41,8 +41,8 @@ class AuthWithBearerToken extends HookConsumerWidget {
               const Text('TOKEN'),
               const SizedBox(width: 16),
               Expanded(
-                child: CustomValueTextField(
-                  onValueFieldChanged: (value) {
+                child: TextFieldWithEnvironmentSuggestion(
+                  onChanged: (value) {
                     ref.read(authWithBearerTokenProvider.notifier).state = bearerAuth.copyWith(
                       token: value,
                     );

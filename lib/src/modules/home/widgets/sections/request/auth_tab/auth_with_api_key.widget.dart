@@ -1,6 +1,6 @@
 import 'package:client_ao/src/shared/models/auth/auth_api_key.model.dart';
 import 'package:client_ao/src/shared/models/key_value_row.model.dart';
-import 'package:client_ao/src/shared/widgets/custom_textfield.widget.dart';
+import 'package:client_ao/src/shared/widgets/textField_with_environment_suggestion.widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -16,7 +16,6 @@ class AuthWithApiKey extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final apiKeyState = ref.watch(authWithApiKeyProvider);
     final apiKeyController = useTextEditingController(text: apiKeyState.keyValue?.key);
-    final apiValueController = useTextEditingController(text: apiKeyState.keyValue?.value);
 
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
@@ -63,8 +62,8 @@ class AuthWithApiKey extends HookConsumerWidget {
               const Text('VALUE'),
               const SizedBox(width: 16),
               Expanded(
-                child: CustomValueTextField(
-                  onValueFieldChanged: (value) {
+                child: TextFieldWithEnvironmentSuggestion(
+                  onChanged: (value) {
                     ref.read(authWithApiKeyProvider.notifier).state = apiKeyState.copyWith(
                       keyValue: apiKeyState.keyValue?.copyWith(value: value),
                     );

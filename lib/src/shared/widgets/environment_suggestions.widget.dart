@@ -1,7 +1,7 @@
 import 'package:client_ao/src/modules/home/states/environment.state.dart';
 import 'package:client_ao/src/shared/services/hive.service.dart';
 import 'package:client_ao/src/shared/utils/client_ao_extensions.dart';
-import 'package:client_ao/src/shared/widgets/custom_textfield.widget.dart';
+import 'package:client_ao/src/shared/widgets/textField_with_environment_suggestion.widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
