@@ -21,14 +21,12 @@ final selectedSuggestionTextProvider = StateProvider.family<String?, int>((ref, 
 class CustomValueTextField extends HookConsumerWidget {
   const CustomValueTextField({
     super.key,
-    required this.index,
     this.valueFieldHintText,
     this.onValueFieldChanged,
     this.rows,
-    required this.defaultValue,
+    this.defaultValue,
     required this.parentContext,
   });
-  final int index;
   final String? valueFieldHintText;
   final Function(String)? onValueFieldChanged;
   final List<KeyValueRow>? rows;
@@ -39,14 +37,11 @@ class CustomValueTextField extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final headerController = useTextEditingController(text: defaultValue);
     final focusNode = useFocusNode();
-    print("main: ${headerController.hashCode}");
+
     ref.listen(selectedSuggestionTextProvider(headerController.hashCode), (previous, next) {
       if (next != null) {
-        print('value: $next');
-
         onValueFieldChanged?.call(next);
       }
-      print('object');
     });
 
     useEffect(

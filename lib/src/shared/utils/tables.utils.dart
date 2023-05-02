@@ -22,7 +22,6 @@ DaviModel<KeyValueRow> createDaviTable({
         sortable: false,
         cellBuilder: (_, row) {
           return CustomValueTextField(
-            index: row.index,
             rows: rows,
             defaultValue: row.data.key,
             valueFieldHintText: keyFieldHintText,
@@ -50,7 +49,6 @@ DaviModel<KeyValueRow> createDaviTable({
         sortable: false,
         cellBuilder: (_, row) {
           return CustomValueTextField(
-            index: row.index,
             rows: rows,
             defaultValue: row.data.value,
             valueFieldHintText: valueFieldHintText,

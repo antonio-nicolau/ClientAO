@@ -1,6 +1,6 @@
 import 'package:client_ao/src/shared/models/auth/bearer_token.model.dart';
+import 'package:client_ao/src/shared/widgets/custom_textfield.widget.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 final authWithBearerTokenProvider = StateProvider<BearerAuthentication>((ref) {
@@ -13,7 +13,6 @@ class AuthWithBearerToken extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final bearerAuth = ref.watch(authWithBearerTokenProvider);
-    final bearerTokenController = useTextEditingController(text: bearerAuth.token);
 
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
@@ -42,13 +41,13 @@ class AuthWithBearerToken extends HookConsumerWidget {
               const Text('TOKEN'),
               const SizedBox(width: 16),
               Expanded(
-                child: TextField(
-                  controller: bearerTokenController,
-                  onChanged: (value) {
+                child: CustomValueTextField(
+                  onValueFieldChanged: (value) {
                     ref.read(authWithBearerTokenProvider.notifier).state = bearerAuth.copyWith(
                       token: value,
                     );
                   },
+                  parentContext: context,
                 ),
               ),
             ],

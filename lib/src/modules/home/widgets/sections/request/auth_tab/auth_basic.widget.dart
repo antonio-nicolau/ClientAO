@@ -1,4 +1,5 @@
 import 'package:client_ao/src/shared/models/auth/auth_basic.model.dart';
+import 'package:client_ao/src/shared/widgets/custom_textfield.widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -63,13 +64,13 @@ class AuthBasic extends HookConsumerWidget {
               const Text('PASSWORD'),
               const SizedBox(width: 16),
               Expanded(
-                child: TextField(
-                  controller: passwordController,
-                  onChanged: (value) {
+                child: CustomValueTextField(
+                  onValueFieldChanged: (value) {
                     ref.read(authBasicProvider.notifier).state = basicAuthState.copyWith(
                       password: value,
                     );
                   },
+                  parentContext: context,
                 ),
               ),
             ],
