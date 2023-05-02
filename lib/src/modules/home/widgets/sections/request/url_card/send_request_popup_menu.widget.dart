@@ -27,6 +27,7 @@ class PopUpSendMenu extends HookConsumerWidget {
     return PopupMenuButton<PopupMenuModel>(
       icon: const Icon(Icons.arrow_drop_down),
       initialValue: selectedMenu.value,
+      color: Theme.of(context).primaryColorDark,
       itemBuilder: (BuildContext context) => sendMethodsOptions.map((e) {
         return PopupMenuItem<PopupMenuModel>(
           value: e,

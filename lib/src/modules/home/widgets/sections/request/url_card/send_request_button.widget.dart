@@ -16,7 +16,7 @@ class SendRequestButton extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Container(
-      color: Colors.deepPurpleAccent.shade100,
+      color: Theme.of(context).colorScheme.primary,
       child: Row(
         children: [
           FilledButton(
