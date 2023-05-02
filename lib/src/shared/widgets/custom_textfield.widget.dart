@@ -14,6 +14,10 @@ final textFieldValueProvider = StateProvider<String?>((ref) {
   return null;
 });
 
+final selectedSuggestionTextProvider = StateProvider.family<String?, int>((ref, key) {
+  return null;
+});
+
 class CustomValueTextField extends HookConsumerWidget {
   const CustomValueTextField({
     super.key,
@@ -35,6 +39,15 @@ class CustomValueTextField extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final headerController = useTextEditingController(text: defaultValue);
     final focusNode = useFocusNode();
+    print("main: ${headerController.hashCode}");
+    ref.listen(selectedSuggestionTextProvider(headerController.hashCode), (previous, next) {
+      if (next != null) {
+        print('value: $next');
+
+        onValueFieldChanged?.call(next);
+      }
+      print('object');
+    });
 
     useEffect(
       () {

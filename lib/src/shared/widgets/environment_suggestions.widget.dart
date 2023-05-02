@@ -6,14 +6,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-final environmentByEnvironmentProvider = StateProvider.family<List<dynamic>?, String?>((ref, search) {
+final environmentByEnvironmentProvider = StateProvider.family<List<MapEntry>?, String?>((ref, search) {
   if (search == null || search.isEmpty) return [];
 
   final key = ref.watch(selectedEnvironmentProvider) ?? '';
 
   final envKeys = ref.read(hiveServiceProvider).getEnvironmentValuesByKey(key);
 
-  final result = envKeys?.keys.where((e) => e.toString().contains(search)).toList();
+  final result = envKeys?.entries.where((e) => e.key.toString().contains(search)).toList();
 
   return result;
 });
@@ -53,10 +53,11 @@ class ListViewWithSuggestions extends HookConsumerWidget {
         itemCount: envKeys?.length,
         itemBuilder: (context, index) {
           return ListTile(
-              title: Text('${envKeys?.get(index)}'),
-              onTap: () {
-                final key = envKeys?[index].toString();
+            title: Text('${envKeys?.get(index)?.key}'),
+            onTap: () {
+              final key = envKeys?.get(index)?.key.toString();
 
+              if (key != null) {
                 final response = controller.text.split(' ');
 
                 response[currentText?.$1 ?? 0] = '{{$key}}';
@@ -64,8 +65,13 @@ class ListViewWithSuggestions extends HookConsumerWidget {
 
                 controller.text = newString;
                 focusNode.requestFocus();
-                removeOverlay(ref);
-              });
+
+                ref.read(selectedSuggestionTextProvider(controller.hashCode).notifier).state = envKeys?.get(index)?.value.toString();
+              }
+
+              removeOverlay(ref);
+            },
+          );
         },
       ),
     );

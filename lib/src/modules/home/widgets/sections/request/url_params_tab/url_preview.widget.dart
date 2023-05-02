@@ -43,25 +43,31 @@ class UrlPreview extends HookConsumerWidget {
     );
 
     return Container(
-      width: MediaQuery.of(context).size.width,
       margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
       decoration: BoxDecoration(
         color: Theme.of(context).cardColor.withOpacity(0.5),
         border: Border.all(color: Theme.of(context).colorScheme.surfaceVariant),
       ),
       padding: const EdgeInsets.all(16),
-      child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-        Expanded(child: Text('${urlToPreview.value}')),
-        IconButton(
-          onPressed: () {
-            copyToClipboard(
-              context: context,
-              text: collection?.requests?.get(activeId?.requestId ?? 0)?.url,
-            );
-          },
-          icon: const Icon(Icons.copy_outlined),
-        ),
-      ]),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Expanded(
+              child: Text(
+            '${urlToPreview.value}',
+            maxLines: 5,
+          )),
+          IconButton(
+            onPressed: () {
+              copyToClipboard(
+                context: context,
+                text: collection?.requests?.get(activeId?.requestId ?? 0)?.url,
+              );
+            },
+            icon: const Icon(Icons.copy_outlined),
+          ),
+        ],
+      ),
     );
   }
 }
