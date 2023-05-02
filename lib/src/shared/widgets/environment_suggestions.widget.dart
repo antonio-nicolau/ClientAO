@@ -35,25 +35,46 @@ class ListViewWithSuggestions extends HookConsumerWidget {
     final currentText = textFieldValue?.getStringFromEnd(end);
     final envKeys = ref.watch(environmentByEnvironmentProvider(currentText?.$0.trim()));
 
-    useEffect(
-      () {
-        if (textFieldValue == null || textFieldValue.isEmpty) {
-          removeOverlay(ref);
-        }
-
-        return;
-      },
-      [textFieldValue],
-    );
-
     return Material(
+      color: Colors.transparent,
       child: ListView.builder(
         shrinkWrap: true,
+        padding: EdgeInsets.zero,
         physics: const BouncingScrollPhysics(),
         itemCount: envKeys?.length,
         itemBuilder: (context, index) {
-          return ListTile(
-            title: Text('${envKeys?.get(index)?.key}'),
+          return GestureDetector(
+            child: Container(
+              color: Colors.grey.shade800,
+              height: 30,
+              padding: const EdgeInsets.symmetric(vertical: 5),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Container(
+                    width: 30,
+                    alignment: Alignment.center,
+                    color: Theme.of(context).colorScheme.primary.withOpacity(0.8),
+                    child: Text(
+                      'x',
+                      style: Theme.of(context).textTheme.labelMedium?.copyWith(
+                            fontStyle: FontStyle.italic,
+                          ),
+                    ),
+                  ),
+                  const SizedBox(width: 8),
+                  Expanded(
+                    child: Text(
+                      '_.${envKeys?.get(index)?.key}',
+                      style: Theme.of(context).textTheme.labelMedium?.copyWith(
+                            fontStyle: FontStyle.italic,
+                          ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
             onTap: () {
               final key = envKeys?.get(index)?.key.toString();
 
@@ -69,7 +90,7 @@ class ListViewWithSuggestions extends HookConsumerWidget {
                 ref.read(selectedSuggestionTextProvider(controller.hashCode).notifier).state = envKeys?.get(index)?.value.toString();
               }
 
-              removeOverlay(ref);
+              removeOverlayIfExist(ref);
             },
           );
         },

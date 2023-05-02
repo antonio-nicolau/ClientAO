@@ -1,4 +1,3 @@
-
 import 'package:client_ao/src/shared/models/key_value_row.model.dart';
 import 'package:client_ao/src/shared/utils/functions.utils.dart';
 import 'package:client_ao/src/shared/widgets/environment_suggestions.widget.dart';
@@ -26,6 +25,7 @@ class TextFieldWithEnvironmentSuggestion extends HookConsumerWidget {
     this.onChanged,
     this.rows,
     this.defaultValue,
+    this.displaySuggestion = true,
     required this.parentContext,
   });
   final String? hintText;
@@ -33,13 +33,14 @@ class TextFieldWithEnvironmentSuggestion extends HookConsumerWidget {
   final List<KeyValueRow>? rows;
   final String? defaultValue;
   final BuildContext parentContext;
+  final bool displaySuggestion;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final headerController = useTextEditingController(text: defaultValue);
+    final textFieldController = useTextEditingController(text: defaultValue);
     final focusNode = useFocusNode();
 
-    ref.listen(selectedSuggestionTextProvider(headerController.hashCode), (previous, next) {
+    ref.listen(selectedSuggestionTextProvider(textFieldController.hashCode), (previous, next) {
       if (next != null) {
         onChanged?.call(next);
       }
@@ -47,27 +48,38 @@ class TextFieldWithEnvironmentSuggestion extends HookConsumerWidget {
 
     useEffect(
       () {
-        SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
-          removeOverlay(ref);
+        if (!displaySuggestion) return;
 
-          createOverlayEntry(context, ref, headerController, focusNode);
+        SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
+          removeOverlayIfExist(ref);
         });
         return;
       },
-      [],
+      [context],
     );
 
+    void prepareOverlayEntry() {
+      if (!displaySuggestion) return;
+
+      removeOverlayIfExist(ref);
+      createOverlayEntry(context, ref, textFieldController, focusNode);
+    }
+
     return TextField(
-      controller: headerController,
+      controller: textFieldController,
       decoration: InputDecoration(
         hintText: hintText ?? 'value',
         hintStyle: Theme.of(parentContext).inputDecorationTheme.hintStyle,
       ),
       style: Theme.of(parentContext).textTheme.titleMedium,
       onChanged: (value) {
+        prepareOverlayEntry();
+
         ref.read(textFieldValueProvider.notifier).update((state) => value);
 
-        showEnvironmentVariablesSuggestions(context, ref);
+        if (displaySuggestion) {
+          showEnvironmentVariablesSuggestions(context, ref);
+        }
 
         onChanged?.call(value);
       },
@@ -88,22 +100,20 @@ class TextFieldWithEnvironmentSuggestion extends HookConsumerWidget {
 
     ref.read(overlayEntryProvider.notifier).state = OverlayEntry(
       builder: (BuildContext context) {
-        return SafeArea(
-          child: Stack(
-            children: [
-              Positioned(
-                top: dy + 35,
-                left: dx,
-                child: SizedBox(
-                  width: size.width,
-                  child: ListViewWithSuggestions(
-                    controller: controller,
-                    focusNode: focusNode,
-                  ),
+        return Stack(
+          children: [
+            Positioned(
+              top: dy + 35,
+              left: dx,
+              child: SizedBox(
+                width: size.width + 40,
+                child: ListViewWithSuggestions(
+                  controller: controller,
+                  focusNode: focusNode,
                 ),
               ),
-            ],
-          ),
+            ),
+          ],
         );
       },
     );
@@ -112,16 +122,17 @@ class TextFieldWithEnvironmentSuggestion extends HookConsumerWidget {
   void showEnvironmentVariablesSuggestions(BuildContext context, WidgetRef ref) {
     final overlayEntry = ref.read(overlayEntryProvider);
 
-    removeOverlay(ref);
-
     if (overlayEntry == null) return;
 
-    Overlay.of(parentContext, debugRequiredFor: this).insert(overlayEntry);
+    Overlay.of(context, debugRequiredFor: this).insert(overlayEntry);
   }
 }
 
-void removeOverlay(WidgetRef ref) {
-  if (ref.read(overlayEntryProvider) != null && ref.read(overlayEntryProvider)?.mounted == true) {
+void removeOverlayIfExist(WidgetRef ref) {
+  final overlayEntry = ref.read(overlayEntryProvider);
+
+  if (overlayEntry != null && overlayEntry.mounted == true) {
     ref.read(overlayEntryProvider)?.remove();
+    ref.invalidate(overlayEntryProvider);
   }
 }

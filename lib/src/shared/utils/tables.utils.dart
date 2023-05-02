@@ -34,6 +34,7 @@ DaviModel<KeyValueRow> createDaviTable({
               callback: (newRows) => onFieldsChange?.call(newRows),
             ),
             parentContext: context,
+            displaySuggestion: false,
           );
         },
       ),

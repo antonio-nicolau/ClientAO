@@ -15,7 +15,6 @@ extension HiveBox on Box {
     final index = keys.toList().indexWhere((e) => e == key);
 
     if (index != -1 && index < length) {
-      log('key: $index -> $key');
       await putAt(index, value);
     } else {
       log('key not found: $key');
