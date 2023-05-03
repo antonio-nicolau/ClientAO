@@ -1,6 +1,5 @@
 import 'package:client_ao/src/shared/models/key_value_row.model.dart';
-import 'package:client_ao/src/shared/utils/functions.utils.dart';
-import 'package:client_ao/src/shared/widgets/environment_suggestions.widget.dart';
+import 'package:client_ao/src/shared/utils/overlay.utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
@@ -86,53 +85,11 @@ class TextFieldWithEnvironmentSuggestion extends HookConsumerWidget {
     );
   }
 
-  void createOverlayEntry(
-    BuildContext? buildContext,
-    WidgetRef ref,
-    TextEditingController controller,
-    FocusNode focusNode,
-  ) {
-    final response = getWidgetSize(buildContext);
-
-    final dx = response.$0;
-    final dy = response.$1;
-    final size = response.$2;
-
-    ref.read(overlayEntryProvider.notifier).state = OverlayEntry(
-      builder: (BuildContext context) {
-        return Stack(
-          children: [
-            Positioned(
-              top: dy + 35,
-              left: dx,
-              child: SizedBox(
-                width: size.width + 40,
-                child: ListViewWithSuggestions(
-                  controller: controller,
-                  focusNode: focusNode,
-                ),
-              ),
-            ),
-          ],
-        );
-      },
-    );
-  }
-
   void showEnvironmentVariablesSuggestions(BuildContext context, WidgetRef ref) {
     final overlayEntry = ref.read(overlayEntryProvider);
 
     if (overlayEntry == null) return;
 
     Overlay.of(context, debugRequiredFor: this).insert(overlayEntry);
-  }
-}
-
-void removeOverlayIfExist(WidgetRef ref) {
-  final overlayEntry = ref.read(overlayEntryProvider);
-
-  if (overlayEntry != null && overlayEntry.mounted == true) {
-    ref.read(overlayEntryProvider)?.remove();
-    ref.invalidate(overlayEntryProvider);
   }
 }

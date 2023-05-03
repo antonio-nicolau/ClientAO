@@ -1,12 +1,14 @@
 import 'package:client_ao/src/modules/home/states/environment.state.dart';
 import 'package:client_ao/src/shared/services/hive.service.dart';
 import 'package:client_ao/src/shared/utils/client_ao_extensions.dart';
+import 'package:client_ao/src/shared/utils/overlay.utils.dart';
 import 'package:client_ao/src/shared/widgets/textField_with_environment_suggestion.widget.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-final environmentByEnvironmentProvider = StateProvider.family<List<MapEntry>?, String?>((ref, search) {
+/// provider responsible to check what environments should be suggested to user
+/// based on inserted text
+final environmentByInsertedTextProvider = StateProvider.family<List<MapEntry>?, String?>((ref, search) {
   if (search == null || search.isEmpty) return [];
 
   final key = ref.watch(selectedEnvironmentProvider) ?? '';
@@ -19,6 +21,8 @@ final environmentByEnvironmentProvider = StateProvider.family<List<MapEntry>?, S
 });
 
 class ListViewWithSuggestions extends HookConsumerWidget {
+  /// ListView with environment suggestion based on [TextFieldWithEnvironmentSuggestion] text
+  /// *controller - TextEdittingController from [TextFieldWithEnvironmentSuggestion]
   const ListViewWithSuggestions({
     super.key,
     required this.controller,
@@ -33,7 +37,7 @@ class ListViewWithSuggestions extends HookConsumerWidget {
     final textFieldValue = ref.watch(textFieldValueProvider);
     final end = controller.selection.end;
     final currentText = textFieldValue?.getStringFromEnd(end);
-    final envKeys = ref.watch(environmentByEnvironmentProvider(currentText?.$0.trim()));
+    final envKeys = ref.watch(environmentByInsertedTextProvider(currentText?.$0.trim()));
 
     return Material(
       color: Colors.transparent,
