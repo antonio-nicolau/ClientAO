@@ -1,3 +1,4 @@
+
 String defaultHttpImportAndUriTemplate = """import 'package:http/http.dart' as http;
 
 Future<void> main() async {
@@ -25,8 +26,6 @@ String defaultStringWithNoUrlParams = """
 
 
   uri = uri.replace(queryParameters: queryParams);
-
-
 """;
 
 String defaultTemplateBody = """
@@ -45,6 +44,8 @@ String defaultBodyLength = """
 """;
 
 String defaultTemplateHeaders = """
+
+
   final headers = {{headers}};
 """;
 int defaultHeadersPadding = 16;

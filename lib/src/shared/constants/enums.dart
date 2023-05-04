@@ -1,6 +1,10 @@
 import 'package:hive/hive.dart';
 part 'enums.g.dart';
 
+enum ProgramLanguages { dart, nodeJs }
+
+enum Packages { http, axios }
+
 enum CollectionPopUpItem { addRequest, delete }
 
 enum SendPopUpItem { send, generateCode, repeatRequest }

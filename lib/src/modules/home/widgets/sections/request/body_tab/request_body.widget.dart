@@ -23,9 +23,7 @@ class RequestBody extends HookConsumerWidget {
       maxLines: 80,
       decoration: const InputDecoration(contentPadding: EdgeInsets.all(8)),
       onChanged: (value) {
-        if (value.trim().isNotEmpty) {
-          ref.read(collectionsNotifierProvider.notifier).updateRequest(body: value);
-        }
+        ref.read(collectionsNotifierProvider.notifier).updateRequest(body: value);
       },
     );
   }

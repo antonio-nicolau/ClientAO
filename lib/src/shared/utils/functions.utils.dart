@@ -118,6 +118,18 @@ String addPaddingToMultilineString(String text, int padding) {
   return lines.join("\n");
 }
 
+String? identWithLinesCount(String? code) {
+  if (code == null) return null;
+
+  final lines = const LineSplitter().convert(code);
+
+  for (var i = 0; i < lines.length; i++) {
+    lines[i] = '${(i + 1)}${' ' * 8}${lines[i]}\n';
+  }
+
+  return lines.join();
+}
+
 void copyToClipboard({
   required BuildContext context,
   required String? text,

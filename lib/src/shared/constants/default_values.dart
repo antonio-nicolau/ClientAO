@@ -91,4 +91,5 @@ const defaultResponseCodeReasons = {
 };
 
 int defaultParamsPadding = 20;
+int defaultNodejsHeadersPadding = 8;
 const jsonEncoder = JsonEncoder.withIndent(' ');
