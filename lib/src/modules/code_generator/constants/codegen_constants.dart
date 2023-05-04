@@ -1,7 +1,8 @@
 import 'package:client_ao/src/modules/code_generator/models/supported_language.model.dart';
 import 'package:client_ao/src/modules/code_generator/models/supported_package.model.dart';
-import 'package:client_ao/src/modules/code_generator/templates/dart/dart_http_template.dart';
-import 'package:client_ao/src/modules/code_generator/templates/nodejs/nodejs_http_template.dart';
+import 'package:client_ao/src/modules/code_generator/templates/dart_http/dart_http_template.dart';
+import 'package:client_ao/src/modules/code_generator/templates/nodejs_http/nodejs_http_template.dart';
+import 'package:client_ao/src/modules/code_generator/templates/nodejs_axios/nodejs_axios_template.dart';
 import 'package:client_ao/src/shared/constants/enums.dart';
 import 'package:client_ao/src/shared/models/request.model.dart';
 
@@ -31,7 +32,7 @@ List<SupportedLanguage> getSupportedLanguages(RequestModel? request) {
         SupportedPackage(
           label: 'Axios',
           package: Packages.axios,
-          instance: NodejsWithHttpTemplate(request),
+          instance: NodejsWithAxiosTemplate(request),
         ),
       ],
     ),

@@ -1,6 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
-import 'package:client_ao/src/modules/code_generator/templates/dart/dart_http_jinja.dart';
+import 'package:client_ao/src/modules/code_generator/templates/dart_http/dart_http_jinja.dart';
 import 'package:client_ao/src/modules/code_generator/templates/interfaces/codegen_template.interface.dart';
 import 'package:client_ao/src/shared/constants/default_values.dart';
 import 'package:client_ao/src/shared/constants/enums.dart';

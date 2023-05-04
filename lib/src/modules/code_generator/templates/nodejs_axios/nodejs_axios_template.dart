@@ -1,18 +1,18 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:client_ao/src/modules/code_generator/templates/interfaces/codegen_template.interface.dart';
-import 'package:client_ao/src/modules/code_generator/templates/nodejs/nodejs_http_jinja.dart';
+import 'package:client_ao/src/modules/code_generator/templates/nodejs_axios/nodejs_axios_jinja.dart';
 import 'package:client_ao/src/shared/constants/default_values.dart';
 import 'package:client_ao/src/shared/constants/enums.dart';
 import 'package:client_ao/src/shared/models/request.model.dart';
 import 'package:client_ao/src/shared/utils/functions.utils.dart';
 import 'package:jinja/jinja.dart';
 
-class NodejsWithHttpTemplate implements ICodeGenTemplate {
-  /// Generate NodeJS code for [Packages.http]
+class NodejsWithAxiosTemplate implements ICodeGenTemplate {
+  /// Generate NodeJS code for [Packages.axios]
   final RequestModel? request;
 
-  NodejsWithHttpTemplate(this.request);
+  NodejsWithAxiosTemplate(this.request);
 
   @override
   void importAndRequestMethod() {
@@ -26,8 +26,8 @@ class NodejsWithHttpTemplate implements ICodeGenTemplate {
     final uri = Uri.parse(url);
     final method = request?.method.name.toUpperCase();
 
-    final urlTemplate = Template(defaultNodejsHttpImportAndOptionsTemplate);
-    output = urlTemplate.render({"method": method, "hostname": uri.host});
+    final urlTemplate = Template(defaultNodejsAxiosImportAndOptionsTemplate);
+    output = urlTemplate.render({"method": method, "url": uri.toString()});
   }
 
   @override
@@ -36,8 +36,8 @@ class NodejsWithHttpTemplate implements ICodeGenTemplate {
     if (body != null && request?.method != HttpVerb.get) {
       final contentLength = utf8.encode(body).length;
       if (contentLength > 0) {
-        var templateBody = Template(defaultNodejsHttpBodyTemplate);
-        final result = templateBody.render({"body": body});
+        var templateBody = Template(defaultNodejsAxiosBodyTemplate);
+        final result = templateBody.render({"data": body});
         output = (output ?? '') + result;
       }
     }
@@ -60,15 +60,12 @@ class NodejsWithHttpTemplate implements ICodeGenTemplate {
         }
 
         headersString = jsonEncoder.convert(headers);
-        headersString = addPaddingToMultilineString(
-          headersString,
-          defaultNodejsHeadersPadding,
-        );
-        final templateHeaders = Template(defaultNodejsHttpHeadersTemplate);
+        headersString = addPaddingToMultilineString(headersString, 4);
+        final templateHeaders = Template(defaultNodejsAxiosHeadersTemplate);
         output = (output ?? '') + templateHeaders.render({"headers": headersString});
       }
     } else {
-      output = (output ?? '') + defaultNodejsHttpEmptyHeadersTemplate;
+      output = (output ?? '') + defaultNodejsAxiosEmptyHeadersTemplate;
     }
 
     return headersString;
@@ -76,22 +73,15 @@ class NodejsWithHttpTemplate implements ICodeGenTemplate {
 
   @override
   String? addQueryParams() {
-    var templateParams = Template(defaultNodejsHttpPathTemplate);
+    var templateParams = Template(defaultNodejsAxiosPathTemplate);
     final params = listToMap(request?.urlParams);
 
-    final uri = Uri.tryParse(request?.url ?? '');
-    String path = '';
-
     if (params != null && params.isNotEmpty && params.keys.first.isNotEmpty) {
-      final newUri = uri?.replace(queryParameters: params);
-      path = '${uri?.path}?${newUri?.query}';
-    } else if (uri?.path != null && uri?.path.isNotEmpty == true) {
-      path = uri?.path ?? '';
-    } else {
-      path = '/';
-    }
+      var paramsString = jsonEncoder.convert(params);
+      paramsString = addPaddingToMultilineString(paramsString, 4);
 
-    output = (output ?? '') + templateParams.render({"path": path});
+      output = (output ?? '') + templateParams.render({"params": paramsString});
+    }
 
     return output;
   }
@@ -101,20 +91,19 @@ class NodejsWithHttpTemplate implements ICodeGenTemplate {
 
   @override
   void requestEnd({bool? hasHeader, bool? hasBody}) {
-    output = (output ?? '') + defaultNodejsHttpStringResponseResult;
+    output = (output ?? '') + defaultNodejsAxiosStringResponseResult;
   }
 
   @override
   String? build() {
     importAndRequestMethod();
     addQueryParams();
+    addBody();
     final headers = addHeaders();
     requestEnd(
       hasHeader: headers?.isNotEmpty,
       hasBody: request?.body != null && request?.method != HttpVerb.get,
     );
-    addBody();
-    output = (output ?? '') + defaultNodejsHttpRequestEnd;
     return output;
   }
 }
