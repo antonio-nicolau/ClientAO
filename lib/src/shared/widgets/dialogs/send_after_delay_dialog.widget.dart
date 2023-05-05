@@ -1,3 +1,4 @@
+
 import 'package:client_ao/src/modules/home/states/collections.state.dart';
 import 'package:client_ao/src/shared/widgets/dialogs/dialog_template.widget.dart';
 import 'package:flutter/material.dart';
