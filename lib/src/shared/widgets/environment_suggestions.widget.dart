@@ -10,6 +10,9 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 /// based on inserted text
 final environmentByInsertedTextProvider = StateProvider.family<List<MapEntry>?, String?>((ref, search) {
   if (search == null || search.isEmpty) return [];
+  final isTyping = ref.watch(isTypingProvider);
+
+  if (!isTyping) return [];
 
   final key = ref.watch(selectedEnvironmentProvider) ?? '';
 
@@ -41,63 +44,66 @@ class ListViewWithSuggestions extends HookConsumerWidget {
 
     return Material(
       color: Colors.transparent,
-      child: ListView.builder(
-        shrinkWrap: true,
-        padding: EdgeInsets.zero,
-        physics: const BouncingScrollPhysics(),
-        itemCount: envKeys?.length,
-        itemBuilder: (context, index) {
-          return GestureDetector(
-            child: Container(
-              color: Colors.grey.shade800,
-              height: 30,
-              padding: const EdgeInsets.symmetric(vertical: 5),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Container(
-                    width: 30,
-                    alignment: Alignment.center,
-                    color: Theme.of(context).colorScheme.primary.withOpacity(0.8),
-                    child: Text(
-                      'x',
-                      style: Theme.of(context).textTheme.labelMedium?.copyWith(
-                            fontStyle: FontStyle.italic,
-                          ),
+      child: SizedBox(
+        height: 200,
+        child: ListView.builder(
+          shrinkWrap: true,
+          padding: EdgeInsets.zero,
+          physics: const BouncingScrollPhysics(),
+          itemCount: envKeys?.length ?? 0,
+          itemBuilder: (context, index) {
+            return GestureDetector(
+              child: Container(
+                color: Colors.grey.shade800,
+                height: 30,
+                padding: const EdgeInsets.symmetric(vertical: 5),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Container(
+                      width: 30,
+                      alignment: Alignment.center,
+                      color: Theme.of(context).colorScheme.primary.withOpacity(0.8),
+                      child: Text(
+                        'x',
+                        style: Theme.of(context).textTheme.labelMedium?.copyWith(
+                              fontStyle: FontStyle.italic,
+                            ),
+                      ),
                     ),
-                  ),
-                  const SizedBox(width: 8),
-                  Expanded(
-                    child: Text(
-                      '_.${envKeys?.get(index)?.key}',
-                      style: Theme.of(context).textTheme.labelMedium?.copyWith(
-                            fontStyle: FontStyle.italic,
-                          ),
+                    const SizedBox(width: 8),
+                    Expanded(
+                      child: Text(
+                        '_.${envKeys?.get(index)?.key}',
+                        style: Theme.of(context).textTheme.labelMedium?.copyWith(
+                              fontStyle: FontStyle.italic,
+                            ),
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
-            ),
-            onTap: () {
-              final key = envKeys?.get(index)?.key.toString();
+              onTap: () {
+                final key = envKeys?.get(index)?.key.toString();
 
-              if (key != null) {
-                final response = controller.text.split(' ');
+                if (key != null) {
+                  final response = controller.text.split(' ');
 
-                response[currentText?.$1 ?? 0] = '{{$key}}';
-                final newString = response.join(' ');
+                  response[currentText?.$1 ?? 0] = '{{$key}}';
+                  final newString = response.join(' ');
 
-                controller.text = newString;
-                focusNode.requestFocus();
+                  controller.text = newString;
+                  focusNode.requestFocus();
 
-                ref.read(selectedSuggestionTextProvider(controller.hashCode).notifier).state = envKeys?.get(index)?.value.toString();
-              }
+                  ref.read(selectedSuggestionTextProvider(controller.hashCode).notifier).state = envKeys?.get(index)?.value.toString();
+                }
 
-              removeOverlayIfExist(ref);
-            },
-          );
-        },
+                removeOverlayIfExist(ref);
+              },
+            );
+          },
+        ),
       ),
     );
   }

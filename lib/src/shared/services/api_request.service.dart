@@ -32,7 +32,6 @@ class ApiRequestService  {
     } on SocketException catch(_){
       _ref.read(requestErrorProvider.notifier).state= ClientAoException(message: errorCouldNotSolveHost,requestId: activeId?.requestId,collectionId: activeId?.collection,);
     } catch (e) {
-      // TODO: Improve error handling
       _ref.read(requestErrorProvider.notifier).state= ClientAoException(message: e.toString(),requestId: activeId?.requestId,collectionId: activeId?.collection,);
     }
 

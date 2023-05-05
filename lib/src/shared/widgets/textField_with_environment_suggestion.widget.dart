@@ -13,6 +13,11 @@ final textFieldValueProvider = StateProvider<String?>((ref) {
   return null;
 });
 
+// A State provider to check wether user is typing into TextField
+final isTypingProvider = StateProvider<bool>((ref) {
+  return false;
+});
+
 final selectedSuggestionTextProvider = StateProvider.family<String?, int>((ref, key) {
   return null;
 });
@@ -74,6 +79,7 @@ class TextFieldWithEnvironmentSuggestion extends HookConsumerWidget {
       onChanged: (value) {
         prepareOverlayEntry();
 
+        ref.read(isTypingProvider.notifier).update((state) => true);
         ref.read(textFieldValueProvider.notifier).update((state) => value);
 
         if (displaySuggestion) {
@@ -81,6 +87,22 @@ class TextFieldWithEnvironmentSuggestion extends HookConsumerWidget {
         }
 
         onChanged?.call(value);
+      },
+      onTapOutside: (event) {
+        // NOTE: Delay 200ms to don't dismiss Overlay before add text to TextField
+        if (ref.read(isTypingProvider)) {
+          Future.delayed(const Duration(milliseconds: 200)).then((value) {
+            if (context.mounted) {
+              ref.read(isTypingProvider.notifier).update((state) => false);
+            }
+          });
+        }
+      },
+      onSubmitted: (value) {
+        if (ref.read(isTypingProvider)) {
+          removeOverlayIfExist(ref);
+          ref.read(isTypingProvider.notifier).update((state) => false);
+        }
       },
     );
   }

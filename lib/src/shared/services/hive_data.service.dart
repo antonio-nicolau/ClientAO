@@ -69,9 +69,9 @@ Future<void> openHiveBoxes() async {
 }
 
 void registerAdapters() async {
-  Hive.registerAdapter(HttpVerbAdapter());
-  Hive.registerAdapter(KeyValueRowAdapter());
-  Hive.registerAdapter(RequestModelAdapter());
-  Hive.registerAdapter(ResponseModelAdapter());
-  Hive.registerAdapter(CollectionModelAdapter());
+  Hive.registerAdapter<HttpVerb>(HttpVerbAdapter());
+  Hive.registerAdapter<KeyValueRow>(KeyValueRowAdapter());
+  Hive.registerAdapter<RequestModel>(RequestModelAdapter());
+  Hive.registerAdapter<ResponseModel>(ResponseModelAdapter());
+  Hive.registerAdapter<CollectionModel>(CollectionModelAdapter());
 }
