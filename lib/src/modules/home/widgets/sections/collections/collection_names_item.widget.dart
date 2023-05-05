@@ -106,7 +106,7 @@ class _PopUpRequestNameItemMenu extends HookConsumerWidget {
 
     return PopupMenuButton<RequestPopUpItem>(
       initialValue: selectedMenu.value,
-      icon: const Icon(Icons.arrow_drop_down),
+      icon: const Icon(Icons.more_horiz),
       itemBuilder: (BuildContext context) => RequestPopUpItem.values.map((e) {
         return PopupMenuItem<RequestPopUpItem>(
           value: e,

@@ -25,6 +25,7 @@ class PopUpCollectionMenu extends HookConsumerWidget {
 
     return PopupMenuButton<PopupMenuModel>(
       initialValue: selectedMenu.value,
+      icon: const Icon(Icons.more_horiz),
       itemBuilder: (BuildContext context) => collectionMenuOptions.map((e) {
         return PopupMenuItem<PopupMenuModel>(
           value: e,

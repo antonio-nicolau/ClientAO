@@ -14,25 +14,31 @@ class CollectionsSection extends HookConsumerWidget {
       padding: const EdgeInsets.all(16),
       child: Column(
         children: [
-          /// NOTE: In progress
           const EnvironmentSection(),
           const SizedBox(height: 16),
-          SizedBox(
-            height: 34,
-            child: FilledButton(
-              onPressed: () {
-                final newId = ref.read(collectionsNotifierProvider.notifier).newCollection();
-                ref.read(activeIdProvider.notifier).update((state) => state?.copyWith(collection: newId, requestId: 0));
-              },
-              style: ButtonStyle(
-                elevation: MaterialStateProperty.all(4),
-                shape: MaterialStateProperty.all(
-                  const RoundedRectangleBorder(
-                    borderRadius: BorderRadius.zero,
+          Align(
+            alignment: Alignment.topRight,
+            child: SizedBox(
+              height: 34,
+              child: TextButton.icon(
+                onPressed: () {
+                  final newId = ref.read(collectionsNotifierProvider.notifier).newCollection();
+                  ref.read(activeIdProvider.notifier).update((state) => state?.copyWith(collection: newId, requestId: 0));
+                },
+                style: ButtonStyle(
+                  elevation: MaterialStateProperty.all(4),
+                  shape: MaterialStateProperty.all(
+                    RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(16),
+                      side: BorderSide(
+                        color: Theme.of(context).colorScheme.primary,
+                      ),
+                    ),
                   ),
                 ),
+                icon: const Icon(Icons.add),
+                label: const Text('New'),
               ),
-              child: const Text('New collection'),
             ),
           ),
           const SizedBox(height: 24),
