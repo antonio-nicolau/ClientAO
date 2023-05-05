@@ -4,6 +4,8 @@ import 'package:client_ao/src/shared/constants/default_values.dart';
 import 'package:client_ao/src/shared/constants/enums.dart';
 import 'package:client_ao/src/shared/models/auth/pop_up.model.dart';
 import 'package:client_ao/src/shared/models/collection.model.dart';
+import 'package:client_ao/src/shared/utils/functions.utils.dart';
+import 'package:client_ao/src/shared/widgets/dialogs/delay_request_dialog.widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -35,24 +37,11 @@ class PopUpSendMenu extends HookConsumerWidget {
           onTap: () {
             switch (e.method) {
               case SendPopUpItem.send:
-                sendRequest();
-                break;
+                return sendRequest();
               case SendPopUpItem.generateCode:
-                Future.delayed(
-                  const Duration(seconds: 0),
-                  () => showDialog(
-                    barrierDismissible: false,
-                    context: context,
-                    builder: (context) => AlertDialog(
-                      contentPadding: EdgeInsets.zero,
-                      insetPadding: EdgeInsets.zero,
-                      backgroundColor: Colors.grey.shade900,
-                      content: const CodeGenPage(),
-                    ),
-                  ),
-                );
-
-                break;
+                return displayDialog(context, const CodeGenPage());
+              case SendPopUpItem.sendAfterDelay:
+                return displayDialog(context, const SendAfterDelayDialog());
             }
           },
         );

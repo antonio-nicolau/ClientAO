@@ -7,7 +7,7 @@ enum Packages { http, axios }
 
 enum CollectionPopUpItem { addRequest, delete }
 
-enum SendPopUpItem { send, generateCode, repeatRequest }
+enum SendPopUpItem { send, generateCode, repeatRequest, sendAfterDelay }
 
 enum RequestPopUpItem { delete }
 

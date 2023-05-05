@@ -87,7 +87,7 @@ class CollectionsNotifier extends StateNotifier<List<CollectionModel>> {
     return collection.id;
   }
 
-  Future<void> sendRequest() async {
+  Future<void> sendRequest({Duration? sendAfterDelay, int? repeatForSeconds}) async {
     final activeId = _ref.read(activeIdProvider);
     final requestId = activeId?.requestId ?? 0;
     final index = indexOfId();
@@ -96,6 +96,10 @@ class CollectionsNotifier extends StateNotifier<List<CollectionModel>> {
     final requestResponse = collection?.responses;
 
     updateRequestResponseState(const AsyncLoading());
+
+    if (sendAfterDelay != null) {
+      await Future.delayed(sendAfterDelay);
+    }
 
     final response = await _ref.read(collectionServiceProvider).request(request!);
 

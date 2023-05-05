@@ -21,7 +21,7 @@ const collectionMenuOptions = [
 const sendMethodsOptions = [
   PopupMenuModel(label: 'Send', displayName: 'Send', method: SendPopUpItem.send),
   PopupMenuModel(label: 'Generate code', displayName: 'Generate code', method: SendPopUpItem.generateCode),
-  // PopupMenuModel(label: 'Repeat request', displayName: 'Repeat request', method: SendPopUpItem.repeatRequest),
+  PopupMenuModel(label: 'Send after delay', displayName: 'Send after delay', method: SendPopUpItem.sendAfterDelay),
 ];
 
 const defaultResponseCodeReasons = {

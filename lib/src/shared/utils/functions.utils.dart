@@ -143,3 +143,19 @@ void copyToClipboard({
     },
   );
 }
+
+void displayDialog(BuildContext context, Widget page) {
+  Future.delayed(
+    const Duration(seconds: 0),
+    () => showDialog(
+      barrierDismissible: false,
+      context: context,
+      builder: (context) => AlertDialog(
+        contentPadding: EdgeInsets.zero,
+        insetPadding: EdgeInsets.zero,
+        backgroundColor: Colors.grey.shade900,
+        content: page,
+      ),
+    ),
+  );
+}
