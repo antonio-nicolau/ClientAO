@@ -42,8 +42,8 @@ class ClientAoPopupMenu extends HookConsumerWidget {
               Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Icon(e.icon),
-                  const SizedBox(width: 16),
+                  if (e.icon != null) Icon(e.icon),
+                  if (e.icon != null) const SizedBox(width: 16),
                   Text(e.label),
                 ],
               ),
