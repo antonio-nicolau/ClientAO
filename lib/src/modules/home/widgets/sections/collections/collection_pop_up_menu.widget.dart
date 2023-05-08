@@ -1,7 +1,7 @@
 import 'package:client_ao/src/modules/home/states/collections.state.dart';
 import 'package:client_ao/src/shared/constants/default_values.dart';
 import 'package:client_ao/src/shared/constants/enums.dart';
-import 'package:client_ao/src/shared/models/auth/pop_up.model.dart';
+import 'package:client_ao/src/shared/models/pop_up.model.dart';
 import 'package:client_ao/src/shared/models/collection.model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';

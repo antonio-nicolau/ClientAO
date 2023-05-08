@@ -1,7 +1,7 @@
 import 'dart:convert';
-
 import 'package:client_ao/src/shared/constants/enums.dart';
-import 'package:client_ao/src/shared/models/auth/pop_up.model.dart';
+import 'package:client_ao/src/shared/models/pop_up.model.dart';
+import 'package:flutter/material.dart';
 import 'package:uuid/uuid.dart';
 
 const uuid = Uuid();
@@ -19,10 +19,32 @@ const collectionMenuOptions = [
 ];
 
 const sendMethodsOptions = [
-  PopupMenuModel(label: 'Send', displayName: 'Send', method: SendPopUpItem.send),
-  PopupMenuModel(label: 'Generate code', displayName: 'Generate code', method: SendPopUpItem.generateCode),
-  PopupMenuModel(label: 'Send after delay', displayName: 'Send after delay', method: SendPopUpItem.sendAfterDelay),
-  PopupMenuModel(label: 'Repeat on interval', displayName: 'Repeat on interval', method: SendPopUpItem.repeatRequest),
+  PopupMenuModel(
+    label: 'Send',
+    displayName: 'Send',
+    icon: Icons.send,
+    method: SendPopUpItem.send,
+  ),
+  PopupMenuModel(
+    label: 'Generate code',
+    displayName: 'Generate code',
+    icon: Icons.code_rounded,
+    method: SendPopUpItem.generateCode,
+    dividerAfterItem: true,
+    dividerLabel: 'Advanced',
+  ),
+  PopupMenuModel(
+    label: 'Send after delay',
+    displayName: 'Send after delay',
+    icon: Icons.timer_outlined,
+    method: SendPopUpItem.sendAfterDelay,
+  ),
+  PopupMenuModel(
+    label: 'Repeat on interval',
+    displayName: 'Repeat on interval',
+    icon: Icons.replay,
+    method: SendPopUpItem.repeatRequest,
+  ),
 ];
 
 const defaultResponseCodeReasons = {
