@@ -1,3 +1,4 @@
+import 'package:client_ao/src/modules/home/states/collections.state.dart';
 import 'package:client_ao/src/modules/home/widgets/sections/request/url_card/send_request_popup_menu.widget.dart';
 import 'package:client_ao/src/shared/models/collection.model.dart';
 import 'package:flutter/material.dart';
@@ -15,6 +16,8 @@ class SendRequestButton extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final cancelRequest = ref.watch(cancelRepeatRequestProvider);
+
     return Container(
       color: Theme.of(context).colorScheme.primary,
       child: Row(
@@ -32,13 +35,14 @@ class SendRequestButton extends ConsumerWidget {
                 vertical: 24,
               )),
             ),
-            child: const Text('Send'),
+            child: Text(cancelRequest ? 'Send' : 'Cancel'),
           ),
-          PopUpSendMenu(
-            collection: collection,
-            widgetRef: ref,
-            parentContext: context,
-          ),
+          if (cancelRequest)
+            PopUpSendMenu(
+              collection: collection,
+              widgetRef: ref,
+              parentContext: context,
+            ),
         ],
       ),
     );

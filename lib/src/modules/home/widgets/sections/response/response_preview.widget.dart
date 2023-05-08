@@ -19,14 +19,21 @@ class ResponsePreview extends ConsumerWidget {
     final mediaType = contentType?.isNotEmpty == true ? MediaType.parse(contentType ?? '') : MediaType('text', 'json');
 
     return SingleChildScrollView(
-      child: getWidgetByContentType(mediaType, url),
+      child: getWidgetByContentType(context, mediaType, url),
     );
   }
 
-  Widget getWidgetByContentType(MediaType mediaType, String? url) {
+  Widget getWidgetByContentType(BuildContext context, MediaType mediaType, String? url) {
     switch (mediaType.type) {
       case 'image':
-        return Image.network(url ?? '');
+        return SizedBox(
+          width: MediaQuery.of(context).size.width,
+          height: MediaQuery.of(context).size.height * 0.5,
+          child: Image.network(
+            url ?? '',
+            fit: BoxFit.cover,
+          ),
+        );
       case 'video':
         log('Handling video content');
         break;

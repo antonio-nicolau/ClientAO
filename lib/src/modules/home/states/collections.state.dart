@@ -1,3 +1,6 @@
+import 'dart:async';
+import 'dart:developer';
+
 import 'package:client_ao/src/shared/constants/default_values.dart';
 import 'package:client_ao/src/shared/constants/enums.dart';
 import 'package:client_ao/src/shared/services/collection.service.dart';
@@ -9,17 +12,20 @@ import 'package:client_ao/src/shared/models/response.model.dart';
 import 'package:client_ao/src/shared/services/hive_data.service.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-// A provider to save the current collection and request selected by user
+/// A provider to check wether should stop repeating request after user define that
+final cancelRepeatRequestProvider = StateProvider<bool>((ref) {
+  return true;
+});
+
+/// A provider to save the current collection and request selected by user
 final activeIdProvider = StateProvider<ActiveId?>((ref) => ActiveId());
 
+/// A provider to update response state based on [ActiveId]
 final responseStateProvider = StateProvider.family<AsyncValue<ResponseModel?>?, ActiveId?>((ref, activeId) {
   final collectionIndex = ref.watch(collectionsNotifierProvider.notifier).indexOfId();
   final collections = ref.watch(collectionsNotifierProvider);
 
-  if (collections.isNotEmpty) {
-    return AsyncData(collections[collectionIndex].responses?.get(activeId?.requestId ?? 0));
-  }
-  return null;
+  return AsyncData(collections.get(collectionIndex)?.responses?.get(activeId?.requestId ?? 0));
 });
 
 final collectionsNotifierProvider = StateNotifierProvider<CollectionsNotifier, List<CollectionModel>>((ref) {
@@ -87,31 +93,66 @@ class CollectionsNotifier extends StateNotifier<List<CollectionModel>> {
     return collection.id;
   }
 
-  Future<void> sendRequest({Duration? sendAfterDelay, int? repeatForSeconds}) async {
+  Future<void> sendRequest({
+    Duration? sendAfterDelay,
+    Duration requestInterval = Duration.zero,
+    bool repeatRequest = false,
+  }) async {
     final activeId = _ref.read(activeIdProvider);
     final requestId = activeId?.requestId ?? 0;
     final index = indexOfId();
     final collection = getCollection();
     final request = collection?.requests?[requestId];
-    final requestResponse = collection?.responses;
-
-    updateRequestResponseState(const AsyncLoading());
 
     if (sendAfterDelay != null) {
       await Future.delayed(sendAfterDelay);
     }
 
-    final response = await _ref.read(collectionServiceProvider).request(request!);
-
-    requestResponse?[activeId?.requestId ?? 0] = response.value;
-
-    state[index] = state[index].copyWith(responses: requestResponse);
-    updateRequestResponseState(response);
+    Timer.periodic(requestInterval, (timer) {
+      if (request != null) {
+        processRequest(
+          request: request,
+          collection: collection,
+          activeId: activeId,
+          index: index,
+        );
+      }
+      if (_ref.read(cancelRepeatRequestProvider)) {
+        timer.cancel();
+      }
+    });
   }
 
-  void updateRequestResponseState(AsyncValue<ResponseModel?> newState) {
+  Future<void> processRequest({
+    required RequestModel request,
+    CollectionModel? collection,
+    ActiveId? activeId,
+    required int index,
+  }) async {
+    final requestResponse = collection?.responses;
+
+    updateRequestResponseState(const AsyncLoading(), activeId?.requestId);
+
+    final response = await _ref.read(collectionServiceProvider).request(request);
+
+    requestResponse?[activeId?.requestId ?? 0] = response.value;
+    log('With: ${activeId?.requestId}');
+    state[index] = state[index].copyWith(responses: requestResponse);
+    updateRequestResponseState(response, activeId?.requestId);
+  }
+
+  void updateRequestResponseState(
+    AsyncValue<ResponseModel?> newState,
+    int? requestId,
+  ) {
     final activeId = _ref.read(activeIdProvider);
-    _ref.read(responseStateProvider(activeId).notifier).update((state) => newState);
+
+    if (activeId?.requestId != requestId && !_ref.read(cancelRepeatRequestProvider)) {
+      _ref.read(cancelRepeatRequestProvider.notifier).state = true;
+      return;
+    }
+
+    _ref.read(responseStateProvider(activeId).notifier).state = newState;
   }
 
   CollectionModel? getCollection() => state.get(indexOfId());

@@ -31,6 +31,11 @@ class UrlCard extends HookConsumerWidget {
     void sendRequest() {
       final request = collection?.requests;
 
+      if (!ref.read(cancelRepeatRequestProvider)) {
+        ref.read(cancelRepeatRequestProvider.notifier).state = true;
+        return;
+      }
+
       if (request != null) {
         ref.read(collectionsNotifierProvider.notifier).sendRequest();
       }
