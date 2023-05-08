@@ -24,18 +24,26 @@ class ApiRequestService  {
   final Ref _ref;
 
   Future<(http.Response,Duration)?> request(RequestModel request) async {
-      final activeId = _ref.read(activeIdProvider);
+     
       _ref.read(requestErrorProvider.notifier).update((state) => null);
     try {
       final response = await _apiRequest.request(request);
       return (response.$0,response.$1);
     } on SocketException catch(_){
-      _ref.read(requestErrorProvider.notifier).state= ClientAoException(message: errorCouldNotSolveHost,requestId: activeId?.requestId,collectionId: activeId?.collection,);
-    } catch (e) {
-      _ref.read(requestErrorProvider.notifier).state= ClientAoException(message: e.toString(),requestId: activeId?.requestId,collectionId: activeId?.collection,);
+      notifyError(errorCouldNotSolveHost);
+    } on ClientAoException catch (e) {
+      notifyError(e.message);
+    }
+    catch(e){
+      notifyError(e.toString());
     }
 
     return null;
+  }
+
+  void notifyError(String message) {
+     final activeId = _ref.read(activeIdProvider);
+    _ref.read(requestErrorProvider.notifier).state= ClientAoException(message: message,requestId: activeId?.requestId,collectionId: activeId?.collection,);
   }
 }
 

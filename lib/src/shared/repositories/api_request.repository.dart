@@ -1,4 +1,5 @@
 import 'package:client_ao/src/shared/constants/enums.dart';
+import 'package:client_ao/src/shared/exceptions/client_ao_exception.dart';
 import 'package:client_ao/src/shared/models/key_value_row.model.dart';
 import 'package:client_ao/src/shared/models/request.model.dart';
 import 'package:client_ao/src/shared/repositories/api_request.repository.interface.dart';
@@ -24,6 +25,8 @@ class ApiRequest implements IApiRequestRepository {
     );
 
     Uri? uri =  getUriWithQueryParams(request);
+
+    if(uri == null || uri.host.isEmpty) throw ClientAoException(message: 'No host specified in URI');
 
     final body = request.body;
 
