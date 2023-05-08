@@ -1,4 +1,3 @@
-
 import 'package:equatable/equatable.dart';
 import 'package:flutter/widgets.dart';
 
@@ -9,14 +8,16 @@ class PopupMenuModel extends Equatable {
   final IconData? icon;
   final bool dividerAfterItem;
   final String? dividerLabel;
+  final VoidCallback? callback;
 
   const PopupMenuModel({
     required this.label,
-    required this.displayName,
+    this.displayName = '',
     this.icon,
     this.dividerAfterItem = false,
     this.dividerLabel,
-    required this.method,
+    this.method,
+    this.callback,
   });
 
   @override

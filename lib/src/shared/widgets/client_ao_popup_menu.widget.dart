@@ -31,7 +31,11 @@ class ClientAoPopupMenu extends HookConsumerWidget {
       itemBuilder: (BuildContext context) => items.map((e) {
         return PopupMenuItem<PopupMenuModel>(
           value: e,
-          onTap: () => callback?.call(e),
+          onTap: () {
+            Future.delayed(Duration.zero, () {
+              callback?.call(e);
+            });
+          },
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
