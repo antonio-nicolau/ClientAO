@@ -10,8 +10,8 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 final collectionsBox = Hive.box<CollectionModel>('collections');
 
-final hiveDataServiceProvider = Provider<ILocalDataStorage>((ref) {
-  return const HiveDataService();
+final collectionHiveServiceProvider = Provider<ILocalDataStorage>((ref) {
+  return const CollectionHiveService();
 });
 
 abstract class ILocalDataStorage {
@@ -21,8 +21,8 @@ abstract class ILocalDataStorage {
   Future<void> removeUnusedIds(List<CollectionModel> collections);
 }
 
-class HiveDataService implements ILocalDataStorage {
-  const HiveDataService();
+class CollectionHiveService implements ILocalDataStorage {
+  const CollectionHiveService();
 
   @override
   List<CollectionModel>? getCollections() {

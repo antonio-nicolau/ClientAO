@@ -25,7 +25,7 @@ class DialogTemplate extends ConsumerWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            mainAxisAlignment: title != null ? MainAxisAlignment.spaceBetween : MainAxisAlignment.end,
             children: [
               if (title != null)
                 Text(

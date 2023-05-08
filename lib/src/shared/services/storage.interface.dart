@@ -23,4 +23,5 @@ abstract class IStorage {
   List<String> getEnvironmentsKey();
 
   Map<dynamic, dynamic>? getEnvironmentValuesByKey(String key);
+  Future<void> removeEnvironment(String key, int index);
 }

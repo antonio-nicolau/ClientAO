@@ -1,4 +1,5 @@
-import 'package:client_ao/src/shared/services/hive.service.dart';
+import 'package:client_ao/src/modules/environments/manage_environment.widget.dart';
+import 'package:client_ao/src/shared/services/environment_hive.service.dart';
 import 'package:client_ao/src/shared/utils/theme/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
@@ -21,6 +22,7 @@ class EnvironmentNameTextField extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final envNameController = useTextEditingController(text: envName);
+    final currentIndex = ref.watch(envIndexProvider);
     final enableTextField = useState<bool>(false);
     final appColors = ref.watch(appColorsProvider);
 
@@ -34,12 +36,12 @@ class EnvironmentNameTextField extends HookConsumerWidget {
         controller: envNameController,
         readOnly: !enableTextField.value,
         decoration: InputDecoration(
-          filled: envName == selectedValue,
-          fillColor: envName == selectedValue ? appColors.selectedColor() : Colors.transparent,
+          filled: index == currentIndex,
+          fillColor: index == currentIndex ? appColors.selectedColor() : Colors.transparent,
         ),
         onChanged: (value) {
           if (value.isNotEmpty) {
-            ref.read(hiveServiceProvider).saveEnvironment(
+            ref.read(environmentHiveServiceProvider).saveEnvironment(
                   index: index,
                   envName: envNameController.text.trim(),
                 );

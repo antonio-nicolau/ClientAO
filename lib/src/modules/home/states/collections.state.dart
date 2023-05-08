@@ -9,7 +9,7 @@ import 'package:client_ao/src/shared/models/collection.model.dart';
 import 'package:client_ao/src/shared/models/key_value_row.model.dart';
 import 'package:client_ao/src/shared/models/request.model.dart';
 import 'package:client_ao/src/shared/models/response.model.dart';
-import 'package:client_ao/src/shared/services/hive_data.service.dart';
+import 'package:client_ao/src/shared/services/collection_hive.service.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 /// A provider to check wether should stop repeating request after user define that
@@ -50,7 +50,7 @@ class CollectionsNotifier extends StateNotifier<List<CollectionModel>> {
   final Ref _ref;
 
   bool loadFromCache() {
-    final collections = _ref.read(hiveDataServiceProvider).getCollections();
+    final collections = _ref.read(collectionHiveServiceProvider).getCollections();
 
     state = collections ?? [];
 

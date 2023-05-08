@@ -2,7 +2,7 @@ import 'package:client_ao/src/modules/home/states/collections.state.dart';
 import 'package:client_ao/src/modules/home/widgets/sections/collections/collections_section.widget.dart';
 import 'package:client_ao/src/modules/home/widgets/sections/request/request_section.widget.dart';
 import 'package:client_ao/src/shared/models/collection.model.dart';
-import 'package:client_ao/src/shared/services/hive_data.service.dart';
+import 'package:client_ao/src/shared/services/collection_hive.service.dart';
 import 'package:client_ao/src/shared/utils/client_ao_extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -19,8 +19,8 @@ class HomePage extends HookConsumerWidget {
       final collections = ref.read(collectionsNotifierProvider);
       final collection = collections.get(index);
 
-      await ref.read(hiveDataServiceProvider).saveCollection(collection);
-      await ref.read(hiveDataServiceProvider).removeUnusedIds(collections);
+      await ref.read(collectionHiveServiceProvider).saveCollection(collection);
+      await ref.read(collectionHiveServiceProvider).removeUnusedIds(collections);
     });
 
     return Scaffold(

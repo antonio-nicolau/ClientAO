@@ -6,15 +6,16 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 final envBox = Hive.box<String>('environments');
 final selectedEnvBox = Hive.box<String>('selectedEnvironment');
+final envValuesBox = Hive.box<Map<dynamic, dynamic>>('environmentValues');
 
-final hiveServiceProvider = Provider<IStorage>((ref) {
-  return HiveService(ref);
+final environmentHiveServiceProvider = Provider<IStorage>((ref) {
+  return EnvironmentHiveService(ref);
 });
 
-class HiveService implements IStorage {
+class EnvironmentHiveService implements IStorage {
   final Ref _ref;
 
-  const HiveService(this._ref);
+  const EnvironmentHiveService(this._ref);
 
   @override
   Future<void> saveEnvironment({
@@ -35,7 +36,12 @@ class HiveService implements IStorage {
   @override
   Future<void> clearAll() async {
     await envBox.clear();
+    await selectedEnvBox.clear();
+    await envValuesBox.clear();
+
     _ref.invalidate(environmentsProvider);
+    _ref.invalidate(selectedEnvironmentProvider);
+    _ref.invalidate(getEnvironmentValuesByKeyProvider);
   }
 
   @override
@@ -43,13 +49,11 @@ class HiveService implements IStorage {
     required String key,
     required Map<dynamic, dynamic> value,
   }) async {
-    final box = Hive.box<Map<dynamic, dynamic>>('environmentValues');
-
-    if (box.containsKey(key)) {
-      return box.putAtKey(key, value);
+    if (envValuesBox.containsKey(key)) {
+      return envValuesBox.putAtKey(key, value);
     }
 
-    await box.put(key, value);
+    await envValuesBox.put(key, value);
   }
 
   @override
@@ -59,8 +63,7 @@ class HiveService implements IStorage {
 
   @override
   Map<dynamic, dynamic>? getEnvironmentValuesByKey(String key) {
-    final box = Hive.box<Map<dynamic, dynamic>>('environmentValues');
-    return box.get(key);
+    return envValuesBox.get(key);
   }
 
   @override
@@ -86,5 +89,24 @@ class HiveService implements IStorage {
   @override
   List<String> getEnvironmentsKey() {
     return envBox.keys.map((e) => '$e').toList();
+  }
+
+  @override
+  Future<void> removeEnvironment(String key, int index) async {
+    bool lastEnvironment = false;
+
+    if (envBox.isEmpty) return;
+
+    if (envBox.length == 1) {
+      lastEnvironment = true;
+    }
+
+    await envBox.deleteAt(index);
+    await envValuesBox.delete(key);
+
+    _ref.invalidate(environmentsProvider);
+    _ref.invalidate(getEnvironmentValuesByKeyProvider);
+
+    if (lastEnvironment) _ref.invalidate(selectedEnvironmentProvider);
   }
 }

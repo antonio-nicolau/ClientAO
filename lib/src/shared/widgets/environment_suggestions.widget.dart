@@ -1,5 +1,5 @@
 import 'package:client_ao/src/modules/home/states/environment.state.dart';
-import 'package:client_ao/src/shared/services/hive.service.dart';
+import 'package:client_ao/src/shared/services/environment_hive.service.dart';
 import 'package:client_ao/src/shared/utils/client_ao_extensions.dart';
 import 'package:client_ao/src/shared/utils/overlay.utils.dart';
 import 'package:client_ao/src/shared/widgets/textField_with_environment_suggestion.widget.dart';
@@ -16,7 +16,7 @@ final environmentByInsertedTextProvider = StateProvider.family<List<MapEntry>?, 
 
   final key = ref.watch(selectedEnvironmentProvider) ?? '';
 
-  final envKeys = ref.read(hiveServiceProvider).getEnvironmentValuesByKey(key);
+  final envKeys = ref.read(environmentHiveServiceProvider).getEnvironmentValuesByKey(key);
 
   final result = envKeys?.entries.where((e) => e.key.toString().contains(search)).toList();
 
