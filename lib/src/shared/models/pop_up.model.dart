@@ -9,6 +9,7 @@ class PopupMenuModel extends Equatable {
   final bool dividerAfterItem;
   final String? dividerLabel;
   final VoidCallback? callback;
+  final Widget? widget;
 
   const PopupMenuModel({
     required this.label,
@@ -18,6 +19,7 @@ class PopupMenuModel extends Equatable {
     this.dividerLabel,
     this.method,
     this.callback,
+    this.widget,
   });
 
   @override

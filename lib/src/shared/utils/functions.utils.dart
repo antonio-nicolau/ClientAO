@@ -153,7 +153,6 @@ void displayDialog(BuildContext context, Widget page) {
       builder: (context) => AlertDialog(
         contentPadding: EdgeInsets.zero,
         insetPadding: EdgeInsets.zero,
-        backgroundColor: Colors.grey.shade900,
         content: page,
       ),
     ),

@@ -66,6 +66,7 @@ Future<void> openHiveBoxes() async {
   await Hive.openBox<String>('environments');
   await Hive.openBox<String>('selectedEnvironment');
   await Hive.openBox<CollectionModel>('collections');
+  await Hive.openBox<bool>('darkMode');
 }
 
 void registerAdapters() async {

@@ -7,6 +7,11 @@ class Themes {
     brightness: Brightness.light,
     colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
     useMaterial3: true,
+    primaryColorDark: Colors.white,
+    dialogTheme: const DialogTheme(
+      shape: RoundedRectangleBorder(),
+      backgroundColor: Colors.white,
+    ),
   );
 
   static final darkTheme = ThemeData(
@@ -14,12 +19,14 @@ class Themes {
     useMaterial3: true,
     scaffoldBackgroundColor: Colors.grey.shade900,
     textTheme: const TextTheme(
+      titleLarge: TextStyle(color: Colors.white70),
       titleMedium: TextStyle(color: Colors.white70),
     ),
     dialogTheme: DialogTheme(
       shape: const RoundedRectangleBorder(),
       backgroundColor: Colors.grey.shade900,
     ),
+    popupMenuTheme: PopupMenuThemeData(color: Colors.grey.shade900),
     inputDecorationTheme: InputDecorationTheme(
       hintStyle: TextStyle(color: Colors.grey.shade600),
     ),

@@ -10,7 +10,6 @@ class ClientAoPopupMenu extends HookConsumerWidget {
     required this.items,
     this.callback,
     this.icon,
-    this.color,
     this.initialValue,
   });
 
@@ -18,7 +17,6 @@ class ClientAoPopupMenu extends HookConsumerWidget {
   final Function(PopupMenuModel)? callback;
   final Icon? icon;
   final dynamic initialValue;
-  final Color? color;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -27,7 +25,6 @@ class ClientAoPopupMenu extends HookConsumerWidget {
     return PopupMenuButton<PopupMenuModel>(
       icon: icon,
       initialValue: selectedMenu.value,
-      color: color ?? Theme.of(context).primaryColorDark,
       itemBuilder: (BuildContext context) => items.map((e) {
         return PopupMenuItem<PopupMenuModel>(
           value: e,

@@ -1,6 +1,7 @@
 import 'package:client_ao/src/modules/home/states/collections.state.dart';
 import 'package:client_ao/src/modules/home/widgets/sections/collections/collections_section.widget.dart';
 import 'package:client_ao/src/modules/home/widgets/sections/request/request_section.widget.dart';
+import 'package:client_ao/src/modules/settings/pages/settings.page.dart';
 import 'package:client_ao/src/shared/models/collection.model.dart';
 import 'package:client_ao/src/shared/services/collection_hive.service.dart';
 import 'package:client_ao/src/shared/utils/client_ao_extensions.dart';
@@ -24,24 +25,53 @@ class HomePage extends HookConsumerWidget {
     });
 
     return Scaffold(
-      body: MultiSplitViewTheme(
-        data: MultiSplitViewThemeData(
-          dividerThickness: 1,
-          dividerPainter: DividerPainters.background(
-            color: Theme.of(context).colorScheme.surfaceVariant,
-            highlightedColor: Theme.of(context).colorScheme.outline,
-            animationEnabled: false,
+      body: Column(
+        children: [
+          Expanded(
+            child: MultiSplitViewTheme(
+              data: MultiSplitViewThemeData(
+                dividerThickness: 1,
+                dividerPainter: DividerPainters.background(
+                  color: Theme.of(context).colorScheme.surfaceVariant,
+                  highlightedColor: Theme.of(context).colorScheme.outline,
+                  animationEnabled: false,
+                ),
+              ),
+              child: MultiSplitView(
+                initialAreas: [
+                  Area(size: MediaQuery.of(context).size.width * 0.25),
+                ],
+                children: const [
+                  CollectionsSection(),
+                  RequestSection(),
+                ],
+              ),
+            ),
           ),
-        ),
-        child: MultiSplitView(
-          initialAreas: [
-            Area(size: MediaQuery.of(context).size.width * 0.25),
-          ],
-          children: const [
-            CollectionsSection(),
-            RequestSection(),
-          ],
-        ),
+          const HomeFooter()
+        ],
+      ),
+    );
+  }
+}
+
+class HomeFooter extends ConsumerWidget {
+  const HomeFooter({super.key});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    return Container(
+      height: 24,
+      alignment: Alignment.centerLeft,
+      child: TextButton.icon(
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (_) => const SettingsPage()),
+          );
+        },
+        icon: const Icon(Icons.settings, size: 16),
+        label: const Text('Settings'),
       ),
     );
   }

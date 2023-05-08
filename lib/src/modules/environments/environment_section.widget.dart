@@ -40,7 +40,7 @@ class EnvironmentSection extends HookConsumerWidget {
       children: [
         Text(selectedEnvironment),
         ClientAoPopupMenu(
-          icon: const Icon(Icons.arrow_drop_down, color: Colors.white),
+          icon: const Icon(Icons.arrow_drop_down),
           items: itemsFromEnv,
           callback: (item) {
             if (item.callback != null) return item.callback?.call();

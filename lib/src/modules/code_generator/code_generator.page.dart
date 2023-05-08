@@ -5,9 +5,12 @@ import 'package:client_ao/src/modules/home/states/collections.state.dart';
 import 'package:client_ao/src/modules/code_generator/services/codegen.service.dart';
 import 'package:client_ao/src/shared/constants/highlight_view_themes.dart';
 import 'package:client_ao/src/shared/utils/functions.utils.dart';
+import 'package:client_ao/src/shared/utils/theme/app_theme.state.dart';
+import 'package:client_ao/src/shared/widgets/code_highlight_view.widget.dart';
 import 'package:flutter/material.dart';
 import 'package:client_ao/src/shared/utils/client_ao_extensions.dart';
 import 'package:flutter_highlighter/flutter_highlighter.dart';
+import 'package:flutter_highlighter/themes/github.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 final selectedSupportedLanguageProvider = StateProvider<SupportedLanguage?>((ref) {
@@ -35,17 +38,16 @@ class CodeGenPage extends HookConsumerWidget {
       width: MediaQuery.of(context).size.width * 0.6,
       height: MediaQuery.of(context).size.height * 0.9,
       padding: const EdgeInsets.all(16),
-      color: Colors.grey.shade900,
       child: ListView(
         children: [
           CodeGeneratorHeader(code),
           const SizedBox(height: 8),
           Divider(color: Theme.of(context).colorScheme.surfaceVariant),
           const SizedBox(height: 16),
-          HighlightView(
-            identWithLinesCount(code) ?? '',
-            language: language?.highlightLanguage ?? 'dart',
-            theme: dartHighlightViewDarkTheme,
+          CodeHighlightView(
+            code: code ?? '',
+            language: language?.highlightLanguage,
+            withLineCount: true,
           ),
         ],
       ),
