@@ -2,7 +2,7 @@ import 'package:client_ao/src/modules/home/states/collections.state.dart';
 import 'package:client_ao/src/modules/home/widgets/sections/collections/collection_names_item.widget.dart';
 import 'package:client_ao/src/modules/home/widgets/sections/collections/collection_pop_up_menu.widget.dart';
 import 'package:client_ao/src/shared/models/collection.model.dart';
-import 'package:client_ao/src/shared/widgets/client_ao_textfield.widget.dart';
+import 'package:client_ao/src/shared/widgets/text_fields/textfield_editable_with_double_click.widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -38,7 +38,7 @@ class CollectionNamesList extends HookConsumerWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Expanded(
-                  child: ClientAoTextField(
+                  child: TextFieldEditableWithDoubleClick(
                     defaultValue: collection.name,
                     onValueChange: (value) {
                       ref.read(collectionsNotifierProvider.notifier).renameCollection(value);

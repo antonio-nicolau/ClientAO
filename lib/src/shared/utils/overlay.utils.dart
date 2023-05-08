@@ -1,5 +1,5 @@
 import 'package:client_ao/src/shared/widgets/environment_suggestions.widget.dart';
-import 'package:client_ao/src/shared/widgets/textField_with_environment_suggestion.widget.dart';
+import 'package:client_ao/src/shared/widgets/text_fields/textField_with_environment_suggestion.widget.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 

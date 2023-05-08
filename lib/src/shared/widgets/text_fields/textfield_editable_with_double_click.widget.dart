@@ -1,15 +1,16 @@
+
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-class ClientAoTextField extends HookConsumerWidget {
-  /// Custom [TextField], it support "Edit on double click"
+class TextFieldEditableWithDoubleClick extends HookConsumerWidget {
+  /// Custom [TextField], it support "Edit with double click"
   /// Disabled by default
   /// [defaultValue] - value displayed when TextField is rendered on the screen
   /// [onValueChange] - when user double click and start editing this method is called
   /// [saveOnEditingComplete] - true by default, call [onValueChange] when submit text
   /// [saveOnTapOutside] - true by default, same behavior as [saveOnEditingComplete]
-  const ClientAoTextField({
+  const TextFieldEditableWithDoubleClick({
     super.key,
     this.defaultValue,
     this.onValueChange,

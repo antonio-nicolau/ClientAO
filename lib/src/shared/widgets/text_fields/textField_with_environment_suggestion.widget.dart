@@ -30,6 +30,10 @@ class TextFieldWithEnvironmentSuggestion extends HookConsumerWidget {
     this.rows,
     this.defaultValue,
     this.displaySuggestion = true,
+    this.enabled = true,
+    this.contentPadding,
+    this.maxLines,
+    this.style,
     required this.parentContext,
   });
   final String? hintText;
@@ -38,6 +42,10 @@ class TextFieldWithEnvironmentSuggestion extends HookConsumerWidget {
   final String? defaultValue;
   final BuildContext parentContext;
   final bool displaySuggestion;
+  final EdgeInsets? contentPadding;
+  final bool enabled;
+  final int? maxLines;
+  final TextStyle? style;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -71,11 +79,14 @@ class TextFieldWithEnvironmentSuggestion extends HookConsumerWidget {
 
     return TextField(
       controller: textFieldController,
+      enabled: enabled,
       decoration: InputDecoration(
         hintText: hintText ?? 'value',
         hintStyle: Theme.of(parentContext).inputDecorationTheme.hintStyle,
+        contentPadding: contentPadding,
       ),
-      style: Theme.of(parentContext).textTheme.titleMedium,
+      style: style ?? Theme.of(parentContext).textTheme.titleMedium,
+      maxLines: maxLines,
       onChanged: (value) {
         prepareOverlayEntry();
 

@@ -4,7 +4,7 @@ import 'package:client_ao/src/shared/models/collection.model.dart';
 import 'package:client_ao/src/shared/models/request.model.dart';
 import 'package:client_ao/src/shared/utils/functions.utils.dart';
 import 'package:client_ao/src/shared/utils/theme/app_theme.dart';
-import 'package:client_ao/src/shared/widgets/client_ao_textfield.widget.dart';
+import 'package:client_ao/src/shared/widgets/text_fields/textfield_editable_with_double_click.widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -64,7 +64,7 @@ class CollectionListViewItem extends HookConsumerWidget {
                 ),
                 const SizedBox(width: 16),
                 Expanded(
-                  child: ClientAoTextField(
+                  child: TextFieldEditableWithDoubleClick(
                     defaultValue: request?.name ?? getRequestTitleFromUrl(request?.url),
                     onValueChange: (value) {
                       ref.read(collectionsNotifierProvider.notifier).updateRequest(name: value);
