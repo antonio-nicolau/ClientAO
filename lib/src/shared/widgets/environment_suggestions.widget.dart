@@ -2,6 +2,7 @@ import 'package:client_ao/src/modules/home/states/environment.state.dart';
 import 'package:client_ao/src/shared/services/environment_hive.service.dart';
 import 'package:client_ao/src/shared/utils/client_ao_extensions.dart';
 import 'package:client_ao/src/shared/utils/overlay.utils.dart';
+import 'package:client_ao/src/shared/utils/theme/app_theme.state.dart';
 import 'package:client_ao/src/shared/widgets/text_fields/textField_with_environment_suggestion.widget.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -37,6 +38,7 @@ class ListViewWithSuggestions extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final theme = ref.watch(themesProvider);
     final textFieldValue = ref.watch(textFieldValueProvider);
     final end = controller.selection.end;
     final currentText = textFieldValue?.getStringFromEnd(end);
@@ -54,7 +56,7 @@ class ListViewWithSuggestions extends HookConsumerWidget {
           itemBuilder: (context, index) {
             return GestureDetector(
               child: Container(
-                color: Colors.grey.shade800,
+                color: theme == ThemeMode.dark ? Colors.grey.shade800 : Colors.white,
                 height: 30,
                 padding: const EdgeInsets.symmetric(vertical: 5),
                 child: Row(

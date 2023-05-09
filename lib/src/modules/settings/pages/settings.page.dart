@@ -12,7 +12,7 @@ const settingsMenuOptions = [
     icon: Icons.perm_data_setting_outlined,
     widget: ThemeSettings(),
   ),
-  PopupMenuModel(label: 'General'),
+  // PopupMenuModel(label: 'General'),
 ];
 
 class SettingsPage extends HookConsumerWidget {
