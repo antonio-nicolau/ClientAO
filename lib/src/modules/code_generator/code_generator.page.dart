@@ -3,14 +3,9 @@ import 'package:client_ao/src/modules/code_generator/models/supported_package.mo
 import 'package:client_ao/src/modules/code_generator/widgets/code_generator_header.widget.dart';
 import 'package:client_ao/src/modules/home/states/collections.state.dart';
 import 'package:client_ao/src/modules/code_generator/services/codegen.service.dart';
-import 'package:client_ao/src/shared/constants/highlight_view_themes.dart';
-import 'package:client_ao/src/shared/utils/functions.utils.dart';
-import 'package:client_ao/src/shared/utils/theme/app_theme.state.dart';
 import 'package:client_ao/src/shared/widgets/code_highlight_view.widget.dart';
 import 'package:flutter/material.dart';
 import 'package:client_ao/src/shared/utils/client_ao_extensions.dart';
-import 'package:flutter_highlighter/flutter_highlighter.dart';
-import 'package:flutter_highlighter/themes/github.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 final selectedSupportedLanguageProvider = StateProvider<SupportedLanguage?>((ref) {
