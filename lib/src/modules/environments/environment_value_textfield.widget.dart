@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'dart:developer';
 import 'package:client_ao/src/modules/environments/manage_environment.widget.dart';
 import 'package:client_ao/src/modules/home/states/environment.state.dart';
-import 'package:client_ao/src/shared/services/environment_hive.service.dart';
+import 'package:client_ao/src/shared/services/cache/environment_hive.service.dart';
 import 'package:client_ao/src/shared/utils/functions.utils.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';

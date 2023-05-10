@@ -2,7 +2,7 @@ import 'package:client_ao/src/modules/environments/environment_name_textfield.wi
 import 'package:client_ao/src/modules/environments/environment_value_textfield.widget.dart';
 import 'package:client_ao/src/modules/environments/manage_environment_header.widget.dart';
 import 'package:client_ao/src/modules/home/states/environment.state.dart';
-import 'package:client_ao/src/shared/services/environment_hive.service.dart';
+import 'package:client_ao/src/shared/services/cache/environment_hive.service.dart';
 import 'package:client_ao/src/shared/widgets/dialogs/dialog_template.widget.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';

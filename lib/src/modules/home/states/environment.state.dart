@@ -1,4 +1,4 @@
-import 'package:client_ao/src/shared/services/environment_hive.service.dart';
+import 'package:client_ao/src/shared/services/cache/environment_hive.service.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 final environmentsProvider = Provider.autoDispose<List<String>>((ref) {

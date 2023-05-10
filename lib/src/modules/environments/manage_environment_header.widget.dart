@@ -1,5 +1,5 @@
 import 'package:client_ao/src/modules/home/states/environment.state.dart';
-import 'package:client_ao/src/shared/services/environment_hive.service.dart';
+import 'package:client_ao/src/shared/services/cache/environment_hive.service.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
