@@ -1,6 +1,6 @@
+import 'package:client_ao/src/modules/settings/services/settings.service.dart';
 import 'package:client_ao/src/shared/models/pop_up.model.dart';
 import 'package:client_ao/src/shared/utils/theme/app_theme.dart';
-import 'package:client_ao/src/shared/utils/theme/app_theme.state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -87,10 +87,10 @@ class ThemeSettings extends ConsumerWidget {
               onTap: () {
                 switch (index) {
                   case 0:
-                    ref.read(themesProvider.notifier).changeTheme(false);
+                    ref.read(settingsProvider.notifier).update(darkMode: false);
                     break;
                   case 1:
-                    ref.read(themesProvider.notifier).changeTheme(true);
+                    ref.read(settingsProvider.notifier).update(darkMode: true);
                     break;
                 }
               },
