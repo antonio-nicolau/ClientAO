@@ -3,7 +3,7 @@ import 'package:client_ao/src/modules/home/widgets/sections/collections/collecti
 import 'package:client_ao/src/modules/home/widgets/sections/request/request_section.widget.dart';
 import 'package:client_ao/src/modules/settings/pages/settings.page.dart';
 import 'package:client_ao/src/shared/models/collection.model.dart';
-import 'package:client_ao/src/shared/services/collection_hive.service.dart';
+import 'package:client_ao/src/shared/services/cache/collection_hive.service.dart';
 import 'package:client_ao/src/shared/utils/client_ao_extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';

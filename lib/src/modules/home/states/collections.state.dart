@@ -3,13 +3,13 @@ import 'dart:developer';
 
 import 'package:client_ao/src/shared/constants/default_values.dart';
 import 'package:client_ao/src/shared/constants/enums.dart';
+import 'package:client_ao/src/shared/services/cache/collection_hive.service.dart';
 import 'package:client_ao/src/shared/services/collection.service.dart';
 import 'package:client_ao/src/shared/utils/client_ao_extensions.dart';
 import 'package:client_ao/src/shared/models/collection.model.dart';
 import 'package:client_ao/src/shared/models/key_value_row.model.dart';
 import 'package:client_ao/src/shared/models/request.model.dart';
 import 'package:client_ao/src/shared/models/response.model.dart';
-import 'package:client_ao/src/shared/services/collection_hive.service.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 /// A provider to check wether should stop repeating request after user define that

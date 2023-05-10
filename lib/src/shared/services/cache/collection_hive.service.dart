@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'package:client_ao/src/modules/settings/models/setting.model.dart';
 import 'package:client_ao/src/shared/constants/enums.dart';
 import 'package:client_ao/src/shared/models/collection.model.dart';
 import 'package:client_ao/src/shared/models/key_value_row.model.dart';
@@ -67,6 +68,7 @@ Future<void> openHiveBoxes() async {
   await Hive.openBox<String>('selectedEnvironment');
   await Hive.openBox<CollectionModel>('collections');
   await Hive.openBox<bool>('darkMode');
+  await Hive.openBox<Setting>('settings');
 }
 
 void registerAdapters() async {
@@ -75,4 +77,5 @@ void registerAdapters() async {
   Hive.registerAdapter<RequestModel>(RequestModelAdapter());
   Hive.registerAdapter<ResponseModel>(ResponseModelAdapter());
   Hive.registerAdapter<CollectionModel>(CollectionModelAdapter());
+  Hive.registerAdapter<Setting>(SettingAdapter());
 }
