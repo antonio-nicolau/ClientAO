@@ -34,6 +34,8 @@ class TextFieldWithEnvironmentSuggestion extends HookConsumerWidget {
     this.contentPadding,
     this.maxLines,
     this.style,
+    this.enabledBorder,
+    this.disabledBorder,
     required this.parentContext,
   });
   final String? hintText;
@@ -46,6 +48,8 @@ class TextFieldWithEnvironmentSuggestion extends HookConsumerWidget {
   final bool enabled;
   final int? maxLines;
   final TextStyle? style;
+  final InputBorder? enabledBorder;
+  final InputBorder? disabledBorder;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -84,6 +88,8 @@ class TextFieldWithEnvironmentSuggestion extends HookConsumerWidget {
         hintText: hintText ?? 'value',
         hintStyle: Theme.of(parentContext).inputDecorationTheme.hintStyle,
         contentPadding: contentPadding,
+        enabledBorder: enabledBorder,
+        disabledBorder: disabledBorder,
       ),
       style: style ?? Theme.of(parentContext).textTheme.titleMedium,
       maxLines: maxLines,
