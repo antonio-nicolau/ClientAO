@@ -26,6 +26,14 @@ class Themes {
       shape: const RoundedRectangleBorder(),
       backgroundColor: Colors.grey.shade900,
     ),
+    filledButtonTheme: FilledButtonThemeData(
+        style: ButtonStyle(
+      shape: MaterialStateProperty.all(
+        const RoundedRectangleBorder(
+          borderRadius: BorderRadius.zero,
+        ),
+      ),
+    )),
     popupMenuTheme: PopupMenuThemeData(color: Colors.grey.shade900),
     inputDecorationTheme: InputDecorationTheme(
       hintStyle: TextStyle(color: Colors.grey.shade600),

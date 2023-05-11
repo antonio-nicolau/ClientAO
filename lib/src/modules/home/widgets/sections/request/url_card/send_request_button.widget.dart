@@ -25,11 +25,6 @@ class SendRequestButton extends ConsumerWidget {
           FilledButton(
             onPressed: onPressed,
             style: ButtonStyle(
-              shape: MaterialStateProperty.all(
-                const RoundedRectangleBorder(
-                  borderRadius: BorderRadius.zero,
-                ),
-              ),
               padding: MaterialStateProperty.all(const EdgeInsets.symmetric(
                 horizontal: 20,
                 vertical: 24,

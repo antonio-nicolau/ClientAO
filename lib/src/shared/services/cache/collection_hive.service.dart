@@ -79,3 +79,5 @@ void registerAdapters() async {
   Hive.registerAdapter<CollectionModel>(CollectionModelAdapter());
   Hive.registerAdapter<Setting>(SettingAdapter());
 }
+
+void clearAllCache() {}

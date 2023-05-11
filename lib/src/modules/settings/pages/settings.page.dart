@@ -1,18 +1,18 @@
-import 'package:client_ao/src/modules/settings/services/settings.service.dart';
+import 'package:client_ao/src/modules/settings/widgets/general_settings.widget.dart';
+import 'package:client_ao/src/modules/settings/widgets/theme_settings.widget.dart';
 import 'package:client_ao/src/shared/models/pop_up.model.dart';
 import 'package:client_ao/src/shared/utils/theme/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 const settingsMenuOptions = [
   PopupMenuModel(
     label: 'Themes',
-    icon: Icons.perm_data_setting_outlined,
+    icon: Icons.dark_mode_outlined,
     widget: ThemeSettings(),
   ),
-  // PopupMenuModel(label: 'General'),
+  PopupMenuModel(label: 'General', widget: GeneralSettings()),
 ];
 
 class SettingsPage extends HookConsumerWidget {
@@ -59,54 +59,6 @@ class SettingsPage extends HookConsumerWidget {
           ],
         ),
       ),
-    );
-  }
-}
-
-class ThemeSettings extends ConsumerWidget {
-  const ThemeSettings({super.key});
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final themes = [
-      {'src': 'light-theme.svg', 'label': 'Light'},
-      {'src': 'dark-theme.svg', 'label': 'Dark'},
-    ];
-
-    return GridView.builder(
-      padding: const EdgeInsets.all(20),
-      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 2,
-        crossAxisSpacing: 8,
-      ),
-      itemCount: themes.length,
-      itemBuilder: (BuildContext context, int index) {
-        return Column(
-          children: [
-            GestureDetector(
-              onTap: () {
-                switch (index) {
-                  case 0:
-                    ref.read(settingsProvider.notifier).update(darkMode: false);
-                    break;
-                  case 1:
-                    ref.read(settingsProvider.notifier).update(darkMode: true);
-                    break;
-                }
-              },
-              child: SvgPicture.asset(
-                'src/svg/${themes[index]["src"]}',
-                height: 300,
-              ),
-            ),
-            const SizedBox(height: 8),
-            Text(
-              '${themes[index]["label"]}',
-              style: Theme.of(context).textTheme.titleLarge,
-            ),
-          ],
-        );
-      },
     );
   }
 }
