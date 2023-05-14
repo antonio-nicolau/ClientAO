@@ -2,6 +2,7 @@ import 'package:client_ao/src/modules/home/states/collections.state.dart';
 import 'package:client_ao/src/shared/constants/enums.dart';
 import 'package:client_ao/src/shared/models/base_request.interface.dart';
 import 'package:client_ao/src/shared/models/collection.model.dart';
+import 'package:client_ao/src/shared/models/websocket_request.model.dart';
 import 'package:client_ao/src/shared/utils/functions.utils.dart';
 import 'package:client_ao/src/shared/utils/theme/app_theme.dart';
 import 'package:client_ao/src/shared/widgets/text_fields/textfield_editable_with_double_click.widget.dart';
@@ -56,12 +57,7 @@ class CollectionListViewItem extends HookConsumerWidget {
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Text(
-                  (request?.method.name)?.toUpperCase() ?? '',
-                  style: TextStyle(
-                    color: getRequestMethodColor(request?.method),
-                  ),
-                ),
+                getRequestNameIconByRequestType(request),
                 const SizedBox(width: 16),
                 Expanded(
                   child: TextFieldEditableWithDoubleClick(
@@ -84,6 +80,20 @@ class CollectionListViewItem extends HookConsumerWidget {
           ),
         ),
       ),
+    );
+  }
+
+  Widget getRequestNameIconByRequestType(BaseRequestModel? request) {
+    if (request is WebSocketRequest) {
+      return const Text(
+        'WS',
+        style: TextStyle(color: Colors.yellow),
+      );
+    }
+
+    return Text(
+      (request?.method.name)?.toUpperCase() ?? '',
+      style: TextStyle(color: getRequestMethodColor(request?.method)),
     );
   }
 }

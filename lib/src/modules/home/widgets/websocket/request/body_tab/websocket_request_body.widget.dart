@@ -31,7 +31,7 @@ class WebSocketRequestBody extends HookConsumerWidget {
               onPressed: () {
                 final data = bodyController.text;
 
-                if (data.isNotEmpty) {
+                if (data.isNotEmpty && ref.read(webSocketProvider) != null) {
                   final allMessages = ref.read(allWebSocketMessagesProvider);
 
                   ref.read(allWebSocketMessagesProvider.notifier).state = [

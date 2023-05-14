@@ -1,11 +1,10 @@
 import 'package:client_ao/src/modules/home/states/collections.state.dart';
-import 'package:client_ao/src/modules/home/widgets/websocket/states/websocket.state.dart';
+import 'package:client_ao/src/modules/home/widgets/websocket/request/url_card/websocket_url_card.widget.dart';
 import 'package:client_ao/src/modules/home/widgets/sections/request/auth_tab/auth_layout_by_auth_method.widget.dart';
 import 'package:client_ao/src/modules/home/widgets/sections/request/auth_tab/auth_tab.widget.dart';
 import 'package:client_ao/src/modules/home/widgets/websocket/request/body_tab/websocket_request_body.widget.dart';
 import 'package:client_ao/src/modules/home/widgets/sections/request/headers_tab/request_headers.widget.dart';
 import 'package:client_ao/src/modules/home/widgets/sections/request/url_params_tab/request_url_params.widget.dart';
-import 'package:client_ao/src/modules/home/widgets/sections/request/url_card/url_card.widget.dart';
 import 'package:client_ao/src/modules/home/widgets/websocket/response/websocket_response_section.widget.dart';
 import 'package:client_ao/src/shared/constants/strings.dart';
 import 'package:flutter/material.dart';
@@ -30,16 +29,7 @@ class WebsocketRequestSection extends HookConsumerWidget {
       width: MediaQuery.of(context).size.width * 0.4,
       child: Column(
         children: [
-          UrlCard(
-            label: 'Connect',
-            onClick: (value) {
-              final uri = Uri.tryParse(value);
-
-              if (uri != null) {
-                ref.read(webSocketProvider.notifier).connect(uri);
-              }
-            },
-          ),
+          const WebSocketUrlCard(),
           const SizedBox(height: 16),
           Expanded(
             child: Row(

@@ -62,7 +62,17 @@ class WebSocketNotifier extends StateNotifier<WebSocketChannel?> {
     state?.sink.add(data);
   }
 
-  void disconnect() {
-    state?.sink.close();
+  void disconnect() async {
+    await state?.sink.close();
+    state = null;
+
+    _ref.read(allWebSocketMessagesProvider.notifier).state = [
+      WebSocketMessage(
+        message: 'Disconnected',
+        from: SentFrom.remote,
+        status: SocketConnectionStatus.disconnected,
+        time: getFormattedTime(),
+      )
+    ];
   }
 }
