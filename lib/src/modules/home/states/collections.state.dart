@@ -5,6 +5,7 @@ import 'package:client_ao/src/shared/constants/default_values.dart';
 import 'package:client_ao/src/shared/constants/enums.dart';
 import 'package:client_ao/src/shared/models/base_request.interface.dart';
 import 'package:client_ao/src/shared/models/base_response.interface.dart';
+import 'package:client_ao/src/shared/models/websocket_request.model.dart';
 import 'package:client_ao/src/shared/services/cache/collection_hive.service.dart';
 import 'package:client_ao/src/shared/services/collection.service.dart';
 import 'package:client_ao/src/shared/utils/client_ao_extensions.dart';
@@ -80,6 +81,31 @@ class CollectionsNotifier extends StateNotifier<List<CollectionModel>> {
       requests: [
         ...requests,
         const RequestModel(
+          headers: [KeyValueRow()],
+          urlParams: [KeyValueRow()],
+        )
+      ],
+      responses: [...responses, const ResponseModel()],
+    );
+
+    state = [
+      for (final e in state)
+        if (e.id == collection.id) collection else e
+    ];
+
+    return collection.id;
+  }
+
+  String addWebSocketRequest<T>(String? id) {
+    CollectionModel collection = state.firstWhere((e) => e.id == id);
+
+    final requests = collection.requests ?? [];
+    final responses = collection.responses ?? [];
+
+    collection = collection.copyWith(
+      requests: [
+        ...requests,
+        const WebSocketRequest(
           headers: [KeyValueRow()],
           urlParams: [KeyValueRow()],
         )
