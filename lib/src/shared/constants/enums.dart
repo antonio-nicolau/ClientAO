@@ -9,7 +9,7 @@ enum ProgramLanguages { dart, nodeJs }
 
 enum Packages { http, axios }
 
-enum CollectionPopUpItem { addRequest, delete }
+enum CollectionPopUpItem { addRequest, webSocketRequest, delete }
 
 enum SendPopUpItem { send, generateCode, repeatRequest, sendAfterDelay }
 

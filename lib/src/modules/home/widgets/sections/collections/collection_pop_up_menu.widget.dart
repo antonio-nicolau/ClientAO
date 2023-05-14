@@ -36,6 +36,9 @@ class PopUpCollectionMenu extends HookConsumerWidget {
               case CollectionPopUpItem.addRequest:
                 widgetRef.read(collectionsNotifierProvider.notifier).addRequest(collection.id);
                 break;
+              case CollectionPopUpItem.webSocketRequest:
+                widgetRef.read(collectionsNotifierProvider.notifier).addWebSocketRequest(collection.id);
+                break;
               case CollectionPopUpItem.delete:
                 widgetRef.read(collectionsNotifierProvider.notifier).removeCollection(collection.id);
                 break;

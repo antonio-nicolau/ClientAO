@@ -14,7 +14,8 @@ const authMethodsOptions = [
 ];
 
 const collectionMenuOptions = [
-  PopupMenuModel(label: 'Add request', displayName: 'Add request', method: CollectionPopUpItem.addRequest),
+  PopupMenuModel(label: 'Add request', displayName: 'New HTTP Request', method: CollectionPopUpItem.addRequest),
+  PopupMenuModel(label: 'WebSocket Request', displayName: 'WebSocket Request', method: CollectionPopUpItem.webSocketRequest),
   PopupMenuModel(label: 'Delete', displayName: 'Delete', method: CollectionPopUpItem.delete),
 ];
 
