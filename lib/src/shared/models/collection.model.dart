@@ -1,6 +1,5 @@
 import 'package:client_ao/src/shared/models/base_request.interface.dart';
 import 'package:client_ao/src/shared/models/base_response.interface.dart';
-import 'package:client_ao/src/shared/models/request.model.dart';
 import 'package:equatable/equatable.dart';
 import 'package:hive/hive.dart';
 part 'collection.model.g.dart';

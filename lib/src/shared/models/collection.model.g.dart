@@ -19,7 +19,7 @@ class CollectionModelAdapter extends TypeAdapter<CollectionModel> {
     return CollectionModel(
       id: fields[0] as String,
       name: fields[1] as String?,
-      requests: (fields[2] as List?)?.cast<RequestModel?>(),
+      requests: (fields[2] as List?)?.cast<BaseRequestModel?>(),
       responses: (fields[3] as List?)?.cast<BaseResponseModel?>(),
       folders: (fields[4] as List?)?.cast<String>(),
     );

@@ -3,10 +3,10 @@ import 'package:client_ao/src/shared/models/base_request.interface.dart';
 import 'package:client_ao/src/shared/models/key_value_row.model.dart';
 import 'package:equatable/equatable.dart';
 import 'package:hive/hive.dart';
-part 'request.model.g.dart';
+part 'websocket_request.model.g.dart';
 
-@HiveType(typeId: 0)
-class RequestModel extends Equatable implements BaseRequestModel {
+@HiveType(typeId: 7)
+class WebSocketRequest extends Equatable implements BaseRequestModel {
   @HiveField(0)
   @override
   final String? url;
@@ -35,7 +35,7 @@ class RequestModel extends Equatable implements BaseRequestModel {
   @override
   final String? folderId;
 
-  const RequestModel({
+  const WebSocketRequest({
     this.url,
     this.body,
     this.method = HttpVerb.get,
@@ -45,7 +45,7 @@ class RequestModel extends Equatable implements BaseRequestModel {
     this.folderId,
   });
   @override
-  RequestModel copyWith({
+  WebSocketRequest copyWith({
     Uri? uri,
     String? url,
     String? body,
@@ -55,7 +55,7 @@ class RequestModel extends Equatable implements BaseRequestModel {
     String? name,
     String? folderId,
   }) {
-    return RequestModel(
+    return WebSocketRequest(
       url: url ?? this.url,
       body: body ?? this.body,
       name: name ?? this.name,
