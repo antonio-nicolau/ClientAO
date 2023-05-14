@@ -135,7 +135,7 @@ void copyToClipboard({
   required String? text,
   String? successMessage,
 }) async {
-  Clipboard.setData(ClipboardData(text: text)).then(
+  Clipboard.setData(ClipboardData(text: text ?? '')).then(
     (value) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text(successMessage ?? 'URL Copied to clipboard')),

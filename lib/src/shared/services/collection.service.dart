@@ -13,12 +13,12 @@ class CollectionService {
   const CollectionService(this._apiRequestService);
 
   Future<AsyncValue<ResponseModel?>> request(RequestModel request) async {
-    final response = await _apiRequestService.request(request);
+    final (response, duration) = await _apiRequestService.request(request);
 
     if (response != null) {
       return AsyncData(ResponseModel.fromResponse(
-        response: response.$0,
-        requestDuration: response.$1,
+        response: response,
+        requestDuration: duration,
       ));
     }
 

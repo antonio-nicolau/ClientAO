@@ -14,36 +14,35 @@ final requestErrorProvider = StateProvider<ClientAoException?>((ref) {
 
 final apiRequestServiceProvider = Provider<ApiRequestService>((ref) {
   final apiRequest = ref.read(apiRequestProvider);
-  return  ApiRequestService(apiRequest,ref);
+  return ApiRequestService(apiRequest, ref);
 });
 
-class ApiRequestService  {
-
-  const ApiRequestService(this._apiRequest,this._ref);
+class ApiRequestService {
+  const ApiRequestService(this._apiRequest, this._ref);
   final IApiRequestRepository _apiRequest;
   final Ref _ref;
 
-  Future<(http.Response,Duration)?> request(RequestModel request) async {
-     
-      _ref.read(requestErrorProvider.notifier).update((state) => null);
+  Future<(http.Response?, Duration?)> request(RequestModel request) async {
+    _ref.read(requestErrorProvider.notifier).update((state) => null);
     try {
-      final response = await _apiRequest.request(request);
-      return (response.$0,response.$1);
-    } on SocketException catch(_){
+      return _apiRequest.request(request);
+    } on SocketException catch (_) {
       notifyError(errorCouldNotSolveHost);
     } on ClientAoException catch (e) {
       notifyError(e.message);
-    }
-    catch(e){
+    } catch (e) {
       notifyError(e.toString());
     }
 
-    return null;
+    return (null, null);
   }
 
   void notifyError(String message) {
-     final activeId = _ref.read(activeIdProvider);
-    _ref.read(requestErrorProvider.notifier).state= ClientAoException(message: message,requestId: activeId?.requestId,collectionId: activeId?.collection,);
+    final activeId = _ref.read(activeIdProvider);
+    _ref.read(requestErrorProvider.notifier).state = ClientAoException(
+      message: message,
+      requestId: activeId?.requestId,
+      collectionId: activeId?.collection,
+    );
   }
 }
-

@@ -42,7 +42,7 @@ class ListViewWithSuggestions extends HookConsumerWidget {
     final textFieldValue = ref.watch(textFieldValueProvider);
     final end = controller.selection.end;
     final currentText = textFieldValue?.getStringFromEnd(end);
-    final envKeys = ref.watch(environmentByInsertedTextProvider(currentText?.$0.trim()));
+    final envKeys = ref.watch(environmentByInsertedTextProvider(currentText?.$1.trim()));
 
     return Material(
       color: Colors.transparent,
@@ -92,7 +92,7 @@ class ListViewWithSuggestions extends HookConsumerWidget {
                 if (key != null) {
                   final response = controller.text.split(' ');
 
-                  response[currentText?.$1 ?? 0] = '{{$key}}';
+                  response[currentText?.$2 ?? 0] = '{{$key}}';
                   final newString = response.join(' ');
 
                   controller.text = newString;

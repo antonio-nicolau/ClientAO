@@ -1,5 +1,4 @@
 import 'package:client_ao/src/modules/settings/services/settings.service.dart';
-import 'package:client_ao/src/modules/settings/widgets/general_settings.widget.dart';
 import 'package:client_ao/src/modules/settings/widgets/setting_section_item.widget.dart';
 import 'package:client_ao/src/shared/constants/enums.dart';
 import 'package:flutter/material.dart';

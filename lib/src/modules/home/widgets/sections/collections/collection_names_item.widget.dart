@@ -90,7 +90,6 @@ class CollectionListViewItem extends HookConsumerWidget {
 
 class _PopUpRequestNameItemMenu extends HookConsumerWidget {
   const _PopUpRequestNameItemMenu({
-    super.key,
     required this.widgetRef,
     required this.collectionId,
     required this.index,

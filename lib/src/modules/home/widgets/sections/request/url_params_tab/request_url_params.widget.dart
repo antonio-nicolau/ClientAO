@@ -13,9 +13,9 @@ class RequestUrlParams extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return Column(
+    return const Column(
       crossAxisAlignment: CrossAxisAlignment.start,
-      children: const [
+      children: [
         UrlPreview(),
         Expanded(child: _UrlParamsRowsList()),
       ],
@@ -24,7 +24,7 @@ class RequestUrlParams extends HookConsumerWidget {
 }
 
 class _UrlParamsRowsList extends HookConsumerWidget {
-  const _UrlParamsRowsList({super.key});
+  const _UrlParamsRowsList();
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

@@ -12,9 +12,9 @@ class GeneralSettings extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return Container(
       padding: const EdgeInsets.all(16),
-      child: Column(
+      child: const Column(
         children: [
-          const SettingSection(
+          SettingSection(
             title: 'Request/ Response',
             body: RequestAndResponseSettingsSection(),
           ),
@@ -22,7 +22,7 @@ class GeneralSettings extends ConsumerWidget {
             title: 'Data',
             body: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: const [
+              children: [
                 SettingSectionItem(
                   label: 'Remove cache',
                   hasButton: true,

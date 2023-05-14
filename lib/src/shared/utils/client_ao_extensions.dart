@@ -23,28 +23,27 @@ extension HiveBox on Box {
 }
 
 extension StringExtensions on String {
-  (String,int) getStringFromEnd(int end) {
+  (String, int) getStringFromEnd(int end) {
     int start = 0;
     int blankSpaceIndex = 0;
 
-if(end > length)return (this,blankSpaceIndex);
+    if (end > length) return (this, blankSpaceIndex);
 
     for (int i = end - 1; i >= 0; i--) {
       if (this[i] == ' ') {
         blankSpaceIndex++;
-        
-        if(start == 0){
+
+        if (start == 0) {
           start = i;
         }
       }
     }
-  
-    if(start>=0 && (end >= 0 && end <= length)){
+
+    if (start >= 0 && (end >= 0 && end <= length)) {
       final value = substring(start, end);
-      return (value,blankSpaceIndex);
+      return (value, blankSpaceIndex);
     }
 
     return (this, blankSpaceIndex);
   }
-
 }

@@ -30,9 +30,9 @@ class EnvironmentManager extends HookConsumerWidget {
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Column(
+            const Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: const [
+              children: [
                 ManageEnvironmentHeader(),
                 Expanded(child: _EnvironmentNamesSection()),
               ],
@@ -64,7 +64,7 @@ class EnvironmentManager extends HookConsumerWidget {
 }
 
 class _EnvironmentNamesSection extends ConsumerWidget {
-  const _EnvironmentNamesSection({super.key});
+  const _EnvironmentNamesSection();
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
