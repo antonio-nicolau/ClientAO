@@ -1,6 +1,10 @@
 import 'package:hive/hive.dart';
 part 'enums.g.dart';
 
+enum SentFrom { local, remote }
+
+enum SocketConnectionStatus { connected, disconnected, sending, receiving }
+
 enum ProgramLanguages { dart, nodeJs }
 
 enum Packages { http, axios }
