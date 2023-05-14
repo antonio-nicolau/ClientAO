@@ -10,8 +10,11 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 class UrlCard extends HookConsumerWidget {
   /// Widget responsible to build request URL card
   /// Select request method, add url and configure SEND options
-  const UrlCard({super.key});
+  const UrlCard({super.key, this.label, this.onClick, this.onSecondClick});
 
+  final String? label;
+  final Function(String value)? onClick;
+  final Function(String value)? onSecondClick;
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final activeId = ref.watch(activeIdProvider);
@@ -71,7 +74,17 @@ class UrlCard extends HookConsumerWidget {
                 onSubmitted: (value) => sendRequest.call(),
               ),
             ),
-            SendRequestButton(collection: collection, onPressed: sendRequest)
+            SendRequestButton(
+              collection: collection,
+              label: label,
+              onPressed: () {
+                if (onClick != null) {
+                  onClick?.call(urlController.text);
+                } else {
+                  sendRequest.call();
+                }
+              },
+            ),
           ],
         ),
       ),

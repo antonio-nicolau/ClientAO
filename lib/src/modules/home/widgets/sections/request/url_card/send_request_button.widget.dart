@@ -9,9 +9,11 @@ class SendRequestButton extends ConsumerWidget {
     super.key,
     required this.collection,
     required this.onPressed,
+    this.label,
   });
 
   final VoidCallback onPressed;
+  final String? label;
   final CollectionModel? collection;
 
   @override
@@ -30,7 +32,7 @@ class SendRequestButton extends ConsumerWidget {
                 vertical: 24,
               )),
             ),
-            child: Text(cancelRequest ? 'Send' : 'Cancel'),
+            child: Text(label ?? (cancelRequest ? 'Send' : 'Cancel')),
           ),
           if (cancelRequest)
             PopUpSendMenu(

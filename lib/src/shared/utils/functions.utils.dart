@@ -158,3 +158,11 @@ void displayDialog(BuildContext context, Widget page) {
     ),
   );
 }
+
+String getFormattedTime() {
+  final dateNow = DateTime.now();
+  final hour = (dateNow.hour < 10) ? '0${dateNow.hour}' : dateNow.hour;
+  final minute = (dateNow.minute < 10) ? '0${dateNow.minute}' : dateNow.minute;
+  final second = (dateNow.second < 10) ? '0${dateNow.second}' : dateNow.second;
+  return '$hour:$minute:$second';
+}
