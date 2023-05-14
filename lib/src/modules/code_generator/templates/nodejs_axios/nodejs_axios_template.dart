@@ -4,13 +4,13 @@ import 'package:client_ao/src/modules/code_generator/templates/interfaces/codege
 import 'package:client_ao/src/modules/code_generator/templates/nodejs_axios/nodejs_axios_jinja.dart';
 import 'package:client_ao/src/shared/constants/default_values.dart';
 import 'package:client_ao/src/shared/constants/enums.dart';
-import 'package:client_ao/src/shared/models/request.model.dart';
+import 'package:client_ao/src/shared/models/base_request.interface.dart';
 import 'package:client_ao/src/shared/utils/functions.utils.dart';
 import 'package:jinja/jinja.dart';
 
 class NodejsWithAxiosTemplate implements ICodeGenTemplate {
   /// Generate NodeJS code for [Packages.axios]
-  final RequestModel? request;
+  final BaseRequestModel? request;
 
   NodejsWithAxiosTemplate(this.request);
 

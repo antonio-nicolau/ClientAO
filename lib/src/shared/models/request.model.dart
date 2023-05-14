@@ -9,24 +9,31 @@ part 'request.model.g.dart';
 @HiveType(typeId: 0)
 class RequestModel extends Equatable implements BaseRequestModel {
   @HiveField(0)
+  @override
   final String? url;
 
   @HiveField(1)
+  @override
   final String? body;
 
   @HiveField(2)
+  @override
   final HttpVerb method;
 
   @HiveField(3)
+  @override
   final List<KeyValueRow>? headers;
 
   @HiveField(4)
+  @override
   final List<KeyValueRow>? urlParams;
 
   @HiveField(5)
+  @override
   final String? name;
 
   @HiveField(6)
+  @override
   final String? folderId;
 
   const RequestModel({
@@ -38,7 +45,7 @@ class RequestModel extends Equatable implements BaseRequestModel {
     this.name,
     this.folderId,
   });
-
+  @override
   RequestModel copyWith({
     Uri? uri,
     String? url,

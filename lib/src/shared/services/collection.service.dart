@@ -1,4 +1,4 @@
-import 'package:client_ao/src/shared/models/request.model.dart';
+import 'package:client_ao/src/shared/models/base_request.interface.dart';
 import 'package:client_ao/src/shared/models/response.model.dart';
 import 'package:client_ao/src/shared/services/api_request.service.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -12,7 +12,7 @@ class CollectionService {
 
   const CollectionService(this._apiRequestService);
 
-  Future<AsyncValue<ResponseModel?>> request(RequestModel request) async {
+  Future<AsyncValue<ResponseModel?>> request(BaseRequestModel request) async {
     final (response, duration) = await _apiRequestService.request(request);
 
     if (response != null) {

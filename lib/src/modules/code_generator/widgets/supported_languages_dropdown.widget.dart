@@ -1,7 +1,7 @@
 import 'package:client_ao/src/modules/code_generator/code_generator.page.dart';
 import 'package:client_ao/src/modules/code_generator/constants/codegen_constants.dart';
 import 'package:client_ao/src/modules/code_generator/models/supported_language.model.dart';
-import 'package:client_ao/src/shared/models/request.model.dart';
+import 'package:client_ao/src/shared/models/base_request.interface.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -9,7 +9,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 class DropdownButtonSupportedLanguages extends HookConsumerWidget {
   const DropdownButtonSupportedLanguages(this.requestModel, {super.key});
 
-  final RequestModel? requestModel;
+  final BaseRequestModel? requestModel;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

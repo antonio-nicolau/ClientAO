@@ -1,7 +1,7 @@
 import 'package:client_ao/src/modules/home/states/collections.state.dart';
 import 'package:client_ao/src/shared/constants/enums.dart';
+import 'package:client_ao/src/shared/models/base_request.interface.dart';
 import 'package:client_ao/src/shared/models/collection.model.dart';
-import 'package:client_ao/src/shared/models/request.model.dart';
 import 'package:client_ao/src/shared/utils/functions.utils.dart';
 import 'package:client_ao/src/shared/utils/theme/app_theme.dart';
 import 'package:client_ao/src/shared/widgets/text_fields/textfield_editable_with_double_click.widget.dart';
@@ -17,7 +17,7 @@ class CollectionListViewItem extends HookConsumerWidget {
     required this.collection,
   });
 
-  final RequestModel? request;
+  final BaseRequestModel? request;
   final CollectionModel collection;
   final int index;
 

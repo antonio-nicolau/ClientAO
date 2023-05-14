@@ -3,6 +3,7 @@ import 'dart:developer';
 
 import 'package:client_ao/src/shared/constants/default_values.dart';
 import 'package:client_ao/src/shared/constants/enums.dart';
+import 'package:client_ao/src/shared/models/base_request.interface.dart';
 import 'package:client_ao/src/shared/models/base_response.interface.dart';
 import 'package:client_ao/src/shared/services/cache/collection_hive.service.dart';
 import 'package:client_ao/src/shared/services/collection.service.dart';
@@ -125,7 +126,7 @@ class CollectionsNotifier extends StateNotifier<List<CollectionModel>> {
   }
 
   Future<void> processRequest({
-    required RequestModel request,
+    required BaseRequestModel request,
     CollectionModel? collection,
     ActiveId? activeId,
     required int index,

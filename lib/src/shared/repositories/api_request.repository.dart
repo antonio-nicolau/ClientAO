@@ -1,7 +1,7 @@
 import 'package:client_ao/src/shared/constants/enums.dart';
 import 'package:client_ao/src/shared/exceptions/client_ao_exception.dart';
+import 'package:client_ao/src/shared/models/base_request.interface.dart';
 import 'package:client_ao/src/shared/models/key_value_row.model.dart';
-import 'package:client_ao/src/shared/models/request.model.dart';
 import 'package:client_ao/src/shared/repositories/api_request.repository.interface.dart';
 import 'package:client_ao/src/shared/services/custom_http_client.service.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -19,38 +19,43 @@ class ApiRequest implements IApiRequestRepository {
   const ApiRequest(this._httpClient);
 
   @override
-  Future<(http.Response,Duration)> request(RequestModel request) async {
+  Future<(http.Response, Duration)> request(BaseRequestModel request) async {
     final headers = Map.fromEntries(
       request.headers!.map((e) => MapEntry<String, String>(e.key ?? '', e.value ?? '')),
     );
 
-    Uri? uri =  getUriWithQueryParams(request);
+    Uri? uri = getUriWithQueryParams(request);
 
-    if(uri == null || uri.host.isEmpty) throw ClientAoException(message: 'No host specified in URI');
+    if (uri == null || uri.host.isEmpty) throw ClientAoException(message: 'No host specified in URI');
 
     final body = request.body;
 
     final stopWatch = Stopwatch()..start();
 
-    final response = await doRequest(method:request.method,
+    final response = await doRequest(
+      method: request.method,
       httpClient: _httpClient,
       uri: uri,
       headers: headers,
       body: body,
-      );
+    );
 
     stopWatch.stop();
 
-    return (response,stopWatch.elapsed);
+    return (response, stopWatch.elapsed);
   }
 
-
-  Future<Response> doRequest({required HttpVerb method,required CustomHttpClient httpClient,required Uri? uri,Map<String,String>? headers,String? body,})async{
-
-    if(uri == null) throw Exception('Uri cannot be null');
+  Future<Response> doRequest({
+    required HttpVerb method,
+    required CustomHttpClient httpClient,
+    required Uri? uri,
+    Map<String, String>? headers,
+    String? body,
+  }) async {
+    if (uri == null) throw Exception('Uri cannot be null');
 
     final methodHandlers = <HttpVerb, Future<Response>>{
-      HttpVerb.get: httpClient.get(uri, headers: headers??{}),
+      HttpVerb.get: httpClient.get(uri, headers: headers ?? {}),
       HttpVerb.post: httpClient.post(uri, headers: headers, body: body),
       HttpVerb.put: httpClient.put(uri, headers: headers, body: body),
       HttpVerb.patch: httpClient.patch(uri, headers: headers, body: body),
@@ -58,15 +63,14 @@ class ApiRequest implements IApiRequestRepository {
       HttpVerb.head: httpClient.head(uri, headers: headers),
     };
 
-     if (!methodHandlers.containsKey(method)) {
+    if (!methodHandlers.containsKey(method)) {
       throw UnsupportedError('Unsupported HTTP method: $method');
     }
 
     return methodHandlers[method]!;
   }
 
-  Uri? getUriWithQueryParams(RequestModel request) {
-
+  Uri? getUriWithQueryParams(BaseRequestModel request) {
     request = serializeUrl(request);
 
     final urlParamsList = request.urlParams;
@@ -91,11 +95,10 @@ class ApiRequest implements IApiRequestRepository {
     return null;
   }
 
-  RequestModel serializeUrl(RequestModel request) {
-    if(request.url?.startsWith(RegExp('[http|https]'))==false){
+  BaseRequestModel serializeUrl(BaseRequestModel request) {
+    if (request.url?.startsWith(RegExp('[http|https]')) == false) {
       request = request.copyWith(url: '${Protocol.https}${request.url}');
     }
     return request;
   }
 }
-

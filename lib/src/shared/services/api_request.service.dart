@@ -2,7 +2,7 @@ import 'dart:io';
 import 'package:client_ao/src/modules/home/states/collections.state.dart';
 import 'package:client_ao/src/shared/constants/strings.dart';
 import 'package:client_ao/src/shared/exceptions/client_ao_exception.dart';
-import 'package:client_ao/src/shared/models/request.model.dart';
+import 'package:client_ao/src/shared/models/base_request.interface.dart';
 import 'package:client_ao/src/shared/repositories/api_request.repository.dart';
 import 'package:client_ao/src/shared/repositories/api_request.repository.interface.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -22,7 +22,7 @@ class ApiRequestService {
   final IApiRequestRepository _apiRequest;
   final Ref _ref;
 
-  Future<(http.Response?, Duration?)> request(RequestModel request) async {
+  Future<(http.Response?, Duration?)> request(BaseRequestModel request) async {
     _ref.read(requestErrorProvider.notifier).update((state) => null);
     try {
       return _apiRequest.request(request);

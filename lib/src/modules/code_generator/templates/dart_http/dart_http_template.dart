@@ -4,13 +4,13 @@ import 'package:client_ao/src/modules/code_generator/templates/dart_http/dart_ht
 import 'package:client_ao/src/modules/code_generator/templates/interfaces/codegen_template.interface.dart';
 import 'package:client_ao/src/shared/constants/default_values.dart';
 import 'package:client_ao/src/shared/constants/enums.dart';
-import 'package:client_ao/src/shared/models/request.model.dart';
+import 'package:client_ao/src/shared/models/base_request.interface.dart';
 import 'package:client_ao/src/shared/utils/functions.utils.dart';
 import 'package:jinja/jinja.dart';
 
 class DartWithHttpTemplate implements ICodeGenTemplate {
   /// Generate Dart code for [Packages.http]
-  final RequestModel? request;
+  final BaseRequestModel? request;
 
   DartWithHttpTemplate(this.request);
 
