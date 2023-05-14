@@ -3,6 +3,7 @@ import 'dart:developer';
 
 import 'package:client_ao/src/shared/constants/default_values.dart';
 import 'package:client_ao/src/shared/constants/enums.dart';
+import 'package:client_ao/src/shared/models/base_response.interface.dart';
 import 'package:client_ao/src/shared/services/cache/collection_hive.service.dart';
 import 'package:client_ao/src/shared/services/collection.service.dart';
 import 'package:client_ao/src/shared/utils/client_ao_extensions.dart';
@@ -21,7 +22,7 @@ final cancelRepeatRequestProvider = StateProvider<bool>((ref) {
 final activeIdProvider = StateProvider<ActiveId?>((ref) => ActiveId());
 
 /// A provider to update response state based on [ActiveId]
-final responseStateProvider = StateProvider.family<AsyncValue<ResponseModel?>?, ActiveId?>((ref, activeId) {
+final responseStateProvider = StateProvider.family<AsyncValue<BaseResponseModel?>?, ActiveId?>((ref, activeId) {
   final collectionIndex = ref.watch(collectionsNotifierProvider.notifier).indexOfId();
   final collections = ref.watch(collectionsNotifierProvider);
 

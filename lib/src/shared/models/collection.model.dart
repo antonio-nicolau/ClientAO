@@ -1,5 +1,5 @@
+import 'package:client_ao/src/shared/models/base_response.interface.dart';
 import 'package:client_ao/src/shared/models/request.model.dart';
-import 'package:client_ao/src/shared/models/response.model.dart';
 import 'package:equatable/equatable.dart';
 import 'package:hive/hive.dart';
 part 'collection.model.g.dart';
@@ -16,7 +16,7 @@ class CollectionModel extends Equatable {
   final List<RequestModel?>? requests;
 
   @HiveField(3)
-  final List<ResponseModel?>? responses;
+  final List<BaseResponseModel?>? responses;
 
   @HiveField(4)
   final List<String>? folders;
@@ -35,7 +35,7 @@ class CollectionModel extends Equatable {
   CollectionModel copyWith({
     String? name,
     List<RequestModel?>? requests,
-    List<ResponseModel?>? responses,
+    List<BaseResponseModel?>? responses,
   }) {
     return CollectionModel(
       id: id,

@@ -1,4 +1,5 @@
 import 'package:client_ao/src/modules/home/states/collections.state.dart';
+import 'package:client_ao/src/shared/models/response.model.dart';
 import 'package:client_ao/src/shared/utils/theme/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -16,7 +17,7 @@ class ResponseHeaders extends ConsumerWidget {
       padding: const EdgeInsets.all(16),
       child: responseAsync?.when(
         data: (response) {
-          final headers = response?.headers ?? {};
+          final headers = (response as ResponseModel).headers ?? {};
 
           if (headers.isEmpty) return const Center(child: Text('no headers'));
 

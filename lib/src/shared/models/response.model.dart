@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'dart:convert';
 import 'dart:typed_data';
+import 'package:client_ao/src/shared/models/base_response.interface.dart';
 import 'package:client_ao/src/shared/utils/functions.utils.dart';
 import 'package:collection/collection.dart' show mergeMaps;
 import 'package:equatable/equatable.dart';
@@ -10,7 +11,7 @@ import 'package:http_parser/http_parser.dart';
 part 'response.model.g.dart';
 
 @HiveType(typeId: 1)
-class ResponseModel extends Equatable {
+class ResponseModel extends Equatable implements BaseResponseModel {
   const ResponseModel({
     this.statusCode,
     this.headers,

@@ -1,4 +1,5 @@
 import 'package:client_ao/src/modules/home/states/collections.state.dart';
+import 'package:client_ao/src/shared/models/response.model.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -19,7 +20,7 @@ class ResponsePreviewTabs extends HookConsumerWidget {
                 Tab(
                   text: 'Headers',
                   icon: Text(
-                    "(${data?.headers?.length ?? 0})",
+                    "(${(data as ResponseModel).headers?.length ?? 0})",
                     style: Theme.of(context)
                         .textTheme
                         .labelSmall

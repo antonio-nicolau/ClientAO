@@ -1,5 +1,6 @@
 import 'package:client_ao/src/modules/home/states/collections.state.dart';
 import 'package:client_ao/src/shared/constants/default_values.dart';
+import 'package:client_ao/src/shared/models/response.model.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -15,29 +16,30 @@ class ResponseStatus extends HookConsumerWidget {
 
     return responseAsync?.when(
           data: (data) {
-            if (data == null || data.statusCode == null) return const SizedBox.shrink();
+            final response = (data as ResponseModel?);
+            if (response == null || response.statusCode == null) return const SizedBox.shrink();
 
             return Padding(
               padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 20),
               child: Row(
                 children: [
                   Text(
-                    data.statusCode.toString(),
+                    response.statusCode.toString(),
                     style: Theme.of(context).textTheme.labelSmall?.copyWith(fontWeight: FontWeight.bold, color: Colors.green),
                   ),
                   const SizedBox(width: 8),
                   Text(
-                    '${defaultResponseCodeReasons[data.statusCode]}',
+                    '${defaultResponseCodeReasons[response.statusCode]}',
                     style: Theme.of(context).textTheme.labelSmall?.copyWith(fontWeight: FontWeight.bold, color: Colors.green),
                   ),
                   const SizedBox(width: 8),
                   Text(
-                    '${data.requestDuration}',
+                    '${response.requestDuration}',
                     style: Theme.of(context).textTheme.labelSmall?.copyWith(fontWeight: FontWeight.bold, color: Colors.green),
                   ),
                   const SizedBox(width: 8),
                   Text(
-                    '${data.responseSize}',
+                    '${response.responseSize}',
                     style: Theme.of(context).textTheme.labelSmall?.copyWith(fontWeight: FontWeight.bold, color: Colors.green),
                   ),
                 ],

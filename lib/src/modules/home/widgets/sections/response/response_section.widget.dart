@@ -6,6 +6,7 @@ import 'package:client_ao/src/modules/home/widgets/sections/response/response_pr
 import 'package:client_ao/src/modules/home/widgets/sections/response/response_preview_tabs.widget.dart';
 import 'package:client_ao/src/shared/exceptions/client_ao_exception.dart';
 import 'package:client_ao/src/shared/models/collection.model.dart';
+import 'package:client_ao/src/shared/models/response.model.dart';
 import 'package:client_ao/src/shared/services/api_request.service.dart';
 import 'package:client_ao/src/shared/widgets/client_ao_loading.widget.dart';
 import 'package:flutter/material.dart';
@@ -40,7 +41,8 @@ class ResponseSection extends HookConsumerWidget {
                 Container(
                   padding: const EdgeInsets.all(16),
                   child: responseAsync?.when(
-                    data: (response) {
+                    data: (data) {
+                      final response = (data as ResponseModel?);
                       if (shouldDisplayResponseError(activeId, requestError)) {
                         return Center(child: Text(requestError?.message ?? ''));
                       } else if (response == null || response.body == null) {

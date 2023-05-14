@@ -1,4 +1,5 @@
 import 'package:client_ao/src/shared/constants/enums.dart';
+import 'package:client_ao/src/shared/models/base_request.interface.dart';
 import 'package:client_ao/src/shared/models/key_value_row.model.dart';
 import 'package:equatable/equatable.dart';
 import 'package:hive/hive.dart';
@@ -6,7 +7,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 part 'request.model.g.dart';
 
 @HiveType(typeId: 0)
-class RequestModel extends Equatable {
+class RequestModel extends Equatable implements BaseRequestModel {
   @HiveField(0)
   final String? url;
 
