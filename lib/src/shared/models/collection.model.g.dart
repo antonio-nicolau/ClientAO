@@ -20,7 +20,7 @@ class CollectionModelAdapter extends TypeAdapter<CollectionModel> {
       id: fields[0] as String,
       name: fields[1] as String?,
       requests: (fields[2] as List?)?.cast<BaseRequestModel?>(),
-      responses: (fields[3] as List?)?.cast<BaseResponseModel?>(),
+      responses: (fields[3] as List?)?.map((dynamic e) => (e as List?)?.cast<BaseResponseModel>()).toList(),
       folders: (fields[4] as List?)?.cast<String>(),
     );
   }
@@ -46,8 +46,5 @@ class CollectionModelAdapter extends TypeAdapter<CollectionModel> {
 
   @override
   bool operator ==(Object other) =>
-      identical(this, other) ||
-      other is CollectionModelAdapter &&
-          runtimeType == other.runtimeType &&
-          typeId == other.typeId;
+      identical(this, other) || other is CollectionModelAdapter && runtimeType == other.runtimeType && typeId == other.typeId;
 }

@@ -5,6 +5,7 @@ import 'package:client_ao/src/modules/home/widgets/websocket/request/websocket_r
 import 'package:client_ao/src/modules/settings/pages/settings.page.dart';
 import 'package:client_ao/src/shared/models/collection.model.dart';
 import 'package:client_ao/src/shared/models/request.model.dart';
+import 'package:client_ao/src/shared/models/websocket_request.model.dart';
 import 'package:client_ao/src/shared/services/cache/collection_hive.service.dart';
 import 'package:client_ao/src/shared/utils/client_ao_extensions.dart';
 import 'package:flutter/material.dart';
@@ -89,8 +90,9 @@ class RequestSectionByRequestType extends ConsumerWidget {
 
     if (request is RequestModel) {
       return const RequestSection();
-    } else {
+    } else if (request is WebSocketRequest) {
       return const WebsocketRequestSection();
     }
+    return const EmptyCollectionsPage();
   }
 }

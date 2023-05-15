@@ -5,6 +5,7 @@ import 'package:client_ao/src/shared/models/collection.model.dart';
 import 'package:client_ao/src/shared/models/key_value_row.model.dart';
 import 'package:client_ao/src/shared/models/request.model.dart';
 import 'package:client_ao/src/shared/models/response.model.dart';
+import 'package:client_ao/src/shared/models/websocket_message.model.dart';
 import 'package:client_ao/src/shared/models/websocket_request.model.dart';
 import 'package:client_ao/src/shared/utils/client_ao_extensions.dart';
 import 'package:hive/hive.dart';
@@ -80,6 +81,9 @@ void registerAdapters() async {
   Hive.registerAdapter<CollectionModel>(CollectionModelAdapter());
   Hive.registerAdapter<Setting>(SettingAdapter());
   Hive.registerAdapter<WebSocketRequest>(WebSocketRequestAdapter());
+  Hive.registerAdapter<WebSocketMessage>(WebSocketMessageAdapter());
+  Hive.registerAdapter<SentFrom>(SentFromAdapter());
+  Hive.registerAdapter<SocketConnectionStatus>(SocketConnectionStatusAdapter());
 }
 
 void clearAllCache() {}

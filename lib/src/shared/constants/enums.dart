@@ -1,9 +1,25 @@
 import 'package:hive/hive.dart';
 part 'enums.g.dart';
 
-enum SentFrom { local, remote }
+@HiveType(typeId: 9)
+enum SentFrom {
+  @HiveField(0)
+  local,
+  @HiveField(1)
+  remote
+}
 
-enum SocketConnectionStatus { connected, disconnected, sending, receiving }
+@HiveType(typeId: 10)
+enum SocketConnectionStatus {
+  @HiveField(0)
+  connected,
+  @HiveField(1)
+  disconnected,
+  @HiveField(2)
+  sending,
+  @HiveField(3)
+  receiving
+}
 
 enum ProgramLanguages { dart, nodeJs }
 

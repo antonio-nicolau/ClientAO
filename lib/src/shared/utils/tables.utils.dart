@@ -127,7 +127,7 @@ DaviModel<WebSocketMessage> createWebSocketResponseTable(BuildContext context, L
         grow: 1,
         sortable: false,
         cellBuilder: (_, row) {
-          return Text(row.data.message);
+          return Text(row.data.message ?? '');
         },
       ),
       DaviColumn(
@@ -136,7 +136,7 @@ DaviModel<WebSocketMessage> createWebSocketResponseTable(BuildContext context, L
         sortable: false,
         cellBuilder: (_, row) {
           return Text(
-            row.data.time,
+            row.data.time ?? '',
             maxLines: 1,
           );
         },

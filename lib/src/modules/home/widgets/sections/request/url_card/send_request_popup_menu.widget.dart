@@ -40,7 +40,7 @@ class PopUpSendMenu extends HookConsumerWidget {
     final request = collection?.requests;
 
     if (request != null) {
-      widgetRef.read(collectionsNotifierProvider.notifier).sendRequest();
+      widgetRef.read(collectionsNotifierProvider.notifier).send();
     }
   }
 

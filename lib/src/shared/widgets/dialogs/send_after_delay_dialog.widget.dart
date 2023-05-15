@@ -1,4 +1,3 @@
-
 import 'package:client_ao/src/modules/home/states/collections.state.dart';
 import 'package:client_ao/src/shared/widgets/dialogs/dialog_template.widget.dart';
 import 'package:flutter/material.dart';
@@ -15,7 +14,7 @@ class SendAfterDelayDialog extends HookConsumerWidget {
     void sendRequest() {
       final delay = Duration(seconds: int.tryParse(textFieldController.text) ?? 0);
 
-      ref.read(collectionsNotifierProvider.notifier).sendRequest(sendAfterDelay: delay);
+      ref.read(collectionsNotifierProvider.notifier).send(sendAfterDelay: delay);
       Navigator.pop(context);
     }
 

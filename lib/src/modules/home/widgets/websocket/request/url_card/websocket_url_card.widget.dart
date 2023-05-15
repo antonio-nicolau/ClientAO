@@ -1,5 +1,4 @@
 import 'package:client_ao/src/modules/home/states/collections.state.dart';
-import 'package:client_ao/src/modules/home/widgets/sections/request/url_card/dropdown_button_request_method.widget.dart';
 import 'package:client_ao/src/modules/home/widgets/websocket/request/url_card/websocket_send_request_button.widget.dart';
 import 'package:client_ao/src/modules/home/widgets/websocket/states/websocket.state.dart';
 import 'package:client_ao/src/shared/constants/strings.dart';
@@ -10,7 +9,6 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class WebSocketUrlCard extends HookConsumerWidget {
   /// Widget responsible to build request URL card
-  /// Select request method, add url and configure SEND options
   const WebSocketUrlCard({super.key});
 
   @override
@@ -40,8 +38,7 @@ class WebSocketUrlCard extends HookConsumerWidget {
       }
 
       if (request != null) {
-        final uri = Uri.parse(request.url ?? '');
-        ref.read(webSocketProvider.notifier).connect(uri);
+        ref.read(collectionsNotifierProvider.notifier).send();
       }
       focusNode.requestFocus();
     }
@@ -57,7 +54,13 @@ class WebSocketUrlCard extends HookConsumerWidget {
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            const DropdownButtonRequestMethod(),
+            Padding(
+              padding: const EdgeInsets.only(left: 8, top: 8),
+              child: Text(
+                'WS',
+                style: Theme.of(context).textTheme.labelLarge?.copyWith(color: Colors.amber),
+              ),
+            ),
             const SizedBox(width: 8),
             Expanded(
               child: TextField(

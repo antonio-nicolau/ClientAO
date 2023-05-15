@@ -16,7 +16,7 @@ class CollectionModel extends Equatable {
   final List<BaseRequestModel?>? requests;
 
   @HiveField(3)
-  final List<BaseResponseModel?>? responses;
+  final List<List<BaseResponseModel>?>? responses;
 
   @HiveField(4)
   final List<String>? folders;
@@ -35,7 +35,7 @@ class CollectionModel extends Equatable {
   CollectionModel copyWith({
     String? name,
     List<BaseRequestModel?>? requests,
-    List<BaseResponseModel?>? responses,
+    List<List<BaseResponseModel>?>? responses,
   }) {
     return CollectionModel(
       id: id,

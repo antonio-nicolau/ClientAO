@@ -40,7 +40,7 @@ class UrlCard extends HookConsumerWidget {
       }
 
       if (request != null) {
-        ref.read(collectionsNotifierProvider.notifier).sendRequest();
+        ref.read(collectionsNotifierProvider.notifier).send();
       }
       focusNode.requestFocus();
     }

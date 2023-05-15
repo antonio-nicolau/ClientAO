@@ -16,7 +16,9 @@ class ResponseStatus extends HookConsumerWidget {
 
     return responseAsync?.when(
           data: (data) {
-            final response = (data as ResponseModel?);
+            if (data?.isEmpty == true) return const SizedBox.shrink();
+
+            final response = (data?.first as ResponseModel?);
             if (response == null || response.statusCode == null) return const SizedBox.shrink();
 
             return Padding(

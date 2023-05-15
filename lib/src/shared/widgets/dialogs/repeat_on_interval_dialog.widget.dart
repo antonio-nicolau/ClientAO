@@ -16,7 +16,7 @@ class RepeatOnIntervalDialog extends HookConsumerWidget {
       final interval = Duration(milliseconds: (text * 1000).toInt());
 
       ref.read(cancelRepeatRequestProvider.notifier).state = false;
-      ref.read(collectionsNotifierProvider.notifier).sendRequest(requestInterval: interval);
+      ref.read(collectionsNotifierProvider.notifier).send(requestInterval: interval);
       Navigator.pop(context);
     }
 

@@ -1,13 +1,13 @@
 import 'dart:async';
-import 'dart:developer';
-
+import 'package:client_ao/src/modules/home/services/http_request.service.dart';
+import 'package:client_ao/src/modules/home/widgets/websocket/states/websocket.state.dart';
 import 'package:client_ao/src/shared/constants/default_values.dart';
 import 'package:client_ao/src/shared/constants/enums.dart';
 import 'package:client_ao/src/shared/models/base_request.interface.dart';
 import 'package:client_ao/src/shared/models/base_response.interface.dart';
+import 'package:client_ao/src/shared/models/request.params.dart';
 import 'package:client_ao/src/shared/models/websocket_request.model.dart';
 import 'package:client_ao/src/shared/services/cache/collection_hive.service.dart';
-import 'package:client_ao/src/shared/services/collection.service.dart';
 import 'package:client_ao/src/shared/utils/client_ao_extensions.dart';
 import 'package:client_ao/src/shared/models/collection.model.dart';
 import 'package:client_ao/src/shared/models/key_value_row.model.dart';
@@ -24,7 +24,7 @@ final cancelRepeatRequestProvider = StateProvider<bool>((ref) {
 final activeIdProvider = StateProvider<ActiveId?>((ref) => ActiveId());
 
 /// A provider to update response state based on [ActiveId]
-final responseStateProvider = StateProvider.family<AsyncValue<BaseResponseModel?>?, ActiveId?>((ref, activeId) {
+final responseStateProvider = StateProvider.family<AsyncValue<List<BaseResponseModel>?>?, ActiveId?>((ref, activeId) {
   final collectionIndex = ref.watch(collectionsNotifierProvider.notifier).indexOfId();
   final collections = ref.watch(collectionsNotifierProvider);
 
@@ -85,7 +85,10 @@ class CollectionsNotifier extends StateNotifier<List<CollectionModel>> {
           urlParams: [KeyValueRow()],
         )
       ],
-      responses: [...responses, const ResponseModel()],
+      responses: [
+        ...responses,
+        [const ResponseModel()]
+      ],
     );
 
     state = [
@@ -101,7 +104,6 @@ class CollectionsNotifier extends StateNotifier<List<CollectionModel>> {
 
     final requests = collection.requests ?? [];
     final responses = collection.responses ?? [];
-
     collection = collection.copyWith(
       requests: [
         ...requests,
@@ -110,7 +112,7 @@ class CollectionsNotifier extends StateNotifier<List<CollectionModel>> {
           urlParams: [KeyValueRow()],
         )
       ],
-      responses: [...responses, const ResponseModel()],
+      responses: [...responses, []],
     );
 
     state = [
@@ -121,66 +123,27 @@ class CollectionsNotifier extends StateNotifier<List<CollectionModel>> {
     return collection.id;
   }
 
-  Future<void> sendRequest({
+  Future<void> send({
     Duration? sendAfterDelay,
     Duration requestInterval = Duration.zero,
     bool repeatRequest = false,
   }) async {
     final activeId = _ref.read(activeIdProvider);
     final requestId = activeId?.requestId ?? 0;
-    final index = indexOfId();
     final collection = getCollection();
     final request = collection?.requests?[requestId];
 
-    if (sendAfterDelay != null) {
-      await Future.delayed(sendAfterDelay);
+    if (request is RequestModel) {
+      _ref.read(httpRequestServiceProvider).send(RequestParams(
+            request: request,
+            repeatRequest: repeatRequest,
+            sendAfterDelay: sendAfterDelay,
+            requestInterval: requestInterval,
+          ));
+    } else if (request is WebSocketRequest) {
+      _ref.read(webSocketProvider.notifier).connect(Uri.tryParse(request.url ?? ''));
     }
-
-    Timer.periodic(requestInterval, (timer) {
-      if (request != null) {
-        processRequest(
-          request: request,
-          collection: collection,
-          activeId: activeId,
-          index: index,
-        );
-      }
-      if (_ref.read(cancelRepeatRequestProvider)) {
-        timer.cancel();
-      }
-    });
-  }
-
-  Future<void> processRequest({
-    required BaseRequestModel request,
-    CollectionModel? collection,
-    ActiveId? activeId,
-    required int index,
-  }) async {
-    final requestResponse = collection?.responses;
-
-    updateRequestResponseState(const AsyncLoading(), activeId?.requestId);
-
-    final response = await _ref.read(collectionServiceProvider).request(request);
-
-    requestResponse?[activeId?.requestId ?? 0] = response.value;
-    log('With: ${activeId?.requestId}');
-    state[index] = state[index].copyWith(responses: requestResponse);
-    updateRequestResponseState(response, activeId?.requestId);
-  }
-
-  void updateRequestResponseState(
-    AsyncValue<ResponseModel?> newState,
-    int? requestId,
-  ) {
-    final activeId = _ref.read(activeIdProvider);
-
-    if (activeId?.requestId != requestId && !_ref.read(cancelRepeatRequestProvider)) {
-      _ref.read(cancelRepeatRequestProvider.notifier).state = true;
-      return;
-    }
-
-    _ref.read(responseStateProvider(activeId).notifier).state = newState;
+    return;
   }
 
   CollectionModel? getCollection() => state.get(indexOfId());
@@ -188,8 +151,8 @@ class CollectionsNotifier extends StateNotifier<List<CollectionModel>> {
   String newCollection() {
     final newCollection = CollectionModel(
       id: uuid.v4(),
-      requests: const <RequestModel>[],
-      responses: const <ResponseModel>[],
+      requests: const <BaseRequestModel>[],
+      responses: const [],
     );
     state = [newCollection, ...state];
 
@@ -299,6 +262,16 @@ class CollectionsNotifier extends StateNotifier<List<CollectionModel>> {
 
     final newCollection = collection?.copyWith(name: name);
 
+    _addToCollection(newCollection);
+  }
+
+  void updateResponse(List<BaseResponseModel> newResponse) {
+    final activeId = _ref.read(activeIdProvider);
+    final collection = getCollection();
+    final responses = collection?.responses;
+
+    responses?[activeId?.requestId ?? 0] = newResponse;
+    var newCollection = collection?.copyWith(responses: responses);
     _addToCollection(newCollection);
   }
 }

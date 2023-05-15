@@ -17,7 +17,7 @@ class ResponseHeaders extends ConsumerWidget {
       padding: const EdgeInsets.all(16),
       child: responseAsync?.when(
         data: (response) {
-          final headers = (response as ResponseModel).headers ?? {};
+          final headers = (response?.first as ResponseModel).headers ?? {};
 
           if (headers.isEmpty) return const Center(child: Text('no headers'));
 

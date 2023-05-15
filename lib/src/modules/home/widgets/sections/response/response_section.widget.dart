@@ -42,7 +42,8 @@ class ResponseSection extends HookConsumerWidget {
                   padding: const EdgeInsets.all(16),
                   child: responseAsync?.when(
                     data: (data) {
-                      final response = (data as ResponseModel?);
+                      if (data?.isEmpty == true) return const SizedBox.shrink();
+                      final response = (data?.first as ResponseModel?);
                       if (shouldDisplayResponseError(activeId, requestError)) {
                         return Center(child: Text(requestError?.message ?? ''));
                       } else if (response == null || response.body == null) {
