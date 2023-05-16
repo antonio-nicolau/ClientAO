@@ -39,12 +39,12 @@ class WebSocketSendRequestButton extends ConsumerWidget {
               ),
             ),
           ),
-          if (channel == null)
-            PopUpSendMenu(
-              collection: collection,
-              widgetRef: ref,
-              parentContext: context,
-            ),
+          // if (channel == null)
+          //   PopUpSendMenu(
+          //     collection: collection,
+          //     widgetRef: ref,
+          //     parentContext: context,
+          //   ),
         ],
       ),
     );

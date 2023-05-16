@@ -67,7 +67,7 @@ class WebSocketUrlCard extends HookConsumerWidget {
                 controller: urlController,
                 focusNode: focusNode,
                 decoration: const InputDecoration(
-                  hintText: urlHintText,
+                  hintText: wsUrlHintText,
                   enabledBorder: InputBorder.none,
                   focusedBorder: InputBorder.none,
                   contentPadding: EdgeInsets.symmetric(horizontal: 8),
