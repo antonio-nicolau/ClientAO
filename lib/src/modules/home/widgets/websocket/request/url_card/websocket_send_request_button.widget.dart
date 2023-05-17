@@ -1,4 +1,3 @@
-import 'package:client_ao/src/modules/home/widgets/sections/request/url_card/send_request_popup_menu.widget.dart';
 import 'package:client_ao/src/modules/home/widgets/websocket/states/websocket.state.dart';
 import 'package:client_ao/src/shared/models/collection.model.dart';
 import 'package:flutter/material.dart';
@@ -39,12 +38,12 @@ class WebSocketSendRequestButton extends ConsumerWidget {
               ),
             ),
           ),
-          if (channel == null)
-            PopUpSendMenu(
-              collection: collection,
-              widgetRef: ref,
-              parentContext: context,
-            ),
+          // if (channel == null)
+          //   PopUpSendMenu(
+          //     collection: collection,
+          //     widgetRef: ref,
+          //     parentContext: context,
+          //   ),
         ],
       ),
     );
