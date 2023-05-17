@@ -31,11 +31,6 @@ https://github.com/antonio-nicolau/ClientAO/assets/67912928/a9f08cfa-6cf4-47fc-a
 ### Features of ClientAO
 
 
-
-
-
-
-
 1. Create HTTP request
 
 
@@ -89,9 +84,9 @@ In case you need any help with ClientAO please feel free to drop by our [Discord
 
 ClientAO is available for Mac, Windows, you can downloaded from the links below:
 
-MacOS (Universal build - Apple Silicon & Intel) - [Download Link](https://github.com/antonio-nicolau/ClientAO/releases/download/v1.0.0/client_ao.dmg)
+MacOS (Universal build - Apple Silicon & Intel) - [Download Link](https://github.com/antonio-nicolau/ClientAO/releases/download/v1.0.1/Clientao.dmg)
 
-Windows - [Download Link](https://github.com/antonio-nicolau/ClientAO/releases/download/v1.0.0/client_ao.exe)
+Windows - [Download Link](https://github.com/antonio-nicolau/ClientAO/releases/download/v1.0.1/client_ao.exe)
 
 ### Having issue, want to request a feature or give Feedback
 Just click on the [Issue tab](https://github.com/antonio-nicolau/ClientAO/issues) to raise a new issue in this repo.
