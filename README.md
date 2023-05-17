@@ -7,29 +7,72 @@
 
 ClientAO is an open-source cross-platform API Client for building and using APIs, visually inspect responses.
 
-<img width="1552" alt="Screenshot 2023-04-25 at 14 43 22" src="https://user-images.githubusercontent.com/67912928/234296818-3b677cda-ad0b-4637-88d7-f8318d257010.png">
 
-### Features of ClientAO
 
-1. You can draft Collections to help you have your requests organised:
+<img width="1312" alt="Screenshot 2023-05-17 at 18 03 26" src="https://github.com/antonio-nicolau/ClientAO/assets/67912928/ec82a0a0-e5f6-4f1e-92e7-5b4a82f935ca">
+
+
+With ClientAO you can:
+- Draft Collections to help you have your requests organised:
 - Create different types of HTTP requests (GET, POST, PATCH, PUT and DELETE)
+- Create WebSocket requests
 - Easily manipulate request query params, Headers, Auth and body
-- Create and use different environment
-
-2. Visually inspect API Responses
 - Inspect request Response (status code, headers, body, time taken and response body size)
 - View formatted code previews for types like JSON, XML, HTML, etc...
 - For return results as images (video coming soon), ClientAO helps by directly previewing these results
+- Create and manage environment variables
 
-https://user-images.githubusercontent.com/67912928/234292642-9f18fb7a-9a8e-453a-8e47-b53048123a44.mp4
+
+
+https://github.com/antonio-nicolau/ClientAO/assets/67912928/a9f08cfa-6cf4-47fc-ada9-0b28b016ae83
+
+
+
+### Features of ClientAO
+
+
+
+
+
+
+
+1. Create HTTP request
+
+
+https://github.com/antonio-nicolau/ClientAO/assets/67912928/b89e5e96-2f62-41e5-9323-a66401ab6837
+
+
+2. Create WebSocket request
+
+https://github.com/antonio-nicolau/ClientAO/assets/67912928/f6a39e4d-487c-4425-8522-f0f7d5869e00
+
+
+3. Generate Client code, it supports Dart with http package, NodeJS with http & Axios
+
+
+https://github.com/antonio-nicolau/ClientAO/assets/67912928/2ceb2761-f82c-4181-a851-0a74ed1cef9d
+
+
+
+4. Create and manage Environment variables
+
+https://github.com/antonio-nicolau/ClientAO/assets/67912928/6a52a907-37c2-4196-b58c-9dd85c723966
+
+5. Dark mode support
+
+
+https://github.com/antonio-nicolau/ClientAO/assets/67912928/8b7be719-96ec-4f0b-a124-eb71f4539287
+
+
 
 
 ### Important to getting started
 
-This project uses Records feature which is still experimental, so if you face any issue regarding this while running the project then you'll need to execute the following command:
+This project uses Records feature which is available on Dart 3.0.0, so to avoid error when running remember to update your Dart version in the `pubspec.yaml`
 
 ```
-flutter run --enable-experiment=records
+environment:
+  sdk: '>=3.0.0 <4.0.0'
 ```
 
 - [Hive](https://pub.dev/packages/hive) for Local cache with 🥹
@@ -41,7 +84,10 @@ In case you need any help with ClientAO please feel free to drop by our [Discord
 
 
 ### Download
-ClientAO is available for Mac, Windows and Linux, and can be downloaded from the links below:
+
+> **_NOTE:_**  Since I don't have an Apple developer account, I can't generate an assigned package, so when trying to install your operating system will warn you that this software is dangerous 
+
+ClientAO is available for Mac, Windows, you can downloaded from the links below:
 
 MacOS (Universal build - Apple Silicon & Intel) - [Download Link](https://github.com/antonio-nicolau/ClientAO/releases/download/v1.0.0/client_ao.dmg)
 
