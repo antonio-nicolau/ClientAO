@@ -93,3 +93,16 @@ Just click on the [Issue tab](https://github.com/antonio-nicolau/ClientAO/issues
 
 ### How can I Contribute?
 Please check out [CONTRIBUTING.md](https://github.com/antonio-nicolau/ClientAO/blob/master/CONTRIBUTING.md)
+
+
+## Support Donate
+
+If you find this project useful, you can buy me a coffee ☕️ 
+will be very grateful to you for your support 😊
+
+[![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/antonionicolau)
+
+
+<a href="https://bmc.link/antonionicolau" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" style="height: 60px !important;width: 217px !important;" ></a>
+
+
