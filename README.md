@@ -2,7 +2,7 @@
 
 ## Please support this initiative by giving this project a Star ⭐️ 
 
-[<img width="300" height="100" src="https://user-images.githubusercontent.com/67912928/234311345-74229279-e82d-42ca-a723-9aaab02a882a.png">](https://discord.gg/mkFrZvhn)
+[<img width="150" height="60" src="https://user-images.githubusercontent.com/67912928/234311345-74229279-e82d-42ca-a723-9aaab02a882a.png">](https://discord.gg/mkFrZvhn)
 
 
 ClientAO is an open-source cross-platform API Client for building and using APIs, visually inspect responses.
