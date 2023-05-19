@@ -1,6 +1,8 @@
 import 'package:hive/hive.dart';
 part 'enums.g.dart';
 
+enum BodyType { none, json, xml, multipartForm }
+
 @HiveType(typeId: 9)
 enum SentFrom {
   @HiveField(0)

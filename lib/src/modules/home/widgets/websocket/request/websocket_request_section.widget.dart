@@ -62,8 +62,8 @@ class RequestEditor extends HookConsumerWidget {
           controller: tabController,
           tabs: const [
             Tab(text: 'Body'),
-            Tab(text: 'Params'),
             AuthTab(),
+            Tab(text: 'Params'),
             Tab(text: 'Headers'),
           ],
         ),
@@ -72,8 +72,8 @@ class RequestEditor extends HookConsumerWidget {
             controller: tabController,
             children: [
               WebSocketRequestBody(key: Key('value-${activeId?.requestId}')),
-              const RequestUrlParams(),
               const AuthLayoutBasedOnMethod(),
+              const RequestUrlParams(),
               const RequestHeaders(),
             ],
           ),
